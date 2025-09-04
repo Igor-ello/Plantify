@@ -1,0 +1,143 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "f326a701f0f4a15983330ffe8dd945b5",
+    "entities": [
+      {
+        "tableName": "plant_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `species` TEXT NOT NULL, `sub_species` TEXT, `lighting` TEXT, `bloom` TEXT, `soil_composition` TEXT, `transfer` TEXT, `temperature` TEXT, `air_humidity` TEXT, `rest_period` TEXT, `reproduction` TEXT, `pests` TEXT, `diseases` TEXT, `first_landing` TEXT, `sunlight_requirement` TEXT, `is_toxic` INTEGER, `about_the_plant` TEXT, `watering` TEXT, `watering_frequency` INTEGER, `last_watering_date` TEXT, `fertilizer` TEXT, `fertilization_frequency` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "species",
+            "columnName": "species",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subSpecies",
+            "columnName": "sub_species",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lighting",
+            "columnName": "lighting",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "bloom",
+            "columnName": "bloom",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "soilComposition",
+            "columnName": "soil_composition",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "transfer",
+            "columnName": "transfer",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "temperature",
+            "columnName": "temperature",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "airHumidity",
+            "columnName": "air_humidity",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "restPeriod",
+            "columnName": "rest_period",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "reproduction",
+            "columnName": "reproduction",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "pests",
+            "columnName": "pests",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "diseases",
+            "columnName": "diseases",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "firstLanding",
+            "columnName": "first_landing",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "sunlightRequirement",
+            "columnName": "sunlight_requirement",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "isToxic",
+            "columnName": "is_toxic",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "aboutThePlant",
+            "columnName": "about_the_plant",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "watering",
+            "columnName": "watering",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "wateringFrequency",
+            "columnName": "watering_frequency",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "lastWateringDate",
+            "columnName": "last_watering_date",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "fertilizer",
+            "columnName": "fertilizer",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "fertilizationFrequency",
+            "columnName": "fertilization_frequency",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f326a701f0f4a15983330ffe8dd945b5')"
+    ]
+  }
+}
