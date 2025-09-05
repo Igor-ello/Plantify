@@ -24,41 +24,36 @@ class PlantsViewModel(val dao: PlantDao) : ViewModel() {
         }
     }
 
-
     private fun loadPlants() {
         dao.getAll().observeForever { plantList ->
             _plants.value = plantList
         }
     }
 
-    fun showPlants() : String {
-        val currentPlants = _plants.value ?: emptyList()
-        return formatPlants(currentPlants)
-    }
-
-    private fun formatPlants(plants: List<Plant>): String {
-        if (plants.isEmpty()) return "No plants available."
-
-        return plants.joinToString(separator = "\n") { formatPlant(it) }
-    }
-
-    fun formatPlant(plant: Plant): String {
-        return buildString {
-            append("ID: ${plant.id}\n")
-            append("Name: ${plant.name}\n")
-            append("Species: ${plant.species}\n")
-            append("Fertilization Frequency: ${plant.fertilizationFrequency} month(s)\n")
-        }
-    }
-
-    fun addTestPlant() {
+    private fun addTestPlant() {
         viewModelScope.launch {
             val newPlant = Plant(
-                id = 0, // ID будет автоматически сгенерирован
                 name = "Aloe Vera",
                 species = "Aloe",
-                sunlightRequirement = "Medium",
+                subSpecies = "Barbadensis",
+                lighting = "Яркий рассеянный свет",
+                bloom = "Цветёт редко",
+                soilComposition = "Легкая, песчаная почва",
+                transfer = "Пересаживать каждые 2-3 года",
+                temperature = "От +15°C до +25°C",
+                airHumidity = "Низкая влажность воздуха",
+                restPeriod = "Зима",
+                reproduction = "Делением корневища",
+                pests = "Щитовка, мучнистый червец",
+                diseases = "Корневая гниль",
+                firstLanding = "Древняя Греция",
+                sunlightRequirement = "Среднее освещение",
                 isToxic = false,
+                aboutThePlant = "Полезное лекарственное растение.",
+                watering = "Умеренно поливать",
+                wateringFrequency = 14,
+                lastWateringDate = "2023-06-15",
+                fertilizer = "Комплексные минеральные удобрения",
                 fertilizationFrequency = 2
             )
             dao.insert(newPlant)

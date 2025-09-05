@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "plant_table")
 data class Plant (
     @PrimaryKey(autoGenerate = true)
-    var id: Long,
+    var id: Long = 0,
 
 //    MAIN
 

@@ -20,11 +20,9 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,12 +31,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.myplants.models.Plant
 import com.example.myplants.ui.theme.GreenLight
-import com.example.myplants.ui.theme.LightGray
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -54,7 +50,6 @@ fun PlantCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
-        //shape = RoundedCornerShape(size = 12.dp),
         shape = CardDefaults.shape,
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         colors = CardDefaults.cardColors(
@@ -65,7 +60,6 @@ fun PlantCard(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            // Название растения
             LabeledTextField(
                 label = "Название",
                 value = plant.name,
@@ -73,7 +67,6 @@ fun PlantCard(
                 onValueChange = { onValueChange(plant.copy(name = it)) }
             )
 
-            // Вид растения
             LabeledTextField(
                 label = "Вид",
                 value = plant.species,
@@ -81,24 +74,89 @@ fun PlantCard(
                 onValueChange = { onValueChange(plant.copy(species = it)) }
             )
 
-//            // Размеры
-//            LabeledTextField(
-//                label = "Размеры",
-//                value = plant.dimensions ?: "",
-//                editable = editable,
-//                onValueChange = { onValueChange(plant.copy(dimensions = it.ifEmpty { null })) }
-//            )
-//
-//            // Частота полива
-//            LabeledNumberField(
-//                label = "Частота полива (дни)",
-//                value = plant.waterFrequency?.toString() ?: "",
-//                editable = editable,
-//                onValueChange = {
-//                    val num = it.toIntOrNull()
-//                    onValueChange(plant.copy(waterFrequency = num))
-//                }
-//            )
+            LabeledTextField(
+                label = "Подвид",
+                value = plant.subSpecies ?: "",
+                editable = editable,
+                onValueChange = { onValueChange(plant.copy(subSpecies = it)) }
+            )
+
+            LabeledTextField(
+                label = "Освещение",
+                value = plant.lighting ?: "",
+                editable = editable,
+                onValueChange = { onValueChange(plant.copy(lighting = it)) }
+            )
+
+            LabeledTextField(
+                label = "Цветение",
+                value = plant.bloom ?: "",
+                editable = editable,
+                onValueChange = { onValueChange(plant.copy(bloom = it)) }
+            )
+
+            LabeledTextField(
+                label = "Состав почвы",
+                value = plant.soilComposition ?: "",
+                editable = editable,
+                onValueChange = { onValueChange(plant.copy(soilComposition = it)) }
+            )
+
+            LabeledTextField(
+                label = "Пересадка",
+                value = plant.transfer ?: "",
+                editable = editable,
+                onValueChange = { onValueChange(plant.copy(transfer = it)) }
+            )
+
+            LabeledTextField(
+                label = "Температура",
+                value = plant.temperature ?: "",
+                editable = editable,
+                onValueChange = { onValueChange(plant.copy(temperature = it)) }
+            )
+
+            LabeledTextField(
+                label = "Влажность воздуха",
+                value = plant.airHumidity ?: "",
+                editable = editable,
+                onValueChange = { onValueChange(plant.copy(airHumidity = it)) }
+            )
+
+            LabeledTextField(
+                label = "Период покоя",
+                value = plant.restPeriod ?: "",
+                editable = editable,
+                onValueChange = { onValueChange(plant.copy(restPeriod = it)) }
+            )
+
+            LabeledTextField(
+                label = "Размножение",
+                value = plant.reproduction ?: "",
+                editable = editable,
+                onValueChange = { onValueChange(plant.copy(reproduction = it)) }
+            )
+
+            LabeledTextField(
+                label = "Вредители",
+                value = plant.pests ?: "",
+                editable = editable,
+                onValueChange = { onValueChange(plant.copy(pests = it)) }
+            )
+
+            LabeledTextField(
+                label = "Болезни",
+                value = plant.diseases ?: "",
+                editable = editable,
+                onValueChange = { onValueChange(plant.copy(diseases = it)) }
+            )
+
+            LabeledTextField(
+                label = "Возраст",
+                value = plant.firstLanding ?: "",
+                editable = editable,
+                onValueChange = { onValueChange(plant.copy(firstLanding = it)) }
+            )
 
             // Требования к свету
             LabeledDropdown(
@@ -109,34 +167,51 @@ fun PlantCard(
                 onItemSelected = { onValueChange(plant.copy(sunlightRequirement = it.ifEmpty { null })) }
             )
 
-//            // Уровень влажности
-//            LabeledNumberField(
-//                label = "Уровень влажности (%)",
-//                value = plant.humidityLevel?.toString() ?: "",
-//                editable = editable,
-//                onValueChange = {
-//                    val num = it.toIntOrNull()
-//                    onValueChange(plant.copy(humidityLevel = num))
-//                }
-//            )
-
-            // Ядовитость
             LabeledCheckbox(
-                label = "Ядовито для животных",
+                label = "Ядовитость",
                 checked = plant.isToxic ?: false,
                 editable = editable,
                 onCheckedChange = { onValueChange(plant.copy(isToxic = it)) }
             )
 
-//            // Дата последнего полива
-//            LabeledDatePicker(
-//                label = "Дата последнего полива",
-//                date = plant.lastWateredDate,
-//                editable = editable,
-//                onDateSelected = { onValueChange(plant.copy(lastWateredDate = it)) }
-//            )
+            LabeledTextField(
+                label = "О растении",
+                value = plant.aboutThePlant ?: "",
+                editable = editable,
+                onValueChange = { onValueChange(plant.copy(aboutThePlant = it)) }
+            )
 
-            // Частота удобрения
+            LabeledTextField(
+                label = "Полив",
+                value = plant.watering ?: "",
+                editable = editable,
+                onValueChange = { onValueChange(plant.copy(watering = it)) }
+            )
+
+            LabeledNumberField(
+                label = "Частота полива (в днях)",
+                value = plant.wateringFrequency?.toString() ?: "",
+                editable = editable,
+                onValueChange = {
+                    val num = it.toIntOrNull()
+                    onValueChange(plant.copy(wateringFrequency = num))
+                }
+            )
+
+            LabeledTextField(
+                label = "Дата последнего полива (в формате \"yyyy-MM-dd\")",
+                value = plant.firstLanding ?: "",
+                editable = editable,
+                onValueChange = { onValueChange(plant.copy(firstLanding = it)) }
+            )
+
+            LabeledTextField(
+                label = "Подкормки",
+                value = plant.fertilizer ?: "",
+                editable = editable,
+                onValueChange = { onValueChange(plant.copy(fertilizer = it)) }
+            )
+
             LabeledNumberField(
                 label = "Частота удобрения (месяцы)",
                 value = plant.fertilizationFrequency?.toString() ?: "",

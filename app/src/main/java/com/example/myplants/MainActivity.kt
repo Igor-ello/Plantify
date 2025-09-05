@@ -53,10 +53,6 @@ fun PlantScreen(viewModel: PlantsViewModel, modifier: Modifier = Modifier) {
                 editable = false,
                 onValueChange = {}
             )
-            Text(
-                text = viewModel.formatPlant(plant),
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
         }
     }
 }
