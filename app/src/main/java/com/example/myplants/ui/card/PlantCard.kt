@@ -1,16 +1,25 @@
 package com.example.myplants.ui.card
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
@@ -46,10 +55,13 @@ fun PlantCard(
     editable: Boolean,
     onValueChange: (Plant) -> Unit
 ) {
+    var expanded by remember { mutableStateOf(false) }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable { expanded = !expanded },
         shape = CardDefaults.shape,
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         colors = CardDefaults.cardColors(
@@ -74,153 +86,162 @@ fun PlantCard(
                 onValueChange = { onValueChange(plant.copy(species = it)) }
             )
 
-            LabeledTextField(
-                label = "Подвид",
-                value = plant.subSpecies ?: "",
-                editable = editable,
-                onValueChange = { onValueChange(plant.copy(subSpecies = it)) }
-            )
+            AnimatedVisibility(
+                visible = expanded,
+                enter = expandVertically() + fadeIn(),
+                exit = shrinkVertically() + fadeOut()
+            ) {
+                Column {
+                    LabeledTextField(
+                        label = "Подвид",
+                        value = plant.subSpecies ?: "",
+                        editable = editable,
+                        onValueChange = { onValueChange(plant.copy(subSpecies = it)) }
+                    )
 
-            LabeledTextField(
-                label = "Освещение",
-                value = plant.lighting ?: "",
-                editable = editable,
-                onValueChange = { onValueChange(plant.copy(lighting = it)) }
-            )
+                    LabeledTextField(
+                        label = "Освещение",
+                        value = plant.lighting ?: "",
+                        editable = editable,
+                        onValueChange = { onValueChange(plant.copy(lighting = it)) }
+                    )
 
-            LabeledTextField(
-                label = "Цветение",
-                value = plant.bloom ?: "",
-                editable = editable,
-                onValueChange = { onValueChange(plant.copy(bloom = it)) }
-            )
+                    LabeledTextField(
+                        label = "Цветение",
+                        value = plant.bloom ?: "",
+                        editable = editable,
+                        onValueChange = { onValueChange(plant.copy(bloom = it)) }
+                    )
 
-            LabeledTextField(
-                label = "Состав почвы",
-                value = plant.soilComposition ?: "",
-                editable = editable,
-                onValueChange = { onValueChange(plant.copy(soilComposition = it)) }
-            )
+                    LabeledTextField(
+                        label = "Состав почвы",
+                        value = plant.soilComposition ?: "",
+                        editable = editable,
+                        onValueChange = { onValueChange(plant.copy(soilComposition = it)) }
+                    )
 
-            LabeledTextField(
-                label = "Пересадка",
-                value = plant.transfer ?: "",
-                editable = editable,
-                onValueChange = { onValueChange(plant.copy(transfer = it)) }
-            )
+                    LabeledTextField(
+                        label = "Пересадка",
+                        value = plant.transfer ?: "",
+                        editable = editable,
+                        onValueChange = { onValueChange(plant.copy(transfer = it)) }
+                    )
 
-            LabeledTextField(
-                label = "Температура",
-                value = plant.temperature ?: "",
-                editable = editable,
-                onValueChange = { onValueChange(plant.copy(temperature = it)) }
-            )
+                    LabeledTextField(
+                        label = "Температура",
+                        value = plant.temperature ?: "",
+                        editable = editable,
+                        onValueChange = { onValueChange(plant.copy(temperature = it)) }
+                    )
 
-            LabeledTextField(
-                label = "Влажность воздуха",
-                value = plant.airHumidity ?: "",
-                editable = editable,
-                onValueChange = { onValueChange(plant.copy(airHumidity = it)) }
-            )
+                    LabeledTextField(
+                        label = "Влажность воздуха",
+                        value = plant.airHumidity ?: "",
+                        editable = editable,
+                        onValueChange = { onValueChange(plant.copy(airHumidity = it)) }
+                    )
 
-            LabeledTextField(
-                label = "Период покоя",
-                value = plant.restPeriod ?: "",
-                editable = editable,
-                onValueChange = { onValueChange(plant.copy(restPeriod = it)) }
-            )
+                    LabeledTextField(
+                        label = "Период покоя",
+                        value = plant.restPeriod ?: "",
+                        editable = editable,
+                        onValueChange = { onValueChange(plant.copy(restPeriod = it)) }
+                    )
 
-            LabeledTextField(
-                label = "Размножение",
-                value = plant.reproduction ?: "",
-                editable = editable,
-                onValueChange = { onValueChange(plant.copy(reproduction = it)) }
-            )
+                    LabeledTextField(
+                        label = "Размножение",
+                        value = plant.reproduction ?: "",
+                        editable = editable,
+                        onValueChange = { onValueChange(plant.copy(reproduction = it)) }
+                    )
 
-            LabeledTextField(
-                label = "Вредители",
-                value = plant.pests ?: "",
-                editable = editable,
-                onValueChange = { onValueChange(plant.copy(pests = it)) }
-            )
+                    LabeledTextField(
+                        label = "Вредители",
+                        value = plant.pests ?: "",
+                        editable = editable,
+                        onValueChange = { onValueChange(plant.copy(pests = it)) }
+                    )
 
-            LabeledTextField(
-                label = "Болезни",
-                value = plant.diseases ?: "",
-                editable = editable,
-                onValueChange = { onValueChange(plant.copy(diseases = it)) }
-            )
+                    LabeledTextField(
+                        label = "Болезни",
+                        value = plant.diseases ?: "",
+                        editable = editable,
+                        onValueChange = { onValueChange(plant.copy(diseases = it)) }
+                    )
 
-            LabeledTextField(
-                label = "Возраст",
-                value = plant.firstLanding ?: "",
-                editable = editable,
-                onValueChange = { onValueChange(plant.copy(firstLanding = it)) }
-            )
+                    LabeledTextField(
+                        label = "Возраст",
+                        value = plant.firstLanding ?: "",
+                        editable = editable,
+                        onValueChange = { onValueChange(plant.copy(firstLanding = it)) }
+                    )
 
-            // Требования к свету
-            LabeledDropdown(
-                label = "Требования к свету",
-                items = listOf("низкое", "среднее", "высокое"),
-                selectedItem = plant.sunlightRequirement ?: "",
-                editable = editable,
-                onItemSelected = { onValueChange(plant.copy(sunlightRequirement = it.ifEmpty { null })) }
-            )
+                    // Требования к свету
+                    LabeledDropdown(
+                        label = "Требования к свету",
+                        items = listOf("низкое", "среднее", "высокое"),
+                        selectedItem = plant.sunlightRequirement ?: "",
+                        editable = editable,
+                        onItemSelected = { onValueChange(plant.copy(sunlightRequirement = it.ifEmpty { null })) }
+                    )
 
-            LabeledCheckbox(
-                label = "Ядовитость",
-                checked = plant.isToxic ?: false,
-                editable = editable,
-                onCheckedChange = { onValueChange(plant.copy(isToxic = it)) }
-            )
+                    LabeledCheckbox(
+                        label = "Ядовитость",
+                        checked = plant.isToxic ?: false,
+                        editable = editable,
+                        onCheckedChange = { onValueChange(plant.copy(isToxic = it)) }
+                    )
 
-            LabeledTextField(
-                label = "О растении",
-                value = plant.aboutThePlant ?: "",
-                editable = editable,
-                onValueChange = { onValueChange(plant.copy(aboutThePlant = it)) }
-            )
+                    LabeledTextField(
+                        label = "О растении",
+                        value = plant.aboutThePlant ?: "",
+                        editable = editable,
+                        onValueChange = { onValueChange(plant.copy(aboutThePlant = it)) }
+                    )
 
-            LabeledTextField(
-                label = "Полив",
-                value = plant.watering ?: "",
-                editable = editable,
-                onValueChange = { onValueChange(plant.copy(watering = it)) }
-            )
+                    LabeledTextField(
+                        label = "Полив",
+                        value = plant.watering ?: "",
+                        editable = editable,
+                        onValueChange = { onValueChange(plant.copy(watering = it)) }
+                    )
 
-            LabeledNumberField(
-                label = "Частота полива (в днях)",
-                value = plant.wateringFrequency?.toString() ?: "",
-                editable = editable,
-                onValueChange = {
-                    val num = it.toIntOrNull()
-                    onValueChange(plant.copy(wateringFrequency = num))
+                    LabeledNumberField(
+                        label = "Частота полива (в днях)",
+                        value = plant.wateringFrequency?.toString() ?: "",
+                        editable = editable,
+                        onValueChange = {
+                            val num = it.toIntOrNull()
+                            onValueChange(plant.copy(wateringFrequency = num))
+                        }
+                    )
+
+                    LabeledTextField(
+                        label = "Дата последнего полива (в формате \"yyyy-MM-dd\")",
+                        value = plant.lastWateringDate ?: "",
+                        editable = editable,
+                        onValueChange = { onValueChange(plant.copy(lastWateringDate = it)) }
+                    )
+
+
+                    LabeledTextField(
+                        label = "Подкормки",
+                        value = plant.fertilizer ?: "",
+                        editable = editable,
+                        onValueChange = { onValueChange(plant.copy(fertilizer = it)) }
+                    )
+
+                    LabeledNumberField(
+                        label = "Частота удобрения (месяцы)",
+                        value = plant.fertilizationFrequency?.toString() ?: "",
+                        editable = editable,
+                        onValueChange = {
+                            val num = it.toIntOrNull()
+                            onValueChange(plant.copy(fertilizationFrequency = num))
+                        }
+                    )
                 }
-            )
-
-            LabeledTextField(
-                label = "Дата последнего полива (в формате \"yyyy-MM-dd\")",
-                value = plant.firstLanding ?: "",
-                editable = editable,
-                onValueChange = { onValueChange(plant.copy(firstLanding = it)) }
-            )
-
-            LabeledTextField(
-                label = "Подкормки",
-                value = plant.fertilizer ?: "",
-                editable = editable,
-                onValueChange = { onValueChange(plant.copy(fertilizer = it)) }
-            )
-
-            LabeledNumberField(
-                label = "Частота удобрения (месяцы)",
-                value = plant.fertilizationFrequency?.toString() ?: "",
-                editable = editable,
-                onValueChange = {
-                    val num = it.toIntOrNull()
-                    onValueChange(plant.copy(fertilizationFrequency = num))
-                }
-            )
+            }
         }
     }
 }

@@ -57,26 +57,31 @@ fun NavigationDrawer(
 
                     // Plants Section
                     Text(
-                        text = "My Plants",
+                        text = "Your section",
                         modifier = Modifier.padding(16.dp),
                         style = MaterialTheme.typography.titleMedium
                     )
                     NavigationDrawerItem(
                         label = { Text("All Plants") },
-                        selected = false,
-                        onClick = { /* Handle click */ }
+                        selected = true,
+                        onClick = {
+                            scope.launch { drawerState.close() }
+
+                        }
                     )
                     NavigationDrawerItem(
                         label = { Text("Favorites") },
                         selected = false,
-                        onClick = { /* Handle click */ }
+                        onClick = {
+                            scope.launch { drawerState.close() }
+                        }
                     )
 
                     HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
                     // App Section
                     Text(
-                        text = "App",
+                        text = "App section",
                         modifier = Modifier.padding(16.dp),
                         style = MaterialTheme.typography.titleMedium
                     )

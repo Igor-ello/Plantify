@@ -46,7 +46,7 @@ class PlantsViewModel(val dao: PlantDao) : ViewModel() {
                 reproduction = "Делением корневища",
                 pests = "Щитовка, мучнистый червец",
                 diseases = "Корневая гниль",
-                firstLanding = "Древняя Греция",
+                firstLanding = "5 лет",
                 sunlightRequirement = "Среднее освещение",
                 isToxic = false,
                 aboutThePlant = "Полезное лекарственное растение.",
@@ -56,7 +56,32 @@ class PlantsViewModel(val dao: PlantDao) : ViewModel() {
                 fertilizer = "Комплексные минеральные удобрения",
                 fertilizationFrequency = 2
             )
+            val anotherPlant = Plant(
+                name = "Фикус Бенджамина",
+                species = "Ficus benjamina",
+                subSpecies = "Variegata",
+                lighting = "Рассеянный яркий свет",
+                bloom = "Редко цветёт дома",
+                soilComposition = "Универсальная смесь для фикусов",
+                transfer = "Ежегодно молодые растения, взрослые — раз в 2-3 года",
+                temperature = "+18°C — +25°C",
+                airHumidity = "Умеренная влажность",
+                restPeriod = "Осень-зима",
+                reproduction = "Черенкование",
+                pests = "Паутинный клещ, щитовка",
+                diseases = "Желтеют листья при переувлажнении",
+                firstLanding = "2 года",
+                sunlightRequirement = "Частичное затенение",
+                isToxic = false,
+                aboutThePlant = "Популярный декоративный домашний цветок.",
+                watering = "Регулярно умеренно поливать",
+                wateringFrequency = 7,
+                lastWateringDate = "2023-06-20",
+                fertilizer = "Специальные жидкие удобрения для фикусов",
+                fertilizationFrequency = 3
+            )
             dao.insert(newPlant)
+            dao.insert(anotherPlant)
         }
     }
 
