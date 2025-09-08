@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">MyPlants</string>
+    <string name="plant_name">Название</string>
+    <string name="plant_species">Вид</string>
+    <string name="plant_subspecies">Подвид</string>
+    <string name="plant_lighting">Освещение</string>
+    <string name="plant_bloom">Цветение</string>
+    <string name="soil_composition">Состав почвы</string>
+    <string name="plant_transfer">Пересадка</string>
+    <string name="plant_temperature">Температура</string>
+    <string name="plant_air_humidity">Влажность воздуха</string>
+    <string name="plant_rest_period">Период покоя</string>
+    <string name="plant_reproduction">Размножение</string>
+    <string name="plant_pests">Вредители</string>
+    <string name="plant_diseases">Болезни</string>
+    <string name="plant_sunlight_requirement">Требования к свету</string>
+    <string name="plant_toxic">Ядовитость</string>
+    <string name="plant_about">О растении</string>
+    <string name="plant_watering">Полив</string>
+    <string name="plant_watering_frequency">Частота полива (в днях)</string>
+    <string name="plant_last_watering_date">Дата последнего полива (в формате \"yyyy-MM-dd\")</string>
+    <string name="plant_fertilizer">Подкормки</string>
+    <string name="plant_fertilization_frequency">Частота удобрения (месяцы)</string>
+    <string name="palnt_first_landing">Возраст</string>
+    <string name="sunlight_shadeloving">Тенелюбивое</string>
+    <string name="plant_moderate">Умеренное</string>
+    <string name="plant_light_loving">Светлолюбивое</string>
 </resources>

@@ -4,12 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -20,7 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.myplants.db.AppDatabase
 import com.example.myplants.plants.PlantsViewModel
 import com.example.myplants.plants.PlantsViewModelFactory
-import com.example.myplants.ui.card.PlantCard
+import com.example.myplants.ui.plant_card.PlantCard
 import com.example.myplants.ui.theme.MyPlantsTheme
 
 class MainActivity : ComponentActivity() {
