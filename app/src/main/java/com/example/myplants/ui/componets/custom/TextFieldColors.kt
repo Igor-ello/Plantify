@@ -1,4 +1,4 @@
-package com.example.myplants.ui.custom
+package com.example.myplants.ui.componets.custom
 
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults

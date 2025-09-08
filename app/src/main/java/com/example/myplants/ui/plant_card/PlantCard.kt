@@ -20,10 +20,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.myplants.models.Plant
-import com.example.myplants.ui.componets.LabeledCheckbox
-import com.example.myplants.ui.componets.LabeledDropdown
-import com.example.myplants.ui.componets.LabeledNumberField
-import com.example.myplants.ui.componets.LabeledTextField
 import com.example.myplants.ui.theme.GreenLight
 
 

@@ -1,4 +1,4 @@
-package com.example.myplants.ui.custom
+package com.example.myplants.ui.componets.custom
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text

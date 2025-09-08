@@ -1,14 +1,14 @@
-package com.example.myplants.ui.componets
+package com.example.myplants.ui.componets.card
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.input.KeyboardType
-import com.example.myplants.ui.custom.CardText
-import com.example.myplants.ui.custom.CardTextField
+import com.example.myplants.ui.componets.custom.CardText
+import com.example.myplants.ui.componets.custom.CardTextField
 
 @Composable
-fun LabeledNumberField(
+fun CardNumberField(
     label: String,
     value: String,
     editable: Boolean,

@@ -1,4 +1,4 @@
-package com.example.myplants.ui.componets
+package com.example.myplants.ui.componets.card
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -17,11 +17,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.example.myplants.ui.custom.AppColors
-import com.example.myplants.ui.custom.CardText
+import com.example.myplants.ui.componets.custom.AppColors
+import com.example.myplants.ui.componets.custom.CardText
 
 @Composable
-fun LabeledDropdown(
+fun CardDropdown(
     label: String,
     items: List<String>,
     selectedItem: String,
