@@ -14,27 +14,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.myplants.db.AppDatabase
 import com.example.myplants.plants.PlantsViewModel
 import com.example.myplants.plants.PlantsViewModelFactory
 import com.example.myplants.ui.plant_card.PlantCard
 import com.example.myplants.ui.theme.MyPlantsTheme
+import com.example.myplants.utils.rememberNavigationState
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val dao = AppDatabase.getInstance(this.application).plantDao
-        val viewModelFactory = PlantsViewModelFactory(dao)
-        val viewModel = ViewModelProvider(this, viewModelFactory)[PlantsViewModel::class.java]
-
         enableEdgeToEdge()
         setContent {
-            MyPlantsTheme {
-                NavigationDrawer { innerPadding ->
-                    PlantScreen(viewModel = viewModel, modifier = Modifier.padding(innerPadding))
-                }
-            }
+            MyPlantsApp()
         }
     }
 }
@@ -48,7 +41,10 @@ fun PlantScreen(viewModel: PlantsViewModel, modifier: Modifier = Modifier) {
             PlantCard(
                 plant = plant,
                 editable = false,
-                onValueChange = {}
+                onValueChange = {},
+//                onClick = {
+//                    // Обработка клика будет в MainScreen через onPlantClick
+//                }
             )
         }
     }
