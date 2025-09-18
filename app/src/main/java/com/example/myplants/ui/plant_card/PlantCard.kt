@@ -27,7 +27,8 @@ import com.example.myplants.ui.theme.GreenLight
 fun PlantCard(
     plant: Plant,
     editable: Boolean,
-    onValueChange: (Plant) -> Unit
+    onValueChange: (Plant) -> Unit,
+    onClick: (Plant) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 

@@ -21,7 +21,7 @@ class PlantViewModel(val plantDao: PlantDao) : ViewModel() {
     fun loadPlant(plantId: Long) {
         viewModelScope.launch {
             val plant = plantDao.get(plantId)
-            _plant.value = plant
+//            _plant.value = plant
         }
     }
 
