@@ -1,4 +1,4 @@
-package com.example.myplants.utils
+package com.example.myplants.ui.utils
 
 object Routes {
     const val ALL_PLANTS = "all_plants"

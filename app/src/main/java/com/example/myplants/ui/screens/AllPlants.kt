@@ -1,4 +1,4 @@
-package com.example.myplants.ui
+package com.example.myplants.ui.screens
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
