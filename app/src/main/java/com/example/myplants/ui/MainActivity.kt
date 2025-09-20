@@ -24,8 +24,5 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun PlantScreenPreview() {
-    MyPlantsTheme {
-        // Предварительный просмотр без ViewModel
-        //PlantScreen(viewModel = PlantsViewModel(dao = /* передайте здесь dao для превью */))
-    }
+    MyPlantsTheme {}
 }

@@ -1,8 +1,10 @@
 package com.example.myplants.ui.plant_card
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.example.myplants.R
 import com.example.myplants.models.Plant
 import com.example.myplants.ui.componets.card.CardCheckbox
@@ -17,7 +19,9 @@ fun PlantDetailContent(
     editable: Boolean,
     onValueChange: (Plant) -> Unit
 ) {
-    Column {
+    Column (
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
         CardTextField(
             label = stringResource(R.string.plant_subspecies),
             value = plant.subSpecies ?: "",

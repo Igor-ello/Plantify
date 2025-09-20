@@ -1,16 +1,15 @@
 package com.example.myplants.ui.navigation
 
-import androidx.compose.foundation.layout.padding
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myplants.plants.PlantsViewModel
-import com.example.myplants.ui.screens.AllPlants
 import com.example.myplants.ui.screens.AddPlantScreen
+import com.example.myplants.ui.screens.AllPlants
 import com.example.myplants.ui.screens.FavoritesScreen
 import com.example.myplants.ui.screens.HelpScreen
 import com.example.myplants.ui.screens.PlantDetail

@@ -1,5 +1,6 @@
 package com.example.myplants.ui.navigation
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -57,6 +58,7 @@ fun NavigationDrawer(
     } else {
         null
     }
+    Log.i("MyLog", plantName.toString())
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -137,15 +139,17 @@ fun NavigationDrawer(
             topBar = {
                 TopAppBar(
                     title = {
-                        when {
-                            currentRoute?.startsWith(Routes.PLANT_DETAIL) == true ->
-                                plantName ?: "Loading..."
-                            currentRoute == Routes.ALL_PLANTS ->  stringResource(R.string.nav_drawer_all_plants)
-                            currentRoute == Routes.FAVORITES -> R.string.nav_drawer_favorites
-                            currentRoute == Routes.SETTINGS -> R.string.nav_drawer_settings
-                            currentRoute == Routes.HELP -> R.string.nav_drawer_help
-                            else -> "My Plants"
-                        }
+                        Text(
+                            when {
+                                currentRoute?.startsWith(Routes.PLANT_DETAIL) == true ->
+                                    plantName ?: "Loading..."
+                                currentRoute == Routes.ALL_PLANTS ->  stringResource(R.string.nav_drawer_all_plants)
+                                currentRoute == Routes.FAVORITES -> stringResource(R.string.nav_drawer_favorites)
+                                currentRoute == Routes.SETTINGS -> stringResource(R.string.nav_drawer_settings)
+                                currentRoute == Routes.HELP -> stringResource(R.string.nav_drawer_help)
+                                else -> "My Plants"
+                            }
+                        )
                     },
                     navigationIcon = {
                         IconButton(
