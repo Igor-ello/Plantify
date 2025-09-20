@@ -24,22 +24,6 @@ fun FavoritesScreen(
 }
 
 @Composable
-fun SelectedPlantScreen(
-    viewModel: PlantsViewModel,
-    plantId: Long?,
-    onBack: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    // Реализуйте экран деталей растения
-    Column(modifier = modifier.padding(16.dp)) {
-        Text("Plant Details: $plantId")
-        Button(onClick = onBack) {
-            Text("Back")
-        }
-    }
-}
-
-@Composable
 fun AddPlantScreen(
     viewModel: PlantsViewModel,
     onSave: () -> Unit,

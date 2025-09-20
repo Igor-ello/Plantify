@@ -12,7 +12,7 @@ import com.example.myplants.ui.componets.card.CardTextField
 
 
 @Composable
-fun ParametersSection(
+fun PlantDetailContent(
     plant: Plant,
     editable: Boolean,
     onValueChange: (Plant) -> Unit

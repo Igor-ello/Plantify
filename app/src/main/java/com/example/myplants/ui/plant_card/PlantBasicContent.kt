@@ -8,7 +8,7 @@ import com.example.myplants.ui.componets.card.CardTextField
 
 
 @Composable
-fun BasicInfoSection(
+fun PlantBasicContent(
     plant: Plant,
     editable: Boolean,
     onValueChange: (Plant) -> Unit

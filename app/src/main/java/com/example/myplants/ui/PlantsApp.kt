@@ -22,7 +22,7 @@ fun PlantsApp() {
     )
     val navController = rememberNavController()
 
-    NavigationDrawer(navController = navController) { innerPadding ->
+    NavigationDrawer(navController = navController, viewModel = viewModel) { innerPadding ->
         PlantsNavHost(
             navController = navController,
             viewModel = viewModel,

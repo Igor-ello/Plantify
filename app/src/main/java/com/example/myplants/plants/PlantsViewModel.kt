@@ -12,7 +12,7 @@ class PlantsViewModel(val dao: PlantDao) : ViewModel() {
 
     // Объявляем LiveData для списка растений
     private val _plants = MutableLiveData<List<Plant>>()
-    val plants: LiveData<List<Plant>> get() = _plants
+    private val plants: LiveData<List<Plant>> get() = _plants
 
     init {
         loadPlants()
@@ -22,6 +22,14 @@ class PlantsViewModel(val dao: PlantDao) : ViewModel() {
                 addTestPlant()
             }
         }
+    }
+
+    fun getPlantById(plantId: Long): Plant? {
+        return _plants.value?.find { it.id == plantId }
+    }
+
+    fun getAllPlants(): LiveData<List<Plant>> {
+        return plants
     }
 
     private fun loadPlants() {

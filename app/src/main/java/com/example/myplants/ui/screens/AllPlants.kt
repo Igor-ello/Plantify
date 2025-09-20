@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.myplants.models.Plant
 import com.example.myplants.plants.PlantsViewModel
-import com.example.myplants.ui.plant_card.PlantCard
+import com.example.myplants.ui.plant_card.PlantCardMin
 
 @Composable
 fun AllPlants(
@@ -19,11 +19,11 @@ fun AllPlants(
     onAddPlant: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val plants by viewModel.plants.observeAsState(emptyList())
+    val plants by viewModel.getAllPlants().observeAsState(emptyList())
 
     LazyColumn(modifier = modifier.padding(16.dp)) {
         items(plants) { plant ->
-            PlantCard(
+            PlantCardMin(
                 plant = plant,
                 editable = false,
                 onValueChange = {},

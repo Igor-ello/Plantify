@@ -26,11 +26,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.myplants.R
+import com.example.myplants.plants.PlantsViewModel
 import com.example.myplants.ui.utils.Routes
 import kotlinx.coroutines.launch
 
@@ -38,11 +42,21 @@ import kotlinx.coroutines.launch
 @Composable
 fun NavigationDrawer(
     navController: NavController,
+    viewModel: PlantsViewModel,
     content: @Composable (PaddingValues) -> Unit
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    val plantId = navBackStackEntry?.arguments?.getString("plantId")?.toLongOrNull()
+    val plantName: String? = if (plantId != null) {
+        viewModel.getPlantById(plantId)?.name
+    } else {
+        null
+    }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -68,7 +82,7 @@ fun NavigationDrawer(
                         style = MaterialTheme.typography.titleMedium
                     )
                     NavigationDrawerItem(
-                        label = { Text("All Plants") },
+                        label = { Text(stringResource(R.string.nav_drawer_all_plants)) },
                         selected = currentRoute == Routes.ALL_PLANTS,
                         onClick = {
                             scope.launch { drawerState.close() }
@@ -78,7 +92,7 @@ fun NavigationDrawer(
                         }
                     )
                     NavigationDrawerItem(
-                        label = { Text("Favorites") },
+                        label = { Text(stringResource(R.string.nav_drawer_favorites)) },
                         selected = currentRoute == Routes.FAVORITES,
                         onClick = {
                             scope.launch { drawerState.close() }
@@ -99,7 +113,7 @@ fun NavigationDrawer(
                     NavigationDrawerItem(
                         label = { Text("Settings") },
                         selected = currentRoute == Routes.SETTINGS,
-                        icon = { Icon(Icons.Outlined.Settings, contentDescription = "Settings") },
+                        icon = { Icon(Icons.Outlined.Settings, contentDescription = stringResource(R.string.nav_drawer_settings)) },
                         onClick = {
                             scope.launch { drawerState.close() }
                             navController.navigate(Routes.SETTINGS)
@@ -108,7 +122,7 @@ fun NavigationDrawer(
                     NavigationDrawerItem(
                         label = { Text("Help & Feedback") },
                         selected = currentRoute == Routes.HELP,
-                        icon = { Icon(Icons.Outlined.Info, contentDescription = "Help") },
+                        icon = { Icon(Icons.Outlined.Info, contentDescription = stringResource(R.string.nav_drawer_help)) },
                         onClick = {
                             scope.launch { drawerState.close() }
                             navController.navigate(Routes.HELP)
@@ -123,15 +137,15 @@ fun NavigationDrawer(
             topBar = {
                 TopAppBar(
                     title = {
-                        Text(
-                            when (currentRoute) {
-                                Routes.ALL_PLANTS -> "All Plants"
-                                Routes.FAVORITES -> "Favorites"
-                                Routes.SETTINGS -> "Settings"
-                                Routes.HELP -> "Help"
-                                else -> "My Plants"
-                            }
-                        )
+                        when {
+                            currentRoute?.startsWith(Routes.PLANT_DETAIL) == true ->
+                                plantName ?: "Loading..."
+                            currentRoute == Routes.ALL_PLANTS ->  stringResource(R.string.nav_drawer_all_plants)
+                            currentRoute == Routes.FAVORITES -> R.string.nav_drawer_favorites
+                            currentRoute == Routes.SETTINGS -> R.string.nav_drawer_settings
+                            currentRoute == Routes.HELP -> R.string.nav_drawer_help
+                            else -> "My Plants"
+                        }
                     },
                     navigationIcon = {
                         IconButton(
