@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myplants.plants.PlantsViewModel
-import com.example.myplants.ui.screens.AddPlantScreen
+import com.example.myplants.ui.screens.AddPlant
 import com.example.myplants.ui.screens.AllPlants
 import com.example.myplants.ui.screens.FavoritesScreen
 import com.example.myplants.ui.screens.HelpScreen
@@ -64,10 +64,11 @@ fun PlantsNavHost(
             )
         }
         composable(Routes.ADD_PLANT) {
-            AddPlantScreen(
+            AddPlant(
                 viewModel = viewModel,
                 onSave = { navController.popBackStack() },
-                onCancel = { navController.popBackStack() }
+                onCancel = { navController.popBackStack() },
+                onBack = { navController.popBackStack() }
             )
         }
         composable(Routes.SETTINGS) {

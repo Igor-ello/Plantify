@@ -19,7 +19,7 @@ fun AllPlants(
     onAddPlant: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val plants by viewModel.getAllPlants().observeAsState(emptyList())
+    val plants by viewModel.plants.observeAsState(emptyList())
 
     LazyColumn(modifier = modifier.padding(16.dp)) {
         items(plants) { plant ->

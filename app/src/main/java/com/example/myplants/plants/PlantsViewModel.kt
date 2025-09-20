@@ -10,34 +10,61 @@ import kotlinx.coroutines.launch
 
 class PlantsViewModel(val dao: PlantDao) : ViewModel() {
 
-    // Объявляем LiveData для списка растений
     private val _plants = MutableLiveData<List<Plant>>()
-    private val plants: LiveData<List<Plant>> get() = _plants
+    val plants: LiveData<List<Plant>> get() = _plants
+
+    private val _newPlant = MutableLiveData(Plant(name = "", species = ""))
+    val newPlant: LiveData<Plant> get() = _newPlant
 
     init {
         loadPlants()
         dao.getAll().observeForever { plantList ->
             _plants.value = plantList
             if (plantList.isEmpty()) {
-                addTestPlant()
+                viewModelScope.launch {
+                    addTestPlant()
+                }
             }
         }
     }
 
-    fun getPlantById(plantId: Long): Plant? {
-        return _plants.value?.find { it.id == plantId }
+
+//    NEW PLANT
+    fun updateNewPlant(plant: Plant) {
+        _newPlant.value = plant
     }
 
-    fun getAllPlants(): LiveData<List<Plant>> {
-        return plants
+    fun saveNewPlant() {
+        val plant = _newPlant.value ?: return
+        viewModelScope.launch {
+            dao.insert(plant)
+            _newPlant.value = Plant(name = "", species = "") // Сброс
+        }
     }
 
+    fun clearNewPlant() {
+        _newPlant.value = Plant(name = "", species = "")
+    }
+
+//    OTHER
+    fun updatePlant(updatedPlant: Plant) {
+        viewModelScope.launch {
+            dao.update(updatedPlant)
+            // Обновляем локальное состояние если нужно
+            _plants.value = _plants.value?.map { plant ->
+                if (plant.id == updatedPlant.id) updatedPlant else plant
+            }
+        }
+    }
     private fun loadPlants() {
         dao.getAll().observeForever { plantList ->
             _plants.value = plantList
         }
     }
 
+    fun getPlantById(plantId: Long): Plant? {
+        return _plants.value?.find { it.id == plantId }
+    }
     private fun addTestPlant() {
         viewModelScope.launch {
             val newPlant = Plant(
