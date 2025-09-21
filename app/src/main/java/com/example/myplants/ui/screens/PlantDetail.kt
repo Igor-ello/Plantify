@@ -45,16 +45,15 @@ fun PlantDetail(
     modifier: Modifier = Modifier,
     uiStateViewModel: UiStateViewModel? = null
 ) {
-    // Явно запрашиваем UiStateViewModel, если не передали сверху
     val uiStateViewModel: UiStateViewModel = uiStateViewModel ?: viewModel<UiStateViewModel>()
     val selectedPlant = viewModel.getPlantById(plantId)
 
     var isEditing by remember { mutableStateOf(false) }
     var editedPlant by remember { mutableStateOf(selectedPlant ?: Plant(name = "", species = "")) }
 
-    // Обновляем title, back button и action-ы
-    LaunchedEffect(selectedPlant?.id, isEditing) {
-        val title = if (isEditing) "Edit: ${selectedPlant?.name ?: ""}" else (selectedPlant?.name ?: "Plant")
+    // Отслеживаем режим редактирования и обновляем title + TopBarActions
+    LaunchedEffect(isEditing, selectedPlant) {
+        val title = if (isEditing) "Edit: ${editedPlant.name}" else editedPlant.name.ifBlank { "Plant" }
         uiStateViewModel.setDrawerTitle(title)
         uiStateViewModel.showBackButton(true)
 
@@ -66,10 +65,14 @@ fun PlantDetail(
                 }) {
                     Icon(Icons.Default.Close, contentDescription = "Cancel")
                 }
-                IconButton(onClick = {
-                    viewModel.updatePlant(editedPlant)
-                    isEditing = false
-                }, enabled = editedPlant.name.isNotBlank()) {
+                IconButton(
+                    onClick = {
+                        viewModel.updatePlant(editedPlant)
+                        isEditing = false
+                        uiStateViewModel.setDrawerTitle(editedPlant.name.ifBlank { "Plant" })
+                    },
+                    enabled = editedPlant.name.isNotBlank()
+                ) {
                     Icon(Icons.Default.Check, contentDescription = "Save")
                 }
             } else {
@@ -93,7 +96,6 @@ fun PlantDetail(
         return
     }
 
-    // Контент экрана — без Scaffold (TopAppBar общий)
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -109,11 +111,25 @@ fun PlantDetail(
 
             if (isEditing) {
                 Spacer(modifier = Modifier.height(16.dp))
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Button(onClick = { editedPlant = selectedPlant; isEditing = false }) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Button(onClick = {
+                        editedPlant = selectedPlant
+                        isEditing = false
+                        uiStateViewModel.setDrawerTitle(selectedPlant.name.ifBlank { "Plant" })
+                    }) {
                         Text("Cancel")
                     }
-                    Button(onClick = { viewModel.updatePlant(editedPlant); isEditing = false }, enabled = editedPlant.name.isNotBlank()) {
+                    Button(
+                        onClick = {
+                            viewModel.updatePlant(editedPlant)
+                            isEditing = false
+                            uiStateViewModel.setDrawerTitle(editedPlant.name.ifBlank { "Plant" })
+                        },
+                        enabled = editedPlant.name.isNotBlank()
+                    ) {
                         Text("Save Changes")
                     }
                 }
