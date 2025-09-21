@@ -13,17 +13,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -40,33 +36,55 @@ import com.example.myplants.ui.navigation.UiStateViewModel
 import com.example.myplants.ui.plant_card.PlantCardMax
 
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun PlantDetail(
     plantId: Long,
     viewModel: PlantsViewModel,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
-    uiStateViewModelParam: UiStateViewModel? = null
+    uiStateViewModel: UiStateViewModel? = null
 ) {
-    val uiStateViewModel: UiStateViewModel = uiStateViewModelParam ?: viewModel()
+    // Явно запрашиваем UiStateViewModel, если не передали сверху
+    val uiStateViewModel: UiStateViewModel = uiStateViewModel ?: viewModel<UiStateViewModel>()
     val selectedPlant = viewModel.getPlantById(plantId)
 
-    // Состояние для режима редактирования
     var isEditing by remember { mutableStateOf(false) }
-    // Локальная копия растения для редактирования
     var editedPlant by remember { mutableStateOf(selectedPlant ?: Plant(name = "", species = "")) }
 
-    LaunchedEffect(selectedPlant?.id) {
-        selectedPlant?.let { plant ->
-            uiStateViewModel.setDrawerTitle(plant.name ?: "Plant")
-            editedPlant = plant // Обновляем локальную копию при изменении выбранного растения
+    // Обновляем title, back button и action-ы
+    LaunchedEffect(selectedPlant?.id, isEditing) {
+        val title = if (isEditing) "Edit: ${selectedPlant?.name ?: ""}" else (selectedPlant?.name ?: "Plant")
+        uiStateViewModel.setDrawerTitle(title)
+        uiStateViewModel.showBackButton(true)
+
+        uiStateViewModel.setTopBarActions {
+            if (isEditing) {
+                IconButton(onClick = {
+                    editedPlant = selectedPlant ?: editedPlant
+                    isEditing = false
+                }) {
+                    Icon(Icons.Default.Close, contentDescription = "Cancel")
+                }
+                IconButton(onClick = {
+                    viewModel.updatePlant(editedPlant)
+                    isEditing = false
+                }, enabled = editedPlant.name.isNotBlank()) {
+                    Icon(Icons.Default.Check, contentDescription = "Save")
+                }
+            } else {
+                IconButton(onClick = { isEditing = true }) {
+                    Icon(Icons.Default.Edit, contentDescription = "Edit")
+                }
+            }
         }
     }
 
     DisposableEffect(Unit) {
         onDispose {
             uiStateViewModel.resetDrawerTitle()
+            uiStateViewModel.clearTopBarActions()
+            uiStateViewModel.showBackButton(false)
         }
     }
 
@@ -75,93 +93,28 @@ fun PlantDetail(
         return
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(if (isEditing) "Edit Plant" else selectedPlant.name ?: "Plant")
-                },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, "Back")
-                    }
-                },
-                actions = {
-                    if (isEditing) {
-                        // Кнопки в режиме редактирования
-                        IconButton(
-                            onClick = {
-                                // Отмена редактирования
-                                editedPlant = selectedPlant
-                                isEditing = false
-                            }
-                        ) {
-                            Icon(Icons.Default.ExitToApp, "Cancel")
-                        }
-                        IconButton(
-                            onClick = {
-                                // Сохранение изменений
-                                viewModel.updatePlant(editedPlant)
-                                isEditing = false
-                            },
-                            enabled = editedPlant.name.isNotBlank() // Валидация
-                        ) {
-                            Icon(Icons.Default.Star, "Save")
-                        }
-                    } else {
-                        // Кнопка редактирования в режиме просмотра
-                        IconButton(
-                            onClick = { isEditing = true }
-                        ) {
-                            Icon(Icons.Default.Edit, "Edit")
-                        }
-                    }
-                }
+    // Контент экрана — без Scaffold (TopAppBar общий)
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
+        Column {
+            PlantCardMax(
+                plant = editedPlant,
+                editable = isEditing,
+                onValueChange = { updatedPlant -> editedPlant = updatedPlant }
             )
-        }
-    ) { innerPadding ->
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        ) {
-            Column(
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState())
-                    .padding(16.dp)
-            ) {
-                PlantCardMax(
-                    plant = editedPlant,
-                    editable = isEditing,
-                    onValueChange = { updatedPlant ->
-                        editedPlant = updatedPlant
-                    }
-                )
 
-                // Кнопки внизу для больших экранов
-                if (isEditing) {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Button(
-                            onClick = {
-                                editedPlant = selectedPlant
-                                isEditing = false
-                            }
-                        ) {
-                            Text("Cancel")
-                        }
-                        Button(
-                            onClick = {
-                                viewModel.updatePlant(editedPlant)
-                                isEditing = false
-                            },
-                            enabled = editedPlant.name.isNotBlank()
-                        ) {
-                            Text("Save Changes")
-                        }
+            if (isEditing) {
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Button(onClick = { editedPlant = selectedPlant; isEditing = false }) {
+                        Text("Cancel")
+                    }
+                    Button(onClick = { viewModel.updatePlant(editedPlant); isEditing = false }, enabled = editedPlant.name.isNotBlank()) {
+                        Text("Save Changes")
                     }
                 }
             }

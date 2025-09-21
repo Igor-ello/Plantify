@@ -12,20 +12,27 @@ import com.example.myplants.plants.PlantsViewModel
 import com.example.myplants.plants.PlantsViewModelFactory
 import com.example.myplants.ui.navigation.NavigationDrawer
 import com.example.myplants.ui.navigation.PlantsNavHost
+import com.example.myplants.ui.navigation.UiStateViewModel
 
 @Composable
 fun PlantsApp() {
-    val viewModel: PlantsViewModel = viewModel(
+    val plantsViewModel: PlantsViewModel = viewModel(
         factory = PlantsViewModelFactory(
             AppDatabase.getInstance(LocalContext.current.applicationContext).plantDao
         )
     )
+    val uiStateViewModel: UiStateViewModel = viewModel()
     val navController = rememberNavController()
 
-    NavigationDrawer(navController = navController, viewModel = viewModel) { innerPadding ->
+    NavigationDrawer(
+        navController = navController,
+        viewModel = plantsViewModel,
+        uiStateViewModel = uiStateViewModel
+    ) { innerPadding ->
         PlantsNavHost(
             navController = navController,
-            viewModel = viewModel,
+            viewModel = plantsViewModel,
+            uiStateViewModel = uiStateViewModel,
             modifier = Modifier.padding(innerPadding)
         )
     }

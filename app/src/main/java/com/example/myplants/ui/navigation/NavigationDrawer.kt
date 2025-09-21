@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Info
@@ -44,21 +46,11 @@ import kotlinx.coroutines.launch
 fun NavigationDrawer(
     navController: NavController,
     viewModel: PlantsViewModel,
+    uiStateViewModel: UiStateViewModel,
     content: @Composable (PaddingValues) -> Unit
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
-
-    val plantId = navBackStackEntry?.arguments?.getString("plantId")?.toLongOrNull()
-    val plantName: String? = if (plantId != null) {
-        viewModel.getPlantById(plantId)?.name
-    } else {
-        null
-    }
-    Log.i("MyLog", plantName.toString())
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -85,7 +77,7 @@ fun NavigationDrawer(
                     )
                     NavigationDrawerItem(
                         label = { Text(stringResource(R.string.nav_drawer_all_plants)) },
-                        selected = currentRoute == Routes.ALL_PLANTS,
+                        selected = false,
                         onClick = {
                             scope.launch { drawerState.close() }
                             navController.navigate(Routes.ALL_PLANTS) {
@@ -95,7 +87,7 @@ fun NavigationDrawer(
                     )
                     NavigationDrawerItem(
                         label = { Text(stringResource(R.string.nav_drawer_favorites)) },
-                        selected = currentRoute == Routes.FAVORITES,
+                        selected = false,
                         onClick = {
                             scope.launch { drawerState.close() }
                             navController.navigate(Routes.FAVORITES) {
@@ -114,8 +106,8 @@ fun NavigationDrawer(
                     )
                     NavigationDrawerItem(
                         label = { Text("Settings") },
-                        selected = currentRoute == Routes.SETTINGS,
-                        icon = { Icon(Icons.Outlined.Settings, contentDescription = stringResource(R.string.nav_drawer_settings)) },
+                        icon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
+                        selected = false,
                         onClick = {
                             scope.launch { drawerState.close() }
                             navController.navigate(Routes.SETTINGS)
@@ -123,8 +115,8 @@ fun NavigationDrawer(
                     )
                     NavigationDrawerItem(
                         label = { Text("Help & Feedback") },
-                        selected = currentRoute == Routes.HELP,
-                        icon = { Icon(Icons.Outlined.Info, contentDescription = stringResource(R.string.nav_drawer_help)) },
+                        icon = { Icon(Icons.Outlined.Info, contentDescription = null) },
+                        selected = false,
                         onClick = {
                             scope.launch { drawerState.close() }
                             navController.navigate(Routes.HELP)
@@ -138,48 +130,23 @@ fun NavigationDrawer(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = {
-                        Text(
-                            when {
-                                currentRoute?.startsWith(Routes.PLANT_DETAIL) == true ->
-                                    plantName ?: "Loading..."
-                                currentRoute == Routes.ALL_PLANTS ->  stringResource(R.string.nav_drawer_all_plants)
-                                currentRoute == Routes.FAVORITES -> stringResource(R.string.nav_drawer_favorites)
-                                currentRoute == Routes.SETTINGS -> stringResource(R.string.nav_drawer_settings)
-                                currentRoute == Routes.HELP -> stringResource(R.string.nav_drawer_help)
-                                else -> "My Plants"
-                            }
-                        )
-                    },
+                    title = { Text(uiStateViewModel.drawerTitle) },
                     navigationIcon = {
-                        IconButton(
-                            onClick = {
-                                scope.launch {
-                                    drawerState.apply {
-                                        if (isClosed) open() else close()
-                                    }
-                                }
+                        if (uiStateViewModel.showBackButton) {
+                            IconButton(onClick = { navController.popBackStack() }) {
+                                Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                             }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Menu,
-                                contentDescription = "Navigation menu"
-                            )
+                        } else {
+                            IconButton(onClick = {
+                                scope.launch { if (drawerState.isClosed) drawerState.open() else drawerState.close() }
+                            }) {
+                                Icon(Icons.Default.Menu, contentDescription = "Menu")
+                            }
                         }
                     },
                     actions = {
-                        if (currentRoute == Routes.ALL_PLANTS) {
-                            IconButton(
-                                onClick = {
-                                    navController.navigate(Routes.ADD_PLANT)
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Add,
-                                    contentDescription = "Add plant"
-                                )
-                            }
-                        }
+                        // Важно: передаём RowScope (this) в хранимый лямбда-композабл
+                        uiStateViewModel.topBarActions?.invoke(this)
                     }
                 )
             }
