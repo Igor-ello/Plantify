@@ -3,13 +3,21 @@ package com.example.myplants.ui.screens
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.myplants.models.Plant
 import com.example.myplants.plants.PlantsViewModel
+import com.example.myplants.ui.navigation.UiStateViewModel
 import com.example.myplants.ui.plant_card.PlantCardMin
 
 @Composable
@@ -17,8 +25,23 @@ fun AllPlants(
     viewModel: PlantsViewModel,
     onPlantClick: (Plant) -> Unit,
     onAddPlant: () -> Unit,
+    uiStateViewModel: UiStateViewModel,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+
+    // Этот LaunchedEffect срабатывает каждый раз, когда экран становится видимым
+    LaunchedEffect(currentBackStackEntry?.destination?.route) {
+        uiStateViewModel.setDrawerTitle("All Plants")
+        uiStateViewModel.showBackButton(false)
+        uiStateViewModel.setTopBarActions {
+            IconButton(onClick = onAddPlant) {
+                Icon(Icons.Default.Add, contentDescription = "Add")
+            }
+        }
+    }
+
     val plants by viewModel.plants.observeAsState(emptyList())
 
     LazyColumn(modifier = modifier.padding(16.dp)) {

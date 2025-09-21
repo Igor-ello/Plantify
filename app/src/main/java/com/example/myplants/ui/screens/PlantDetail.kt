@@ -85,8 +85,6 @@ fun PlantDetail(
 
     DisposableEffect(Unit) {
         onDispose {
-            uiStateViewModel.resetDrawerTitle()
-            uiStateViewModel.clearTopBarActions()
             uiStateViewModel.showBackButton(false)
         }
     }

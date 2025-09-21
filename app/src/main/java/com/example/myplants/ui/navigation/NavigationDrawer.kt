@@ -1,6 +1,5 @@
 package com.example.myplants.ui.navigation
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -9,8 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.Settings
@@ -52,6 +49,9 @@ fun NavigationDrawer(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = currentBackStackEntry?.destination?.route ?: ""
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -77,7 +77,9 @@ fun NavigationDrawer(
                     )
                     NavigationDrawerItem(
                         label = { Text(stringResource(R.string.nav_drawer_all_plants)) },
-                        selected = false,
+                        selected = currentRoute == Routes.ALL_PLANTS
+                                || currentRoute.startsWith(Routes.PLANT_DETAIL)
+                                || currentRoute.startsWith(Routes.ADD_PLANT),
                         onClick = {
                             scope.launch { drawerState.close() }
                             navController.navigate(Routes.ALL_PLANTS) {
@@ -87,7 +89,7 @@ fun NavigationDrawer(
                     )
                     NavigationDrawerItem(
                         label = { Text(stringResource(R.string.nav_drawer_favorites)) },
-                        selected = false,
+                        selected = (currentRoute == Routes.FAVORITES),
                         onClick = {
                             scope.launch { drawerState.close() }
                             navController.navigate(Routes.FAVORITES) {
@@ -107,7 +109,7 @@ fun NavigationDrawer(
                     NavigationDrawerItem(
                         label = { Text("Settings") },
                         icon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
-                        selected = false,
+                        selected = (currentRoute == Routes.SETTINGS),
                         onClick = {
                             scope.launch { drawerState.close() }
                             navController.navigate(Routes.SETTINGS)
@@ -116,7 +118,7 @@ fun NavigationDrawer(
                     NavigationDrawerItem(
                         label = { Text("Help & Feedback") },
                         icon = { Icon(Icons.Outlined.Info, contentDescription = null) },
-                        selected = false,
+                        selected = (currentRoute == Routes.HELP),
                         onClick = {
                             scope.launch { drawerState.close() }
                             navController.navigate(Routes.HELP)
@@ -145,7 +147,6 @@ fun NavigationDrawer(
                         }
                     },
                     actions = {
-                        // Важно: передаём RowScope (this) в хранимый лямбда-композабл
                         uiStateViewModel.topBarActions?.invoke(this)
                     }
                 )
