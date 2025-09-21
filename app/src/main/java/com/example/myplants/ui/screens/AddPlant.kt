@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -24,7 +22,6 @@ import com.example.myplants.plants.PlantsViewModel
 import com.example.myplants.ui.plant_card.PlantCardMax
 
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AddPlant(
     viewModel: PlantsViewModel,
@@ -32,9 +29,9 @@ fun AddPlant(
     onCancel: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val newPlantWithPhotos by viewModel.newPlantWithPhotos.observeAsState(
-        PlantWithPhotos(plant = Plant(name = "", species = ""), photos = emptyList())
-    )
+    val newPlant by viewModel.newPlant.observeAsState(Plant(name = "", species = ""))
+    val newPhotos by viewModel.newPlantPhotos.observeAsState(emptyList())
+    val newPlantWithPhotos = PlantWithPhotos(plant = newPlant, photos = newPhotos)
 
     Box(modifier = modifier.fillMaxSize()) {
         Column(
@@ -55,6 +52,7 @@ fun AddPlant(
                 Button(
                     onClick = {
                         viewModel.clearNewPlant()
+                        viewModel.updateNewPlantPhotos(emptyList())
                         onCancel()
                     }
                 ) {
@@ -63,11 +61,10 @@ fun AddPlant(
 
                 Button(
                     onClick = {
-                        viewModel.saveNewPlant()
+                        viewModel.saveNewPlant(newPhotos)
                         onSave()
                     },
-                    enabled = newPlantWithPhotos.plant.name.isNotBlank() &&
-                            newPlantWithPhotos.plant.species.isNotBlank()
+                    enabled = newPlant.name.isNotBlank() && newPlant.species.isNotBlank()
                 ) {
                     Text("Save")
                 }

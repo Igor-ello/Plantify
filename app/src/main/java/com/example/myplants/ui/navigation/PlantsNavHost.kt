@@ -35,7 +35,9 @@ fun PlantsNavHost(
         composable(Routes.ALL_PLANTS) {
             AllPlants(
                 viewModel = viewModel,
-                onPlantClick = { plant -> navController.navigate("${Routes.PLANT_DETAIL}/${plant.id}") },
+                onPlantClick = { plantWithPhotos ->
+                    navController.navigate("${Routes.PLANT_DETAIL}/${plantWithPhotos.plant.id}")
+                },
                 onAddPlant = { navController.navigate(Routes.ADD_PLANT) },
                 uiStateViewModel = uiStateViewModel,
                 navController = navController

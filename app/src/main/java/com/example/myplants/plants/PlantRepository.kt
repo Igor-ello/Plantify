@@ -14,17 +14,20 @@ class PlantRepository(
 
     // Растения с их фотографиями
     fun getAllPlantsWithPhotos(): LiveData<List<PlantWithPhotos>> =
-        plantDao.getAllWithPhotos() // здесь нужно добавить соответствующий @Transaction DAO метод
+        plantDao.getAllWithPhotos()
 
     fun getPlantWithPhotosById(plantId: Long): LiveData<PlantWithPhotos?> =
-        plantDao.getByIdWithPhotos(plantId) // @Transaction метод в DAO
+        plantDao.getByIdWithPhotos(plantId)
+
 
     // Работа с растениями
-    suspend fun insertPlant(plant: Plant) = plantDao.insert(plant)
+    suspend fun insertPlant(plant: Plant): Long = plantDao.insert(plant)
 
     suspend fun updatePlant(plant: Plant) = plantDao.update(plant)
 
     suspend fun deletePlant(plant: Plant) = plantDao.delete(plant)
+
+    suspend fun getAllPlantsSnapshot(): List<Plant> = plantDao.getAllSnapshot()
 
     // Работа с фотографиями
     suspend fun insertPhoto(photo: PlantPhoto) = photoDao.insertPhoto(photo)

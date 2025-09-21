@@ -13,7 +13,7 @@ import com.example.myplants.models.PlantWithPhotos
 @Dao
 interface PlantDao {
     @Insert
-    suspend fun insert(task: Plant)
+    suspend fun insert(task: Plant): Long
 
     @Update
     suspend fun update(task: Plant)
@@ -35,4 +35,7 @@ interface PlantDao {
     @Transaction
     @Query("SELECT * FROM plant_table WHERE id = :plantId")
     fun getByIdWithPhotos(plantId: Long): LiveData<PlantWithPhotos?>
+
+    @Query("SELECT * FROM plant_table ORDER BY id DESC")
+    suspend fun getAllSnapshot(): List<Plant>
 }

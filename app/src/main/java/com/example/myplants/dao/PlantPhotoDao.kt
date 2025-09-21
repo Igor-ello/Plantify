@@ -15,10 +15,10 @@ interface PlantPhotoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPhotos(photos: List<PlantPhoto>)
 
-    @Query("SELECT * FROM plant_photo_table WHERE plant_id = :plantId ORDER BY is_main DESC, id ASC")
+    @Query("SELECT * FROM plant_photo_table WHERE plant_id = :plantId ORDER BY is_primary DESC, id ASC")
     suspend fun getPhotosForPlant(plantId: Long): List<PlantPhoto>
 
-    @Query("UPDATE plant_photo_table SET is_main = CASE WHEN id = :photoId THEN 1 ELSE 0 END WHERE plant_id = :plantId")
+    @Query("UPDATE plant_photo_table SET is_primary = CASE WHEN id = :photoId THEN 1 ELSE 0 END WHERE plant_id = :plantId")
     suspend fun setMainPhoto(plantId: Long, photoId: Long)
 
     @Delete

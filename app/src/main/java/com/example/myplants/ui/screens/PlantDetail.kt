@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -45,13 +46,20 @@ fun PlantDetail(
     uiStateViewModel: UiStateViewModel? = null
 ) {
     val uiStateViewModel: UiStateViewModel = uiStateViewModel ?: viewModel<UiStateViewModel>()
-    val selectedPlant = viewModel.getPlantById(plantId)
+
+    val selectedPlantWithPhotos by viewModel.plants.observeAsState(emptyList())
+    val selectedPlantWithPhotosItem = selectedPlantWithPhotos.find { it.plant.id == plantId }
+
+    if (selectedPlantWithPhotosItem == null) {
+        Text("Plant not found", modifier = modifier.padding(16.dp))
+        return
+    }
 
     var isEditing by remember { mutableStateOf(false) }
-    var editedPlant by remember { mutableStateOf(selectedPlant ?: Plant(name = "", species = "")) }
+    var editedPlant by remember { mutableStateOf(selectedPlantWithPhotosItem.plant) }
 
     // Отслеживаем режим редактирования и обновляем title + TopBarActions
-    LaunchedEffect(isEditing, selectedPlant) {
+    LaunchedEffect(isEditing, editedPlant) {
         val title = if (isEditing) "Edit: ${editedPlant.name}" else editedPlant.name.ifBlank { "Plant" }
         uiStateViewModel.setDrawerTitle(title)
         uiStateViewModel.showBackButton(true)
@@ -59,14 +67,14 @@ fun PlantDetail(
         uiStateViewModel.setTopBarActions {
             if (isEditing) {
                 IconButton(onClick = {
-                    editedPlant = selectedPlant ?: editedPlant
+                    editedPlant = selectedPlantWithPhotosItem.plant
                     isEditing = false
                 }) {
                     Icon(Icons.Default.Close, contentDescription = "Cancel")
                 }
                 IconButton(
                     onClick = {
-                        viewModel.updatePlant(editedPlant)
+                        viewModel.updatePlant(editedPlant, selectedPlantWithPhotosItem.photos)
                         isEditing = false
                         uiStateViewModel.setDrawerTitle(editedPlant.name.ifBlank { "Plant" })
                     },
@@ -83,14 +91,7 @@ fun PlantDetail(
     }
 
     DisposableEffect(Unit) {
-        onDispose {
-            uiStateViewModel.showBackButton(false)
-        }
-    }
-
-    if (selectedPlant == null) {
-        Text("Plant not found")
-        return
+        onDispose { uiStateViewModel.showBackButton(false) }
     }
 
     Box(
@@ -101,7 +102,7 @@ fun PlantDetail(
     ) {
         Column {
             PlantCardMax(
-                plant = editedPlant,
+                plantWithPhotos = selectedPlantWithPhotosItem,
                 editable = isEditing,
                 onValueChange = { updatedPlant -> editedPlant = updatedPlant }
             )
@@ -113,15 +114,15 @@ fun PlantDetail(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Button(onClick = {
-                        editedPlant = selectedPlant
+                        editedPlant = selectedPlantWithPhotosItem.plant
                         isEditing = false
-                        uiStateViewModel.setDrawerTitle(selectedPlant.name.ifBlank { "Plant" })
+                        uiStateViewModel.setDrawerTitle(selectedPlantWithPhotosItem.plant.name.ifBlank { "Plant" })
                     }) {
                         Text("Cancel")
                     }
                     Button(
                         onClick = {
-                            viewModel.updatePlant(editedPlant)
+                            viewModel.updatePlant(editedPlant, selectedPlantWithPhotosItem.photos)
                             isEditing = false
                             uiStateViewModel.setDrawerTitle(editedPlant.name.ifBlank { "Plant" })
                         },

@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.myplants.models.Plant
+import com.example.myplants.models.PlantWithPhotos
 import com.example.myplants.plants.PlantsViewModel
 import com.example.myplants.ui.navigation.UiStateViewModel
 import com.example.myplants.ui.plant_card.PlantCardMin
@@ -23,7 +23,7 @@ import com.example.myplants.ui.plant_card.PlantCardMin
 @Composable
 fun AllPlants(
     viewModel: PlantsViewModel,
-    onPlantClick: (Plant) -> Unit,
+    onPlantClick: (PlantWithPhotos) -> Unit,
     onAddPlant: () -> Unit,
     uiStateViewModel: UiStateViewModel,
     navController: NavController,
@@ -41,16 +41,17 @@ fun AllPlants(
         }
     }
 
-    val plants by viewModel.plants.observeAsState(emptyList())
+    val plantsWithPhotos by viewModel.plants.observeAsState(emptyList())
 
     LazyColumn(modifier = modifier.padding(16.dp)) {
-        items(plants) { plant ->
+        items(plantsWithPhotos) { plantWithPhotos ->
             PlantCardMin(
-                plant = plant,
+                plantWithPhotos = plantWithPhotos,
                 editable = false,
                 onValueChange = {},
-                onClick = { onPlantClick(plant) }
+                onClick = { onPlantClick(plantWithPhotos) }
             )
         }
     }
 }
+
