@@ -31,9 +31,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.myplants.models.Plant
+import androidx.navigation.NavHostController
 import com.example.myplants.models.PlantWithPhotos
 import com.example.myplants.plants.PlantsViewModel
+import com.example.myplants.ui.componets.card.CardDeleteButton
 import com.example.myplants.ui.navigation.UiStateViewModel
 import com.example.myplants.ui.plant_card.PlantCardMax
 
@@ -43,8 +44,9 @@ import com.example.myplants.ui.plant_card.PlantCardMax
 fun PlantDetail(
     plantId: Long,
     viewModel: PlantsViewModel,
+    navController: NavHostController,
+    uiStateViewModel: UiStateViewModel? = null,
     modifier: Modifier = Modifier,
-    uiStateViewModel: UiStateViewModel? = null
 ) {
     val uiStateViewModel: UiStateViewModel = uiStateViewModel ?: viewModel<UiStateViewModel>()
 
@@ -58,7 +60,7 @@ fun PlantDetail(
 
     var isEditing by remember { mutableStateOf(false) }
     var editedPlant by remember { mutableStateOf(selectedPlantWithPhotos.plant) }
-    var editedPhotos by remember { mutableStateOf(selectedPlantWithPhotos.photos) } // 👈 Локально храним фото
+    var editedPhotos by remember { mutableStateOf(selectedPlantWithPhotos.photos) }
 
     // Обновляем TopBar в зависимости от режима
     LaunchedEffect(isEditing, editedPlant) {
@@ -110,9 +112,7 @@ fun PlantDetail(
                 plantWithPhotos = PlantWithPhotos(plant = editedPlant, photos = editedPhotos),
                 editable = isEditing,
                 onValueChange = { updatedPlant -> editedPlant = updatedPlant },
-                onPhotosChanged = { updatedPhotos ->
-                    editedPhotos = updatedPhotos
-                }
+                onPhotosChanged = { updatedPhotos -> editedPhotos = updatedPhotos }
             )
 
             if (isEditing) {
@@ -141,6 +141,16 @@ fun PlantDetail(
                     }
                 }
             }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            CardDeleteButton(
+                onDeleteConfirmed = {
+                    viewModel.deletePlant(selectedPlantWithPhotos.plant)
+                    navController.popBackStack()
+                },
+                modifier = Modifier.padding(top = 16.dp)
+            )
         }
     }
 }

@@ -34,10 +34,19 @@ class PlantRepository(
 
     suspend fun insertPhotos(photos: List<PlantPhoto>) = photoDao.insertPhotos(photos)
 
+    suspend fun updatePhoto(photo: PlantPhoto) = photoDao.updatePhoto(photo)
+
     suspend fun deletePhoto(photo: PlantPhoto) = photoDao.deletePhoto(photo)
 
     suspend fun setMainPhoto(plantId: Long, photoId: Long) = photoDao.setMainPhoto(plantId, photoId)
 
     suspend fun getPhotosForPlant(plantId: Long): List<PlantPhoto> = photoDao.getPhotosForPlant(plantId)
+
+    // --- Комплексные операции ---
+    suspend fun deletePlantWithPhotos(plantId: Long) {
+        // Удаляем сначала фото, потом само растение
+        photoDao.deletePhotosByPlantId(plantId)
+        plantDao.deleteById(plantId)
+    }
 }
 

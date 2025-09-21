@@ -56,4 +56,10 @@ class PlantsViewModel(private val repository: PlantRepository) : ViewModel() {
             }
         }
     }
+
+    fun deletePlant(plant: Plant) {
+        viewModelScope.launch {
+            repository.deletePlantWithPhotos(plant.id)
+        }
+    }
 }

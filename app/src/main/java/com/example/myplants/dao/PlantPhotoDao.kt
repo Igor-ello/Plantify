@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.myplants.models.PlantPhoto
 
 @Dao
@@ -23,4 +24,10 @@ interface PlantPhotoDao {
 
     @Delete
     suspend fun deletePhoto(photo: PlantPhoto)
+
+    @Update
+    suspend fun updatePhoto(photo: PlantPhoto)
+
+    @Query("DELETE FROM plant_photo_table WHERE plant_id = :plantId")
+    suspend fun deletePhotosByPlantId(plantId: Long)
 }

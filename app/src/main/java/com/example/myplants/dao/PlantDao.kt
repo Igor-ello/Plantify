@@ -21,6 +21,9 @@ interface PlantDao {
     @Delete
     suspend fun delete(task: Plant)
 
+    @Query("DELETE FROM plant_table WHERE id = :plantId")
+    suspend fun deleteById(plantId: Long)
+
     @Query("SELECT * FROM plant_table WHERE id = :plantId")
     fun get(plantId: Long): LiveData<Plant>
 

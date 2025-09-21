@@ -51,6 +51,7 @@ fun PlantsNavHost(
             PlantDetail(
                 plantId = plantId,
                 viewModel = viewModel,
+                navController = navController,
                 uiStateViewModel = uiStateViewModel
             )
         }
