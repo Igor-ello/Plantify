@@ -26,6 +26,7 @@ fun PlantsNavHost(
     uiStateViewModel: UiStateViewModel,
     modifier: Modifier = Modifier
 ) {
+    var title: String
     NavHost(
         navController = navController,
         startDestination = Routes.ALL_PLANTS,
@@ -48,29 +49,31 @@ fun PlantsNavHost(
             PlantDetail(
                 plantId = plantId,
                 viewModel = viewModel,
-                onBack = { navController.popBackStack() },
-                uiStateViewModel = uiStateViewModel // обязательно передаём
+                uiStateViewModel = uiStateViewModel
             )
         }
 
         composable(Routes.ADD_PLANT) {
+            title = stringResource(R.string.screen_add_plant)
+
             LaunchedEffect(Unit) {
-                uiStateViewModel.setDrawerTitle("AddPlant")
-                uiStateViewModel.showBackButton(true)
+                uiStateViewModel.setDrawerTitle(title)
                 uiStateViewModel.setTopBarActions(null)
+                uiStateViewModel.showBackButton(true)
             }
 
             AddPlant(
                 viewModel = viewModel,
                 onSave = { navController.popBackStack() },
-                onCancel = { navController.popBackStack() },
-                onBack = { navController.popBackStack() }
+                onCancel = { navController.popBackStack() }
             )
         }
 
         composable(Routes.FAVORITES) {
+            title = stringResource(R.string.screen_favorites)
+
             LaunchedEffect(Unit) {
-                uiStateViewModel.setDrawerTitle("Favourites")
+                uiStateViewModel.setDrawerTitle(title)
                 uiStateViewModel.setTopBarActions(null)
             }
 
@@ -83,8 +86,10 @@ fun PlantsNavHost(
         }
 
         composable(Routes.SETTINGS) {
+            title = stringResource(R.string.screen_settings)
+
             LaunchedEffect(Unit) {
-                uiStateViewModel.setDrawerTitle("Settings")
+                uiStateViewModel.setDrawerTitle(title)
                 uiStateViewModel.setTopBarActions(null)
             }
 
@@ -94,8 +99,10 @@ fun PlantsNavHost(
         }
 
         composable(Routes.HELP) {
+            title = stringResource(R.string.screen_help_feedback)
+
             LaunchedEffect(Unit) {
-                uiStateViewModel.setDrawerTitle("Help & Feedback")
+                uiStateViewModel.setDrawerTitle(title)
                 uiStateViewModel.setTopBarActions(null)
             }
             HelpScreen(

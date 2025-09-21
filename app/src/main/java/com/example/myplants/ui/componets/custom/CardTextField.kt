@@ -24,7 +24,7 @@ fun CardTextField(
         colors = AppColors.textFieldColors(),
         keyboardOptions = keyboardOptions,
         textStyle = LocalTextStyle.current.copy(
-            textAlign = TextAlign.Justify // Выравнивание по ширине
+            textAlign = TextAlign.Justify
         )
     )
 }

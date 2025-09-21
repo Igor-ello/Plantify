@@ -41,7 +41,6 @@ import com.example.myplants.ui.plant_card.PlantCardMax
 fun PlantDetail(
     plantId: Long,
     viewModel: PlantsViewModel,
-    onBack: () -> Unit,
     modifier: Modifier = Modifier,
     uiStateViewModel: UiStateViewModel? = null
 ) {

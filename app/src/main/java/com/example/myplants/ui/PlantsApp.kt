@@ -26,7 +26,6 @@ fun PlantsApp() {
 
     NavigationDrawer(
         navController = navController,
-        viewModel = plantsViewModel,
         uiStateViewModel = uiStateViewModel
     ) { innerPadding ->
         PlantsNavHost(

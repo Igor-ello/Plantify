@@ -25,8 +25,13 @@
     <string name="sunlight_shadeloving">Тенелюбивое</string>
     <string name="plant_moderate">Умеренное</string>
     <string name="plant_light_loving">Светлолюбивое</string>
-    <string name="nav_drawer_help">Help</string>
-    <string name="nav_drawer_settings">Settings</string>
-    <string name="nav_drawer_all_plants">All Plants</string>
-    <string name="nav_drawer_favorites">Favorites</string>
+
+    <string name="plants_section">Plants section</string>
+    <string name="screen_all_plants">All Plants</string>
+    <string name="screen_favorites">Favorites</string>
+    <string name="screen_add_plant">AddPlant</string>
+    <string name="screen_plant_detail">PlantDetail</string>
+    <string name="app_section">App section</string>
+    <string name="screen_settings">Settings</string>
+    <string name="screen_help_feedback"><![CDATA[Help & Feedback]]></string>
 </resources>

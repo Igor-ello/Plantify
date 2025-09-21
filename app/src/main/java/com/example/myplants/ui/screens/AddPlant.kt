@@ -26,7 +26,6 @@ import com.example.myplants.ui.plant_card.PlantCardMax
 @Composable
 fun AddPlant(
     viewModel: PlantsViewModel,
-    onBack: () -> Unit,
     onSave: () -> Unit,
     onCancel: () -> Unit,
     modifier: Modifier = Modifier

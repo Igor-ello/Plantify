@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Info
@@ -34,7 +34,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.myplants.R
-import com.example.myplants.plants.PlantsViewModel
 import com.example.myplants.ui.utils.Routes
 import kotlinx.coroutines.launch
 
@@ -42,7 +41,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun NavigationDrawer(
     navController: NavController,
-    viewModel: PlantsViewModel,
     uiStateViewModel: UiStateViewModel,
     content: @Composable (PaddingValues) -> Unit
 ) {
@@ -63,7 +61,7 @@ fun NavigationDrawer(
                 ) {
                     Spacer(Modifier.height(12.dp))
                     Text(
-                        text = "My Plants",
+                        text = stringResource(R.string.app_name),
                         modifier = Modifier.padding(16.dp),
                         style = MaterialTheme.typography.titleLarge
                     )
@@ -71,12 +69,12 @@ fun NavigationDrawer(
 
                     // Plants Section
                     Text(
-                        text = "Your section",
+                        text = stringResource(R.string.plants_section),
                         modifier = Modifier.padding(16.dp),
                         style = MaterialTheme.typography.titleMedium
                     )
                     NavigationDrawerItem(
-                        label = { Text(stringResource(R.string.nav_drawer_all_plants)) },
+                        label = { Text(stringResource(R.string.screen_all_plants)) },
                         selected = currentRoute == Routes.ALL_PLANTS
                                 || currentRoute.startsWith(Routes.PLANT_DETAIL)
                                 || currentRoute.startsWith(Routes.ADD_PLANT),
@@ -88,7 +86,7 @@ fun NavigationDrawer(
                         }
                     )
                     NavigationDrawerItem(
-                        label = { Text(stringResource(R.string.nav_drawer_favorites)) },
+                        label = { Text(stringResource(R.string.screen_favorites)) },
                         selected = (currentRoute == Routes.FAVORITES),
                         onClick = {
                             scope.launch { drawerState.close() }
@@ -102,12 +100,12 @@ fun NavigationDrawer(
 
                     // App Section
                     Text(
-                        text = "App section",
+                        text = stringResource(R.string.app_section),
                         modifier = Modifier.padding(16.dp),
                         style = MaterialTheme.typography.titleMedium
                     )
                     NavigationDrawerItem(
-                        label = { Text("Settings") },
+                        label = { Text(stringResource(R.string.screen_settings)) },
                         icon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
                         selected = (currentRoute == Routes.SETTINGS),
                         onClick = {
@@ -116,7 +114,7 @@ fun NavigationDrawer(
                         }
                     )
                     NavigationDrawerItem(
-                        label = { Text("Help & Feedback") },
+                        label = { Text(stringResource(R.string.screen_help_feedback)) },
                         icon = { Icon(Icons.Outlined.Info, contentDescription = null) },
                         selected = (currentRoute == Routes.HELP),
                         onClick = {
@@ -136,7 +134,7 @@ fun NavigationDrawer(
                     navigationIcon = {
                         if (uiStateViewModel.showBackButton) {
                             IconButton(onClick = { navController.popBackStack() }) {
-                                Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                                Icon(Icons.Default.Close, contentDescription = "Back")
                             }
                         } else {
                             IconButton(onClick = {

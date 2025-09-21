@@ -31,7 +31,6 @@ fun AllPlants(
 ) {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
 
-    // Этот LaunchedEffect срабатывает каждый раз, когда экран становится видимым
     LaunchedEffect(currentBackStackEntry?.destination?.route) {
         uiStateViewModel.setDrawerTitle("All Plants")
         uiStateViewModel.showBackButton(false)
