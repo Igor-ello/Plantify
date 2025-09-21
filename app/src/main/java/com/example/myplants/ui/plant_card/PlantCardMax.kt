@@ -8,17 +8,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantPhoto
 import com.example.myplants.models.PlantWithPhotos
-import com.example.myplants.ui.componets.card.CardPhoto
 import com.example.myplants.ui.componets.card.CardPhotoEditable
 import com.example.myplants.ui.theme.GreenLight
 
@@ -44,27 +43,25 @@ fun PlantCardMax(
         ) {
             val photos = plantWithPhotos.photos.toMutableList()
 
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                items(photos) { photo ->
-                    CardPhotoEditable(
-                        photo = photo,
-                        onPhotoSelected = { uri ->
-                            val updatedPhotos = photos.map {
-                                if (it.id == photo.id) it.copy(uri = uri.toString()) else it
-                            }
-                            onPhotosChanged(updatedPhotos)
-                        },
-                        modifier = Modifier
-                            .width(250.dp)
-                            .height(150.dp)
-                    )
-                }
-
-                // Кнопка для добавления нового фото
-                if (editable) {
+            if (editable) {
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    items(photos) { photo ->
+                        CardPhotoEditable(
+                            photo = photo,
+                            onPhotoSelected = { uri ->
+                                val updatedPhotos = photos.map {
+                                    if (it.id == photo.id) it.copy(uri = uri.toString()) else it
+                                }
+                                onPhotosChanged(updatedPhotos)
+                            },
+                            modifier = Modifier
+                                .fillParentMaxWidth()
+                                .height(180.dp)
+                        )
+                    }
                     item {
                         CardPhotoEditable(
                             photo = null,
@@ -78,8 +75,24 @@ fun PlantCardMax(
                                 onPhotosChanged(photos + newPhoto)
                             },
                             modifier = Modifier
-                                .width(250.dp)
-                                .height(150.dp)
+                                .fillParentMaxWidth()
+                                .height(180.dp)
+                        )
+                    }
+                }
+            } else {
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    items(photos) { photo ->
+                        AsyncImage(
+                            model = photo.uri,
+                            contentDescription = "Plant image",
+                            modifier = Modifier
+                                .fillParentMaxWidth()
+                                .height(180.dp),
+                            contentScale = ContentScale.Crop
                         )
                     }
                 }
