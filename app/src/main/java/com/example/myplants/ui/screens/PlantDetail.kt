@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myplants.models.Plant
+import com.example.myplants.models.PlantWithPhotos
 import com.example.myplants.plants.PlantsViewModel
 import com.example.myplants.ui.navigation.UiStateViewModel
 import com.example.myplants.ui.plant_card.PlantCardMax
@@ -47,18 +48,19 @@ fun PlantDetail(
 ) {
     val uiStateViewModel: UiStateViewModel = uiStateViewModel ?: viewModel<UiStateViewModel>()
 
-    val selectedPlantWithPhotos by viewModel.plants.observeAsState(emptyList())
-    val selectedPlantWithPhotosItem = selectedPlantWithPhotos.find { it.plant.id == plantId }
+    val allPlants by viewModel.plants.observeAsState(emptyList())
+    val selectedPlantWithPhotos = allPlants.find { it.plant.id == plantId }
 
-    if (selectedPlantWithPhotosItem == null) {
+    if (selectedPlantWithPhotos == null) {
         Text("Plant not found", modifier = modifier.padding(16.dp))
         return
     }
 
     var isEditing by remember { mutableStateOf(false) }
-    var editedPlant by remember { mutableStateOf(selectedPlantWithPhotosItem.plant) }
+    var editedPlant by remember { mutableStateOf(selectedPlantWithPhotos.plant) }
+    var editedPhotos by remember { mutableStateOf(selectedPlantWithPhotos.photos) } // 👈 Локально храним фото
 
-    // Отслеживаем режим редактирования и обновляем title + TopBarActions
+    // Обновляем TopBar в зависимости от режима
     LaunchedEffect(isEditing, editedPlant) {
         val title = if (isEditing) "Edit: ${editedPlant.name}" else editedPlant.name.ifBlank { "Plant" }
         uiStateViewModel.setDrawerTitle(title)
@@ -67,14 +69,17 @@ fun PlantDetail(
         uiStateViewModel.setTopBarActions {
             if (isEditing) {
                 IconButton(onClick = {
-                    editedPlant = selectedPlantWithPhotosItem.plant
+                    // Отменяем изменения
+                    editedPlant = selectedPlantWithPhotos.plant
+                    editedPhotos = selectedPlantWithPhotos.photos
                     isEditing = false
                 }) {
                     Icon(Icons.Default.Close, contentDescription = "Cancel")
                 }
                 IconButton(
                     onClick = {
-                        viewModel.updatePlant(editedPlant, selectedPlantWithPhotosItem.photos)
+                        // Сохраняем изменения
+                        viewModel.updatePlant(editedPlant, editedPhotos)
                         isEditing = false
                         uiStateViewModel.setDrawerTitle(editedPlant.name.ifBlank { "Plant" })
                     },
@@ -102,9 +107,12 @@ fun PlantDetail(
     ) {
         Column {
             PlantCardMax(
-                plantWithPhotos = selectedPlantWithPhotosItem,
+                plantWithPhotos = PlantWithPhotos(plant = editedPlant, photos = editedPhotos),
                 editable = isEditing,
-                onValueChange = { updatedPlant -> editedPlant = updatedPlant }
+                onValueChange = { updatedPlant -> editedPlant = updatedPlant },
+                onPhotosChanged = { updatedPhotos ->
+                    editedPhotos = updatedPhotos
+                }
             )
 
             if (isEditing) {
@@ -114,15 +122,16 @@ fun PlantDetail(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Button(onClick = {
-                        editedPlant = selectedPlantWithPhotosItem.plant
+                        editedPlant = selectedPlantWithPhotos.plant
+                        editedPhotos = selectedPlantWithPhotos.photos
                         isEditing = false
-                        uiStateViewModel.setDrawerTitle(selectedPlantWithPhotosItem.plant.name.ifBlank { "Plant" })
+                        uiStateViewModel.setDrawerTitle(selectedPlantWithPhotos.plant.name.ifBlank { "Plant" })
                     }) {
                         Text("Cancel")
                     }
                     Button(
                         onClick = {
-                            viewModel.updatePlant(editedPlant, selectedPlantWithPhotosItem.photos)
+                            viewModel.updatePlant(editedPlant, editedPhotos)
                             isEditing = false
                             uiStateViewModel.setDrawerTitle(editedPlant.name.ifBlank { "Plant" })
                         },
@@ -135,3 +144,4 @@ fun PlantDetail(
         }
     }
 }
+

@@ -45,6 +45,9 @@ fun AddPlant(
                 editable = true,
                 onValueChange = { updatedPlant ->
                     viewModel.updateNewPlant(updatedPlant)
+                },
+                onPhotosChanged = { updatedPhotos ->
+                    viewModel.updateNewPlantPhotos(updatedPhotos)
                 }
             )
 
