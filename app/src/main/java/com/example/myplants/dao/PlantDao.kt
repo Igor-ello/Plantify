@@ -5,8 +5,10 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.example.myplants.models.Plant
+import com.example.myplants.models.PlantWithPhotos
 
 @Dao
 interface PlantDao {
@@ -24,4 +26,13 @@ interface PlantDao {
 
     @Query("SELECT * FROM plant_table ORDER BY id DESC")
     fun getAll(): LiveData<List<Plant>>
+
+    // Для PlantWithPhotos
+    @Transaction
+    @Query("SELECT * FROM plant_table ORDER BY id DESC")
+    fun getAllWithPhotos(): LiveData<List<PlantWithPhotos>>
+
+    @Transaction
+    @Query("SELECT * FROM plant_table WHERE id = :plantId")
+    fun getByIdWithPhotos(plantId: Long): LiveData<PlantWithPhotos?>
 }

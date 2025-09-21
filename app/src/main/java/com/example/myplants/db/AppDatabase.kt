@@ -1,20 +1,22 @@
 package com.example.myplants.db
 
 import android.content.Context
-import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.myplants.dao.PlantDao
+import com.example.myplants.dao.PlantPhotoDao
 import com.example.myplants.models.Plant
+import com.example.myplants.models.PlantPhoto
 
 @Database(
-    entities = [Plant::class],
-    version = 1,
+    entities = [Plant::class, PlantPhoto::class],
+    version = 2,
     exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract val plantDao: PlantDao
+    abstract val plantPhotoDao: PlantPhotoDao
 
     companion object {
         @Volatile
@@ -27,7 +29,7 @@ abstract class AppDatabase : RoomDatabase() {
                         context.applicationContext,
                         AppDatabase::class.java,
                         "app_database"
-                    ).build()
+                    ).addMigrations(MIGRATION_1_2).build()
                     INSTANCE = instance
                 }
                 return instance

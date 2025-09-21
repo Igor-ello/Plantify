@@ -6,12 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myplants.dao.PlantDao
 import com.example.myplants.models.Plant
+import com.example.myplants.models.PlantPhoto
+import com.example.myplants.models.PlantWithPhotos
 import kotlinx.coroutines.launch
 
-class PlantsViewModel(val dao: PlantDao) : ViewModel() {
+class PlantsViewModel(private val repository: PlantRepository) : ViewModel() {
 
-    private val _plants = MutableLiveData<List<Plant>>()
-    val plants: LiveData<List<Plant>> get() = _plants
+    val plants: LiveData<List<PlantWithPhotos>> = repository.getAllPlantsWithPhotos()
 
     private val _newPlant = MutableLiveData(Plant(name = "", species = ""))
     val newPlant: LiveData<Plant> get() = _newPlant
@@ -34,11 +35,12 @@ class PlantsViewModel(val dao: PlantDao) : ViewModel() {
         _newPlant.value = plant
     }
 
-    fun saveNewPlant() {
+    fun saveNewPlant(photos: List<PlantPhoto>) {
         val plant = _newPlant.value ?: return
         viewModelScope.launch {
-            dao.insert(plant)
-            _newPlant.value = Plant(name = "", species = "") // Сброс
+            val plantId = repository.insertPlant(plant)
+            photos.forEach { repository.insertPhoto(it.copy(plantId = plantId)) }
+            clearNewPlant()
         }
     }
 
@@ -47,12 +49,12 @@ class PlantsViewModel(val dao: PlantDao) : ViewModel() {
     }
 
 //    OTHER
-    fun updatePlant(updatedPlant: Plant) {
+    fun updatePlant(plant: Plant, photos: List<PlantPhoto>) {
         viewModelScope.launch {
-            dao.update(updatedPlant)
-            // Обновляем локальное состояние если нужно
-            _plants.value = _plants.value?.map { plant ->
-                if (plant.id == updatedPlant.id) updatedPlant else plant
+            repository.updatePlant(plant)
+            photos.forEach {
+                if (it.id == 0L) repository.insertPhoto(it.copy(plantId = plant.id))
+                else repository.insertPhoto(it) // или updatePhoto если нужно
             }
         }
     }
@@ -119,5 +121,4 @@ class PlantsViewModel(val dao: PlantDao) : ViewModel() {
             dao.insert(anotherPlant)
         }
     }
-
 }
