@@ -29,6 +29,7 @@
     <string name="plants_section">Plants section</string>
     <string name="screen_all_plants">All Plants</string>
     <string name="screen_favorites">Favorites</string>
+    <string name="screen_wishlist">Wish list</string>
     <string name="screen_add_plant">AddPlant</string>
     <string name="screen_plant_detail">PlantDetail</string>
     <string name="app_section">App section</string>

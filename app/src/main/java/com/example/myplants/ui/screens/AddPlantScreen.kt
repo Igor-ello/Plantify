@@ -1,6 +1,5 @@
 package com.example.myplants.ui.screens
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,7 +22,7 @@ import com.example.myplants.ui.plant_card.PlantCardMax
 
 
 @Composable
-fun AddPlant(
+fun AddPlantScreen(
     viewModel: PlantsViewModel,
     onSave: () -> Unit,
     onCancel: () -> Unit,

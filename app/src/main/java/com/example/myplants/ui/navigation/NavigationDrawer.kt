@@ -10,8 +10,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -95,6 +95,16 @@ fun NavigationDrawer(
                             }
                         }
                     )
+                    NavigationDrawerItem(
+                        label = { Text(stringResource(R.string.screen_wishlist)) },
+                        selected = (currentRoute == Routes.WISHLIST),
+                        onClick = {
+                            scope.launch { drawerState.close() }
+                            navController.navigate(Routes.WISHLIST) {
+                                popUpTo(Routes.ALL_PLANTS) { inclusive = false }
+                            }
+                        }
+                    )
 
                     HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
@@ -110,7 +120,9 @@ fun NavigationDrawer(
                         selected = (currentRoute == Routes.SETTINGS),
                         onClick = {
                             scope.launch { drawerState.close() }
-                            navController.navigate(Routes.SETTINGS)
+                            navController.navigate(Routes.SETTINGS) {
+                                popUpTo(Routes.ALL_PLANTS) { inclusive = false }
+                            }
                         }
                     )
                     NavigationDrawerItem(
@@ -119,7 +131,9 @@ fun NavigationDrawer(
                         selected = (currentRoute == Routes.HELP),
                         onClick = {
                             scope.launch { drawerState.close() }
-                            navController.navigate(Routes.HELP)
+                            navController.navigate(Routes.HELP){
+                                popUpTo(Routes.ALL_PLANTS) { inclusive = false }
+                            }
                         }
                     )
                     Spacer(Modifier.height(12.dp))

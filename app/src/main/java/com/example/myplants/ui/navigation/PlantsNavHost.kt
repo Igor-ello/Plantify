@@ -10,12 +10,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myplants.R
 import com.example.myplants.plants.PlantsViewModel
-import com.example.myplants.ui.screens.AddPlant
-import com.example.myplants.ui.screens.AllPlants
+import com.example.myplants.ui.screens.AddPlantScreen
+import com.example.myplants.ui.screens.AllPlantsScreen
 import com.example.myplants.ui.screens.FavoritesScreen
 import com.example.myplants.ui.screens.HelpScreen
-import com.example.myplants.ui.screens.PlantDetail
+import com.example.myplants.ui.screens.PlantDetailScreen
 import com.example.myplants.ui.screens.SettingsScreen
+import com.example.myplants.ui.screens.WishlistScreen
 import com.example.myplants.ui.utils.Routes
 
 
@@ -33,7 +34,7 @@ fun PlantsNavHost(
         modifier = modifier
     ) {
         composable(Routes.ALL_PLANTS) {
-            AllPlants(
+            AllPlantsScreen(
                 viewModel = viewModel,
                 onPlantClick = { plantWithPhotos ->
                     navController.navigate("${Routes.PLANT_DETAIL}/${plantWithPhotos.plant.id}")
@@ -48,7 +49,7 @@ fun PlantsNavHost(
             val plantId = backStackEntry.arguments?.getString("plantId")?.toLongOrNull()
             if (plantId == null) { LaunchedEffect(Unit) { navController.popBackStack() }; return@composable }
 
-            PlantDetail(
+            PlantDetailScreen(
                 plantId = plantId,
                 viewModel = viewModel,
                 navController = navController,
@@ -65,7 +66,7 @@ fun PlantsNavHost(
                 uiStateViewModel.showBackButton(true)
             }
 
-            AddPlant(
+            AddPlantScreen(
                 viewModel = viewModel,
                 onSave = { navController.popBackStack() },
                 onCancel = { navController.popBackStack() }
@@ -85,6 +86,19 @@ fun PlantsNavHost(
                 onPlantClick = { plant ->
                     navController.navigate("${Routes.PLANT_DETAIL}/${plant.id}")
                 }
+            )
+        }
+
+        composable(Routes.WISHLIST) {
+            title = stringResource(R.string.screen_wishlist)
+
+            LaunchedEffect(Unit) {
+                uiStateViewModel.setDrawerTitle(title)
+                uiStateViewModel.setTopBarActions(null)
+            }
+
+            WishlistScreen(
+                onBack = { navController.popBackStack() }
             )
         }
 

@@ -5,6 +5,7 @@ object Routes {
     const val PLANT_DETAIL = "plant_detail"
     const val ADD_PLANT = "add_plant"
     const val FAVORITES = "favorites"
+    const val WISHLIST = "wishlist"
     const val SETTINGS = "settings"
     const val HELP = "help"
 }

@@ -21,7 +21,7 @@ import com.example.myplants.ui.navigation.UiStateViewModel
 import com.example.myplants.ui.plant_card.PlantCardMin
 
 @Composable
-fun AllPlants(
+fun AllPlantsScreen(
     viewModel: PlantsViewModel,
     onPlantClick: (PlantWithPhotos) -> Unit,
     onAddPlant: () -> Unit,

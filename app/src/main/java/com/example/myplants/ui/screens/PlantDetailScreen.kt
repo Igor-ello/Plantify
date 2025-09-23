@@ -41,7 +41,7 @@ import com.example.myplants.ui.plant_card.PlantCardMax
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun PlantDetail(
+fun PlantDetailScreen(
     plantId: Long,
     viewModel: PlantsViewModel,
     navController: NavHostController,
