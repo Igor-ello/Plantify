@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myplants.dao.PlantDao
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantPhoto
 import com.example.myplants.models.PlantWithPhotos
@@ -14,21 +13,16 @@ class PlantsViewModel(private val repository: PlantRepository) : ViewModel() {
 
     val plants: LiveData<List<PlantWithPhotos>> = repository.getAllPlantsWithPhotos()
 
-    private val _newPlant = MutableLiveData(Plant(name = "", species = ""))
-    val newPlant: LiveData<Plant> get() = _newPlant
-
-    private val _newPlantPhotos = MutableLiveData<List<PlantPhoto>>(emptyList())
-    val newPlantPhotos: LiveData<List<PlantPhoto>> get() = _newPlantPhotos
-
-    fun updateNewPlantPhotos(photos: List<PlantPhoto>) {
-        _newPlantPhotos.value = photos
-    }
 
     init {
         viewModelScope.launch {
             PlantDataInitializer.initialize(repository)
         }
     }
+
+    // New plant | Edit plant
+    private val _newPlant = MutableLiveData(Plant(name = "", species = ""))
+    val newPlant: LiveData<Plant> get() = _newPlant
 
     fun updateNewPlant(plant: Plant) {
         _newPlant.value = plant
@@ -47,6 +41,15 @@ class PlantsViewModel(private val repository: PlantRepository) : ViewModel() {
         _newPlant.value = Plant(name = "", species = "")
     }
 
+    // Photos
+    private val _newPlantPhotos = MutableLiveData<List<PlantPhoto>>(emptyList())
+    val newPlantPhotos: LiveData<List<PlantPhoto>> get() = _newPlantPhotos
+
+    fun updateNewPlantPhotos(photos: List<PlantPhoto>) {
+        _newPlantPhotos.value = photos
+    }
+
+    // Plant
     fun updatePlant(plant: Plant, photos: List<PlantPhoto>) {
         viewModelScope.launch {
             repository.updatePlant(plant)
@@ -60,6 +63,15 @@ class PlantsViewModel(private val repository: PlantRepository) : ViewModel() {
     fun deletePlant(plant: Plant) {
         viewModelScope.launch {
             repository.deletePlantWithPhotos(plant.id)
+        }
+    }
+
+    // Favourite
+    val favorites: LiveData<List<PlantWithPhotos>> = repository.getFavorites()
+
+    fun toggleFavorite(plant: Plant) {
+        viewModelScope.launch {
+            repository.setFavorite(plant.id, !plant.isFavorite)
         }
     }
 }

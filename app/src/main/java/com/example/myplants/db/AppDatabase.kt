@@ -11,7 +11,7 @@ import com.example.myplants.models.PlantPhoto
 
 @Database(
     entities = [Plant::class, PlantPhoto::class],
-    version = 2,
+    version = 3,
     exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -29,7 +29,9 @@ abstract class AppDatabase : RoomDatabase() {
                         context.applicationContext,
                         AppDatabase::class.java,
                         "app_database"
-                    ).addMigrations(MIGRATION_1_2).build()
+                    )
+                        .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                        .build()
                     INSTANCE = instance
                 }
                 return instance

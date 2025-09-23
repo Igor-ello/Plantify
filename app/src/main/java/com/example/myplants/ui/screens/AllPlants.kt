@@ -49,7 +49,8 @@ fun AllPlants(
                 plantWithPhotos = plantWithPhotos,
                 editable = false,
                 onValueChange = {},
-                onClick = { onPlantClick(plantWithPhotos) }
+                onClick = { onPlantClick(plantWithPhotos) },
+                onToggleFavorite = { viewModel.toggleFavorite(plantWithPhotos.plant) }
             )
         }
     }

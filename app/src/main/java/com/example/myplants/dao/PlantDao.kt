@@ -30,6 +30,10 @@ interface PlantDao {
     @Query("SELECT * FROM plant_table ORDER BY id DESC")
     fun getAll(): LiveData<List<Plant>>
 
+    // Favourite
+    @Query("UPDATE plant_table SET is_favorite = :isFavorite WHERE id = :plantId")
+    suspend fun setFavorite(plantId: Long, isFavorite: Boolean)
+
     // Для PlantWithPhotos
     @Transaction
     @Query("SELECT * FROM plant_table ORDER BY id DESC")
@@ -41,4 +45,8 @@ interface PlantDao {
 
     @Query("SELECT * FROM plant_table ORDER BY id DESC")
     suspend fun getAllSnapshot(): List<Plant>
+
+    @Transaction
+    @Query("SELECT * FROM plant_table WHERE is_favorite = 1 ORDER BY id DESC")
+    fun getFavorites(): LiveData<List<PlantWithPhotos>>
 }

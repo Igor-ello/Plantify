@@ -19,6 +19,10 @@ data class Plant (
     @ColumnInfo(name = "species")
     var species: String,
 
+    // Избранное
+    @ColumnInfo(name = "is_favorite")
+    val isFavorite: Boolean = false,
+
     // Подвид растения
     @ColumnInfo(name = "sub_species")
     var subSpecies: String? = null,

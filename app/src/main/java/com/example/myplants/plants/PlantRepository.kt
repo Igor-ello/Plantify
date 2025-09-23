@@ -29,6 +29,12 @@ class PlantRepository(
 
     suspend fun getAllPlantsSnapshot(): List<Plant> = plantDao.getAllSnapshot()
 
+    // Favourite
+    fun getFavorites(): LiveData<List<PlantWithPhotos>> = plantDao.getFavorites()
+
+    suspend fun setFavorite(plantId: Long, isFavorite: Boolean) =
+        plantDao.setFavorite(plantId, isFavorite)
+
     // Работа с фотографиями
     suspend fun insertPhoto(photo: PlantPhoto) = photoDao.insertPhoto(photo)
 

@@ -8,4 +8,4 @@
 .externalNativeBuild
 .cxx
 local.properties
-/app/schemas/com.example.myplants.db.AppDatabase/2.json
+/app/schemas/com.example.myplants.db.AppDatabase/*
