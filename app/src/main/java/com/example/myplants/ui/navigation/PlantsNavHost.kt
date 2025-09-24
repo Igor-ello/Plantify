@@ -98,7 +98,10 @@ fun PlantsNavHost(
             }
 
             WishlistScreen(
-                onBack = { navController.popBackStack() }
+                viewModel = viewModel,
+                onPlantClick = { plant ->
+                    navController.navigate("${Routes.WISHLIST}/${plant.id}")
+                }
             )
         }
 

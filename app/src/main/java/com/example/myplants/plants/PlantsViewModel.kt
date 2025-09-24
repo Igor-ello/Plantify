@@ -74,4 +74,13 @@ class PlantsViewModel(private val repository: PlantRepository) : ViewModel() {
             repository.setFavorite(plant.id, !plant.isFavorite)
         }
     }
+
+    // Wishlist
+    val wishlist: LiveData<List<PlantWithPhotos>> = repository.getWishlist()
+
+    fun toggleWishlist(plant: Plant) {
+        viewModelScope.launch {
+            repository.setWishlist(plant.id, !plant.isWishlist)
+        }
+    }
 }

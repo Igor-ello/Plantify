@@ -23,6 +23,10 @@ data class Plant (
     @ColumnInfo(name = "is_favorite")
     val isFavorite: Boolean = false,
 
+    // Список желаний
+    @ColumnInfo(name = "is_wishlist")
+    val isWishlist: Boolean = false,
+
     // Подвид растения
     @ColumnInfo(name = "sub_species")
     var subSpecies: String? = null,

@@ -34,6 +34,9 @@ interface PlantDao {
     @Query("UPDATE plant_table SET is_favorite = :isFavorite WHERE id = :plantId")
     suspend fun setFavorite(plantId: Long, isFavorite: Boolean)
 
+    @Query("UPDATE plant_table SET is_wishlist = :isWishlist WHERE id = :plantId")
+    suspend fun setWishlist(plantId: Long, isWishlist: Boolean)
+
     // Для PlantWithPhotos
     @Transaction
     @Query("SELECT * FROM plant_table ORDER BY id DESC")
@@ -49,4 +52,8 @@ interface PlantDao {
     @Transaction
     @Query("SELECT * FROM plant_table WHERE is_favorite = 1 ORDER BY id DESC")
     fun getFavorites(): LiveData<List<PlantWithPhotos>>
+
+    @Transaction
+    @Query("SELECT * FROM plant_table WHERE is_wishlist = 1 ORDER BY id DESC")
+    fun getWishlist(): LiveData<List<PlantWithPhotos>>
 }

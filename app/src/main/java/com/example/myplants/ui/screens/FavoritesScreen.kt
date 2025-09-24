@@ -27,7 +27,8 @@ fun FavoritesScreen(
                 editable = false,
                 onValueChange = {},
                 onClick = { onPlantClick(plantWithPhotos.plant) },
-                onToggleFavorite = { viewModel.toggleFavorite(plantWithPhotos.plant) }
+                onToggleFavorite = { viewModel.toggleFavorite(plantWithPhotos.plant) },
+                onToggleWishlist = { viewModel.toggleWishlist(plantWithPhotos.plant) }
             )
         }
     }

@@ -35,6 +35,13 @@ class PlantRepository(
     suspend fun setFavorite(plantId: Long, isFavorite: Boolean) =
         plantDao.setFavorite(plantId, isFavorite)
 
+    // Wishlist
+
+    fun getWishlist(): LiveData<List<PlantWithPhotos>> = plantDao.getWishlist()
+
+    suspend fun setWishlist(plantId: Long, isWishlist: Boolean) =
+        plantDao.setWishlist(plantId, isWishlist)
+
     // Работа с фотографиями
     suspend fun insertPhoto(photo: PlantPhoto) = photoDao.insertPhoto(photo)
 

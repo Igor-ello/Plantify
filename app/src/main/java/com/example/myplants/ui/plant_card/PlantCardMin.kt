@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantWithPhotos
 import com.example.myplants.ui.componets.card.CardIconFavourite
+import com.example.myplants.ui.componets.card.CardIconWishlist
 import com.example.myplants.ui.componets.card.CardPhoto
 import com.example.myplants.ui.theme.GreenLight
 
@@ -26,6 +27,7 @@ fun PlantCardMin(
     onValueChange: (Plant) -> Unit,
     onClick: (Plant) -> Unit,
     onToggleFavorite: (PlantWithPhotos) -> Unit,
+    onToggleWishlist: (PlantWithPhotos) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val mainPhotoUri = plantWithPhotos.photos.firstOrNull { it.isPrimary }?.uri
@@ -50,6 +52,11 @@ fun PlantCardMin(
                     plantWithPhotos = plantWithPhotos,
                     onToggleFavorite = onToggleFavorite,
                     modifier = Modifier.align(Alignment.TopEnd).padding(8.dp)
+                )
+                CardIconWishlist(
+                    plantWithPhotos = plantWithPhotos,
+                    onToggleWishlist = onToggleWishlist,
+                    modifier = Modifier.align(Alignment.BottomEnd).padding(8.dp)
                 )
             }
 
