@@ -2,12 +2,16 @@ package com.example.myplants.ui.plant_card
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,20 +50,37 @@ fun PlantCardMin(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Box(modifier = Modifier.fillMaxWidth()) {
-                CardPhoto(mainPhotoUri)
-                CardIconFavourite(
-                    plantWithPhotos = plantWithPhotos,
-                    onToggleFavorite = onToggleFavorite,
-                    modifier = Modifier.align(Alignment.TopEnd).padding(8.dp)
-                )
-                CardIconWishlist(
-                    plantWithPhotos = plantWithPhotos,
-                    onToggleWishlist = onToggleWishlist,
-                    modifier = Modifier.align(Alignment.BottomEnd).padding(8.dp)
-                )
+            CardPhoto(mainPhotoUri)
+
+            // Ряд кнопок
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    CardIconFavourite(
+                        plantWithPhotos = plantWithPhotos,
+                        onToggleFavorite = onToggleFavorite
+                    )
+                    CardIconWishlist(
+                        plantWithPhotos = plantWithPhotos,
+                        onToggleWishlist = onToggleWishlist
+                    )
+                }
+
+                IconButton(onClick = { /* пока пусто */ }) {
+                    Icon(
+                        imageVector = Icons.Default.CheckCircle,
+                        contentDescription = "Timer"
+                    )
+                }
             }
 
+            // Основная информация о растении
             PlantBasicContent(plant, editable, onValueChange)
         }
     }
