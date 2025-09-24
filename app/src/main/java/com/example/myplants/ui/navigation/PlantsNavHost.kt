@@ -114,7 +114,7 @@ fun PlantsNavHost(
             }
 
             SettingsScreen(
-                onBack = { navController.popBackStack() }
+                viewModel = viewModel
             )
         }
 

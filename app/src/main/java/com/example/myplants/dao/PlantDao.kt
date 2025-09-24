@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
@@ -13,24 +14,27 @@ import com.example.myplants.models.PlantWithPhotos
 @Dao
 interface PlantDao {
     @Insert
-    suspend fun insert(task: Plant): Long
+    suspend fun insert(plant: Plant): Long
 
     @Update
-    suspend fun update(task: Plant)
+    suspend fun update(plant: Plant)
 
     @Delete
-    suspend fun delete(task: Plant)
-
-    @Query("DELETE FROM plant_table WHERE id = :plantId")
-    suspend fun deleteById(plantId: Long)
+    suspend fun delete(plant: Plant)
 
     @Query("SELECT * FROM plant_table WHERE id = :plantId")
     fun get(plantId: Long): LiveData<Plant>
 
-    @Query("SELECT * FROM plant_table ORDER BY id DESC")
-    fun getAll(): LiveData<List<Plant>>
+    @Query("DELETE FROM plant_table WHERE id = :plantId")
+    suspend fun deleteById(plantId: Long)
 
-    // Favourite
+    @Query("SELECT * FROM plant_table ORDER BY id DESC")
+    suspend fun getAll(): List<Plant>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertAll(plants: List<Plant>)
+
+    // Additional
     @Query("UPDATE plant_table SET is_favorite = :isFavorite WHERE id = :plantId")
     suspend fun setFavorite(plantId: Long, isFavorite: Boolean)
 

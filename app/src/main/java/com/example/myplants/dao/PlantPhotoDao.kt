@@ -16,6 +16,12 @@ interface PlantPhotoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPhotos(photos: List<PlantPhoto>)
 
+    @Query("SELECT * FROM plant_photo_table ORDER BY id DESC")
+    suspend fun getAll(): List<PlantPhoto>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertAll(plants: List<PlantPhoto>)
+
     @Query("SELECT * FROM plant_photo_table WHERE plant_id = :plantId ORDER BY is_primary DESC, id ASC")
     suspend fun getPhotosForPlant(plantId: Long): List<PlantPhoto>
 

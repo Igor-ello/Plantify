@@ -3,7 +3,9 @@ package com.example.myplants.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
 
+@Serializable
 @Entity(tableName = "plant_table")
 data class Plant (
     @PrimaryKey(autoGenerate = true)

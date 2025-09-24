@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.myplants.backup.BackupRepository
 import com.example.myplants.db.AppDatabase
 import com.example.myplants.plants.PlantRepository
 import com.example.myplants.plants.PlantsViewModel
@@ -19,10 +20,15 @@ import com.example.myplants.ui.navigation.UiStateViewModel
 fun PlantsApp() {
     val context = LocalContext.current.applicationContext
     val database = AppDatabase.getInstance(context)
-    val repository = PlantRepository(database.plantDao, database.plantPhotoDao)
+    val repository = PlantRepository(
+        database.plantDao, database.plantPhotoDao
+    )
+    val backupRepository = BackupRepository(
+        database.plantDao, database.plantPhotoDao, context
+    )
 
     val plantsViewModel: PlantsViewModel = viewModel(
-        factory = PlantsViewModelFactory(repository)
+        factory = PlantsViewModelFactory(repository, backupRepository)
     )
     val uiStateViewModel: UiStateViewModel = viewModel()
     val navController = rememberNavController()

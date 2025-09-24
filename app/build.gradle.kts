@@ -73,6 +73,9 @@ dependencies {
     // Photo
     implementation(libs.coil.compose)
 
+    // Json
+    implementation(libs.kotlinx.serialization.json)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

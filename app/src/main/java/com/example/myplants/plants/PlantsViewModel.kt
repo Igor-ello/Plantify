@@ -4,12 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myplants.backup.BackupRepository
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantPhoto
 import com.example.myplants.models.PlantWithPhotos
 import kotlinx.coroutines.launch
+import java.io.File
 
-class PlantsViewModel(private val repository: PlantRepository) : ViewModel() {
+class PlantsViewModel(
+    private val repository: PlantRepository,
+    private val backupRepository: BackupRepository
+) : ViewModel() {
 
     val plants: LiveData<List<PlantWithPhotos>> = repository.getAllPlantsWithPhotos()
 
@@ -82,5 +87,16 @@ class PlantsViewModel(private val repository: PlantRepository) : ViewModel() {
         viewModelScope.launch {
             repository.setWishlist(plant.id, !plant.isWishlist)
         }
+    }
+
+    // Backup
+    fun listBackups(): List<File> = backupRepository.listBackups()
+
+    fun backup() = viewModelScope.launch {
+        backupRepository.createBackup()
+    }
+
+    fun restore(file: File) = viewModelScope.launch {
+        backupRepository.restoreBackup(file)
     }
 }
