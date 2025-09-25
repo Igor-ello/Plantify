@@ -2,7 +2,6 @@ package com.example.myplants.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -19,17 +18,17 @@ interface PlantDao {
     @Update
     suspend fun update(plant: Plant)
 
-    @Delete
-    suspend fun delete(plant: Plant)
-
     @Query("SELECT * FROM plant_table WHERE id = :plantId")
-    fun get(plantId: Long): LiveData<Plant>
+    fun getById(plantId: Long): LiveData<Plant>
+
+    @Query("SELECT * FROM plant_table ORDER BY id DESC")
+    suspend fun getAll(): List<Plant>
 
     @Query("DELETE FROM plant_table WHERE id = :plantId")
     suspend fun deleteById(plantId: Long)
 
-    @Query("SELECT * FROM plant_table ORDER BY id DESC")
-    suspend fun getAll(): List<Plant>
+    @Query("DELETE FROM plant_table")
+    suspend fun deleteAll()
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(plants: List<Plant>)

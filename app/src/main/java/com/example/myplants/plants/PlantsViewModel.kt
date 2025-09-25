@@ -90,13 +90,35 @@ class PlantsViewModel(
     }
 
     // Backup
-    fun listBackups(): List<File> = backupRepository.listBackups()
+    private val _backups = MutableLiveData<List<File>>(emptyList())
+    val backups: LiveData<List<File>> get() = _backups
+
+    private val _message = MutableLiveData<String?>(null)
+    val message: LiveData<String?> get() = _message
+
+    fun refreshBackups() {
+        _backups.value = backupRepository.listBackups()
+    }
 
     fun backup() = viewModelScope.launch {
         backupRepository.createBackup()
+        refreshBackups()
+        _message.value = "Резервная копия создана"
     }
 
     fun restore(file: File) = viewModelScope.launch {
         backupRepository.restoreBackup(file)
+        refreshBackups()
+        _message.value = "Восстановлено из ${file.name}"
+    }
+
+    fun restoreMerge(file: File) = viewModelScope.launch {
+        backupRepository.restoreMerge(file)
+        refreshBackups()
+        _message.value = "Восстановлено (merge) из ${file.name}"
+    }
+
+    fun clearMessage() {
+        _message.value = null
     }
 }

@@ -1,7 +1,6 @@
 package com.example.myplants.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -28,8 +27,11 @@ interface PlantPhotoDao {
     @Query("UPDATE plant_photo_table SET is_primary = CASE WHEN id = :photoId THEN 1 ELSE 0 END WHERE plant_id = :plantId")
     suspend fun setMainPhoto(plantId: Long, photoId: Long)
 
-    @Delete
-    suspend fun deletePhoto(photo: PlantPhoto)
+    @Query("DELETE FROM plant_photo_table WHERE id = :photoId")
+    suspend fun deleteById(photoId: Long)
+
+    @Query("DELETE FROM plant_photo_table")
+    suspend fun deleteAll()
 
     @Update
     suspend fun updatePhoto(photo: PlantPhoto)

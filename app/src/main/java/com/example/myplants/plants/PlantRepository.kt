@@ -25,8 +25,6 @@ class PlantRepository(
 
     suspend fun updatePlant(plant: Plant) = plantDao.update(plant)
 
-    suspend fun deletePlant(plant: Plant) = plantDao.delete(plant)
-
     suspend fun getAllPlantsSnapshot(): List<Plant> = plantDao.getAllSnapshot()
 
     // Favourite
@@ -49,7 +47,7 @@ class PlantRepository(
 
     suspend fun updatePhoto(photo: PlantPhoto) = photoDao.updatePhoto(photo)
 
-    suspend fun deletePhoto(photo: PlantPhoto) = photoDao.deletePhoto(photo)
+    suspend fun deletePhoto(photoId: Long) = photoDao.deleteById(photoId)
 
     suspend fun setMainPhoto(plantId: Long, photoId: Long) = photoDao.setMainPhoto(plantId, photoId)
 
