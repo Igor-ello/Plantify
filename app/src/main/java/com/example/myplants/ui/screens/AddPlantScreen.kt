@@ -15,19 +15,26 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.myplants.data.plant.PlantRepositoryInterface
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantWithPhotos
-import com.example.myplants.ui.viewmodels.PlantsViewModel
 import com.example.myplants.ui.componets.plant_card.PlantCardMax
+import com.example.myplants.ui.viewmodels.AddPlantViewModel
+import com.example.myplants.ui.viewmodels.AddPlantViewModelFactory
 
 
 @Composable
 fun AddPlantScreen(
-    viewModel: PlantsViewModel,
+    repository: PlantRepositoryInterface,
     onSave: () -> Unit,
     onCancel: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val viewModel: AddPlantViewModel = viewModel(
+        factory = AddPlantViewModelFactory(repository)
+    )
+
     val newPlant by viewModel.newPlant.observeAsState(Plant(name = "", species = ""))
     val newPhotos by viewModel.newPlantPhotos.observeAsState(emptyList())
     val newPlantWithPhotos = PlantWithPhotos(plant = newPlant, photos = newPhotos)
@@ -42,30 +49,20 @@ fun AddPlantScreen(
             PlantCardMax(
                 plantWithPhotos = newPlantWithPhotos,
                 editable = true,
-                onValueChange = { updatedPlant ->
-                    viewModel.updateNewPlant(updatedPlant)
-                },
-                onPhotosChanged = { updatedPhotos ->
-                    viewModel.updateNewPlantPhotos(updatedPhotos)
-                }
+                onValueChange = { updatedPlant -> viewModel.updateNewPlant(updatedPlant) },
+                onPhotosChanged = { updatedPhotos -> viewModel.updateNewPlantPhotos(updatedPhotos) }
             )
 
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Button(
-                    onClick = {
-                        viewModel.clearNewPlant()
-                        viewModel.updateNewPlantPhotos(emptyList())
-                        onCancel()
-                    }
-                ) {
+                Button(onClick = {
+                    viewModel.clearNewPlant()
+                    onCancel()
+                }) {
                     Text("Cancel")
                 }
 
                 Button(
-                    onClick = {
-                        viewModel.saveNewPlant(newPhotos)
-                        onSave()
-                    },
+                    onClick = { viewModel.saveNewPlant(onSave) },
                     enabled = newPlant.name.isNotBlank() && newPlant.species.isNotBlank()
                 ) {
                     Text("Save")

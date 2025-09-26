@@ -77,7 +77,7 @@ fun PlantsNavHost(
             }
 
             AddPlantScreen(
-                viewModel = viewModel,
+                repository = appContainer.plantRepository,
                 onSave = { navController.popBackStack() },
                 onCancel = { navController.popBackStack() }
             )
