@@ -5,11 +5,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myplants.R
-import com.example.myplants.ui.viewmodels.PlantsViewModel
+import com.example.myplants.ui.AppContainerInterface
 import com.example.myplants.ui.screens.AddPlantScreen
 import com.example.myplants.ui.screens.AllPlantsScreen
 import com.example.myplants.ui.screens.FavoritesScreen
@@ -18,17 +19,25 @@ import com.example.myplants.ui.screens.PlantDetailScreen
 import com.example.myplants.ui.screens.SettingsScreen
 import com.example.myplants.ui.screens.WishlistScreen
 import com.example.myplants.ui.utils.Routes
+import com.example.myplants.ui.viewmodels.PlantsViewModel
+import com.example.myplants.ui.viewmodels.PlantsViewModelFactory
 import com.example.myplants.ui.viewmodels.UiStateViewModel
 
 
 @Composable
 fun PlantsNavHost(
     navController: NavHostController,
-    viewModel: PlantsViewModel,
+    appContainer: AppContainerInterface,
     uiStateViewModel: UiStateViewModel,
     modifier: Modifier = Modifier
 ) {
     var title: String
+    val viewModel: PlantsViewModel = viewModel(
+        factory = PlantsViewModelFactory(
+            appContainer.plantRepository,
+            appContainer.backupRepository
+        )
+    )
     NavHost(
         navController = navController,
         startDestination = Routes.ALL_PLANTS,
@@ -52,9 +61,9 @@ fun PlantsNavHost(
 
             PlantDetailScreen(
                 plantId = plantId,
-                viewModel = viewModel,
                 navController = navController,
-                uiStateViewModel = uiStateViewModel
+                uiStateViewModel = uiStateViewModel,
+                repository = appContainer.plantRepository
             )
         }
 

@@ -22,6 +22,8 @@ import com.example.myplants.data.backup.FakeBackupRepository
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantWithPhotos
 import com.example.myplants.data.plant.FakePlantRepository
+import com.example.myplants.ui.AppContainer
+import com.example.myplants.ui.FakeAppContainer
 import com.example.myplants.ui.viewmodels.PlantsViewModel
 import com.example.myplants.ui.navigation.PlantsNavHost
 import com.example.myplants.ui.viewmodels.UiStateViewModel
@@ -77,14 +79,13 @@ fun PlantScreenPreview() {
 
         val fakeRepo = FakePlantRepository(fakePlants)
         val fakeBackupRepo = FakeBackupRepository()
-
-        val vm = PlantsViewModel(fakeRepo, fakeBackupRepo)
+        val fakeContainer = FakeAppContainer(fakeRepo, fakeBackupRepo)
         val uiStateVm = UiStateViewModel()
 
         PlantsNavHost(
             navController = rememberNavController(),
-            viewModel = vm,
-            uiStateViewModel = uiStateVm
+            uiStateViewModel = uiStateVm,
+            appContainer = fakeContainer
         )
     }
 }

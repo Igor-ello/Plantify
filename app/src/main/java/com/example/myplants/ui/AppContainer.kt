@@ -5,15 +5,15 @@ import com.example.myplants.data.backup.BackupRepository
 import com.example.myplants.data.plant.PlantRepository
 import com.example.myplants.db.AppDatabase
 
-class AppContainer(context: Context) {
+open class AppContainer(context: Context) : AppContainerInterface {
     private val database = AppDatabase.getInstance(context)
 
-    val plantRepository = PlantRepository(
+    override val plantRepository = PlantRepository(
         database.plantDao,
         database.plantPhotoDao
     )
 
-    val backupRepository = BackupRepository(
+    override val backupRepository = BackupRepository(
         database.plantDao,
         database.plantPhotoDao,
         context

@@ -32,60 +32,61 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.myplants.data.plant.PlantRepositoryInterface
 import com.example.myplants.models.PlantWithPhotos
-import com.example.myplants.ui.viewmodels.PlantsViewModel
 import com.example.myplants.ui.componets.card.CardDeleteButton
-import com.example.myplants.ui.viewmodels.UiStateViewModel
 import com.example.myplants.ui.componets.plant_card.PlantCardMax
+import com.example.myplants.ui.viewmodels.PlantDetailViewModel
+import com.example.myplants.ui.viewmodels.PlantDetailViewModelFactory
+import com.example.myplants.ui.viewmodels.UiStateViewModel
 
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun PlantDetailScreen(
     plantId: Long,
-    viewModel: PlantsViewModel,
     navController: NavHostController,
     uiStateViewModel: UiStateViewModel? = null,
-    modifier: Modifier = Modifier,
+    repository: PlantRepositoryInterface,
+    modifier: Modifier = Modifier
 ) {
+    val viewModel: PlantDetailViewModel = viewModel(
+        factory = PlantDetailViewModelFactory(plantId, repository)
+    )
+
     val uiStateViewModel: UiStateViewModel = uiStateViewModel ?: viewModel<UiStateViewModel>()
 
-    val allPlants by viewModel.plants.observeAsState(emptyList())
-    val selectedPlantWithPhotos = allPlants.find { it.plant.id == plantId }
+    val plantWithPhotos by viewModel.plantWithPhotos.observeAsState()
+    val editedPlant by viewModel.editedPlant.observeAsState()
+    val editedPhotos by viewModel.editedPhotos.observeAsState(emptyList())
 
-    if (selectedPlantWithPhotos == null) {
+    if (plantWithPhotos == null || editedPlant == null) {
         Text("Plant not found", modifier = modifier.padding(16.dp))
         return
     }
 
     var isEditing by remember { mutableStateOf(false) }
-    var editedPlant by remember { mutableStateOf(selectedPlantWithPhotos.plant) }
-    var editedPhotos by remember { mutableStateOf(selectedPlantWithPhotos.photos) }
 
-    // Обновляем TopBar в зависимости от режима
     LaunchedEffect(isEditing, editedPlant) {
-        val title = if (isEditing) "Edit: ${editedPlant.name}" else editedPlant.name.ifBlank { "Plant" }
+        val title = if (isEditing) "Edit: ${editedPlant?.name}" else editedPlant?.name!!.ifBlank { "Plant" }
         uiStateViewModel.setDrawerTitle(title)
         uiStateViewModel.showBackButton(true)
 
         uiStateViewModel.setTopBarActions {
             if (isEditing) {
                 IconButton(onClick = {
-                    // Отменяем изменения
-                    editedPlant = selectedPlantWithPhotos.plant
-                    editedPhotos = selectedPlantWithPhotos.photos
+                    viewModel.resetChanges()
                     isEditing = false
                 }) {
                     Icon(Icons.Default.Close, contentDescription = "Cancel")
                 }
                 IconButton(
                     onClick = {
-                        // Сохраняем изменения
-                        viewModel.updatePlant(editedPlant, editedPhotos)
+                        viewModel.saveChanges()
                         isEditing = false
-                        uiStateViewModel.setDrawerTitle(editedPlant.name.ifBlank { "Plant" })
+                        uiStateViewModel.setDrawerTitle(editedPlant?.name!!.ifBlank { "Plant" })
                     },
-                    enabled = editedPlant.name.isNotBlank()
+                    enabled = editedPlant?.name?.isNotBlank() == true
                 ) {
                     Icon(Icons.Default.Check, contentDescription = "Save")
                 }
@@ -109,10 +110,10 @@ fun PlantDetailScreen(
     ) {
         Column {
             PlantCardMax(
-                plantWithPhotos = PlantWithPhotos(plant = editedPlant, photos = editedPhotos),
+                plantWithPhotos = PlantWithPhotos(plant = editedPlant!!, photos = editedPhotos),
                 editable = isEditing,
-                onValueChange = { updatedPlant -> editedPlant = updatedPlant },
-                onPhotosChanged = { updatedPhotos -> editedPhotos = updatedPhotos }
+                onValueChange = { updatedPlant -> viewModel.updateEditedPlant(updatedPlant) },
+                onPhotosChanged = { updatedPhotos -> viewModel.updateEditedPhotos(updatedPhotos) }
             )
 
             if (isEditing) {
@@ -122,20 +123,19 @@ fun PlantDetailScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Button(onClick = {
-                        editedPlant = selectedPlantWithPhotos.plant
-                        editedPhotos = selectedPlantWithPhotos.photos
+                        viewModel.resetChanges()
                         isEditing = false
-                        uiStateViewModel.setDrawerTitle(selectedPlantWithPhotos.plant.name.ifBlank { "Plant" })
+                        uiStateViewModel.setDrawerTitle(plantWithPhotos!!.plant.name.ifBlank { "Plant" })
                     }) {
                         Text("Cancel")
                     }
                     Button(
                         onClick = {
-                            viewModel.updatePlant(editedPlant, editedPhotos)
+                            viewModel.saveChanges()
                             isEditing = false
-                            uiStateViewModel.setDrawerTitle(editedPlant.name.ifBlank { "Plant" })
+                            uiStateViewModel.setDrawerTitle(editedPlant?.name!!.ifBlank { "Plant" })
                         },
-                        enabled = editedPlant.name.isNotBlank()
+                        enabled = editedPlant?.name?.isNotBlank() == true
                     ) {
                         Text("Save Changes")
                     }
@@ -146,12 +146,10 @@ fun PlantDetailScreen(
 
             CardDeleteButton(
                 onDeleteConfirmed = {
-                    viewModel.deletePlant(selectedPlantWithPhotos.plant)
-                    navController.popBackStack()
+                    viewModel.deletePlant { navController.popBackStack() }
                 },
                 modifier = Modifier.padding(top = 16.dp)
             )
         }
     }
 }
-
