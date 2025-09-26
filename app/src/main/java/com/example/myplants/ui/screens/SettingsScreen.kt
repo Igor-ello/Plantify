@@ -1,8 +1,8 @@
 package com.example.myplants.ui.screens
 
+import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,9 +12,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -33,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.core.content.FileProvider
 import com.example.myplants.plants.PlantsViewModel
 import kotlinx.coroutines.launch
 import java.io.File
@@ -47,9 +55,10 @@ fun SettingsScreen(viewModel: PlantsViewModel) {
     val context = LocalContext.current
 
     var showCreateConfirm by remember { mutableStateOf(false) }
-    var selectedFileForRestore by remember { mutableStateOf<File?>(null) }
+    var selectedFile by remember { mutableStateOf<File?>(null) }
     var showRestoreConfirm by remember { mutableStateOf(false) }
     var restoreReplaceMode by remember { mutableStateOf(true) }
+    var showJsonPreview by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) { viewModel.refreshBackups() }
 
@@ -70,10 +79,19 @@ fun SettingsScreen(viewModel: PlantsViewModel) {
                     BackupItemRow(
                         file = file,
                         onRestoreClick = {
-                            selectedFileForRestore = it
+                            selectedFile = it
                             showRestoreConfirm = true
                         },
-                        onOpenClick = { /* можно показать содержимое */ }
+                        onDeleteClick = { f ->
+                            scope.launch {
+                                viewModel.deleteBackup(f)
+                                Toast.makeText(context, "Файл удалён", Toast.LENGTH_SHORT).show()
+                            }
+                        },
+                        onPreviewClick = { f ->
+                            selectedFile = f
+                            showJsonPreview = true
+                        }
                     )
                 }
             }
@@ -98,13 +116,13 @@ fun SettingsScreen(viewModel: PlantsViewModel) {
         )
     }
 
-    if (showRestoreConfirm && selectedFileForRestore != null) {
+    if (showRestoreConfirm && selectedFile != null) {
         AlertDialog(
-            onDismissRequest = { showRestoreConfirm = false; selectedFileForRestore = null },
+            onDismissRequest = { showRestoreConfirm = false; selectedFile = null },
             title = { Text("Восстановление") },
             text = {
                 Column {
-                    Text("Выберите режим восстановления для ${selectedFileForRestore?.name}:")
+                    Text("Выберите режим восстановления для ${selectedFile?.name}:")
                     Spacer(Modifier.height(8.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         RadioButton(selected = restoreReplaceMode, onClick = { restoreReplaceMode = true })
@@ -114,15 +132,13 @@ fun SettingsScreen(viewModel: PlantsViewModel) {
                         RadioButton(selected = !restoreReplaceMode, onClick = { restoreReplaceMode = false })
                         Text("Слить с текущими данными")
                     }
-                    Spacer(Modifier.height(8.dp))
-                    Text("Replace удалит все текущие записи и вставит данные из бэкапа. Merge добавит/обновит записи.")
                 }
             },
             confirmButton = {
                 TextButton(onClick = {
-                    val file = selectedFileForRestore
+                    val file = selectedFile
                     showRestoreConfirm = false
-                    selectedFileForRestore = null
+                    selectedFile = null
                     if (file != null) {
                         scope.launch {
                             if (restoreReplaceMode) viewModel.restore(file)
@@ -133,7 +149,41 @@ fun SettingsScreen(viewModel: PlantsViewModel) {
                     }
                 }) { Text("Восстановить") }
             },
-            dismissButton = { TextButton(onClick = { showRestoreConfirm = false; selectedFileForRestore = null }) { Text("Отмена") } }
+            dismissButton = { TextButton(onClick = { showRestoreConfirm = false; selectedFile = null }) { Text("Отмена") } }
+        )
+    }
+
+    if (showJsonPreview && selectedFile != null) {
+        AlertDialog(
+            onDismissRequest = { showJsonPreview = false; selectedFile = null },
+            title = { Text("Просмотр JSON") },
+            text = {
+                val jsonText = remember(selectedFile) {
+                    if (selectedFile!!.exists()) selectedFile!!.readText() else "Файл пуст"
+                }
+                Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                    Text(jsonText, style = MaterialTheme.typography.bodySmall)
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    val file = selectedFile ?: return@TextButton
+                    val uri = FileProvider.getUriForFile(
+                        context,
+                        "${context.packageName}.fileprovider",
+                        file
+                    )
+                    val intent = Intent(Intent.ACTION_SEND).apply {
+                        type = "application/json"
+                        putExtra(Intent.EXTRA_STREAM, uri)
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    }
+                    context.startActivity(Intent.createChooser(intent, "Экспортировать JSON"))
+                    showJsonPreview = false
+                    selectedFile = null
+                }) { Text("Экспорт") }
+            },
+            dismissButton = { TextButton(onClick = { showJsonPreview = false; selectedFile = null }) { Text("Закрыть") } }
         )
     }
 }
@@ -142,24 +192,28 @@ fun SettingsScreen(viewModel: PlantsViewModel) {
 private fun BackupItemRow(
     file: File,
     onRestoreClick: (File) -> Unit,
-    onOpenClick: (File) -> Unit
+    onDeleteClick: (File) -> Unit,
+    onPreviewClick: (File) -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(8.dp))
-            .clickable { onOpenClick(file) }
             .padding(12.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column {
+        Column(modifier = Modifier.weight(1f)) {
             Text(file.name, maxLines = 1, overflow = TextOverflow.Ellipsis)
             val date = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()).format(Date(file.lastModified()))
             Text(date, style = MaterialTheme.typography.bodySmall, color = Color.Gray)
             Text(formatFileSize(file.length()), style = MaterialTheme.typography.bodySmall, color = Color.Gray)
         }
-        TextButton(onClick = { onRestoreClick(file) }) { Text("Restore") }
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            TextButton(onClick = { onRestoreClick(file) }) { Text("Restore") }
+            IconButton(onClick = { onDeleteClick(file) }) { Icon(Icons.Default.Delete, contentDescription = "Delete") }
+            IconButton(onClick = { onPreviewClick(file) }) { Icon(Icons.Default.PlayArrow, contentDescription = "Preview") }
+        }
     }
 }
 

@@ -118,7 +118,8 @@ class PlantsViewModel(
         _message.value = "Восстановлено (merge) из ${file.name}"
     }
 
-    fun clearMessage() {
-        _message.value = null
+    fun deleteBackup(file: File) = viewModelScope.launch {
+        backupRepository.deleteBackupFile(file)
+        refreshBackups()
     }
 }
