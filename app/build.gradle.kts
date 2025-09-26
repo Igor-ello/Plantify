@@ -52,7 +52,7 @@ android {
         getByName("androidTest").assets.srcDirs("$projectDir/schemas")
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.15"
     }
     packaging {
         resources {
@@ -77,10 +77,14 @@ dependencies {
     // Json
     implementation(libs.kotlinx.serialization.json)
 
+    // Bom
+    implementation(platform(libs.androidx.compose.bom))
+    implementation("androidx.compose.foundation:foundation")
+    implementation("androidx.compose.animation:animation")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
