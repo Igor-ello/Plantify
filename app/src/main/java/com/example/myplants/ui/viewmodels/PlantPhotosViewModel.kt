@@ -1,4 +1,4 @@
-package com.example.myplants.plants
+package com.example.myplants.ui.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

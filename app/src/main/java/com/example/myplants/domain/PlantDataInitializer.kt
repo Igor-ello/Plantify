@@ -1,11 +1,10 @@
-package com.example.myplants.plants
+package com.example.myplants.domain
 
+import com.example.myplants.data.plant.PlantRepositoryInterface
 import com.example.myplants.models.Plant
-import com.example.myplants.plant.PlantRepositoryInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
 
 object PlantDataInitializer {
 

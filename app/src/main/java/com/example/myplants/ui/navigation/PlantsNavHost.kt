@@ -9,7 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myplants.R
-import com.example.myplants.plants.PlantsViewModel
+import com.example.myplants.ui.viewmodels.PlantsViewModel
 import com.example.myplants.ui.screens.AddPlantScreen
 import com.example.myplants.ui.screens.AllPlantsScreen
 import com.example.myplants.ui.screens.FavoritesScreen
@@ -18,6 +18,7 @@ import com.example.myplants.ui.screens.PlantDetailScreen
 import com.example.myplants.ui.screens.SettingsScreen
 import com.example.myplants.ui.screens.WishlistScreen
 import com.example.myplants.ui.utils.Routes
+import com.example.myplants.ui.viewmodels.UiStateViewModel
 
 
 @Composable

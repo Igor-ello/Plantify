@@ -32,7 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
-import com.example.myplants.plants.PlantsViewModel
+import com.example.myplants.ui.viewmodels.PlantsViewModel
 import com.example.myplants.ui.componets.settings.BackupItemRow
 import kotlinx.coroutines.launch
 import java.io.File

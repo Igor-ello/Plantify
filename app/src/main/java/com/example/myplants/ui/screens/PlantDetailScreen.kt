@@ -33,10 +33,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.myplants.models.PlantWithPhotos
-import com.example.myplants.plants.PlantsViewModel
+import com.example.myplants.ui.viewmodels.PlantsViewModel
 import com.example.myplants.ui.componets.card.CardDeleteButton
-import com.example.myplants.ui.navigation.UiStateViewModel
-import com.example.myplants.ui.plant_card.PlantCardMax
+import com.example.myplants.ui.viewmodels.UiStateViewModel
+import com.example.myplants.ui.componets.plant_card.PlantCardMax
 
 
 @OptIn(ExperimentalAnimationApi::class)

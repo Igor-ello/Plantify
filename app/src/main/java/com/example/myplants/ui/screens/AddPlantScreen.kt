@@ -17,8 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantWithPhotos
-import com.example.myplants.plants.PlantsViewModel
-import com.example.myplants.ui.plant_card.PlantCardMax
+import com.example.myplants.ui.viewmodels.PlantsViewModel
+import com.example.myplants.ui.componets.plant_card.PlantCardMax
 
 
 @Composable

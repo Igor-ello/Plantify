@@ -19,8 +19,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.example.myplants.ui.componets.custom.AppColors
-import com.example.myplants.ui.componets.custom.CardText
+import com.example.myplants.ui.componets.common.AppColors
+import com.example.myplants.ui.componets.common.CardText
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

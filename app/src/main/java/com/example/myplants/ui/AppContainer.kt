@@ -1,9 +1,9 @@
 package com.example.myplants.ui
 
 import android.content.Context
-import com.example.myplants.backup.BackupRepository
+import com.example.myplants.data.backup.BackupRepository
+import com.example.myplants.data.plant.PlantRepository
 import com.example.myplants.db.AppDatabase
-import com.example.myplants.plant.PlantRepository
 
 class AppContainer(context: Context) {
     private val database = AppDatabase.getInstance(context)

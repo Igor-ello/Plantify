@@ -1,4 +1,4 @@
-package com.example.myplants.ui.plant_card
+package com.example.myplants.ui.componets.plant_card
 
 
 import androidx.compose.foundation.layout.Arrangement

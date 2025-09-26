@@ -18,14 +18,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.myplants.backup.FakeBackupRepository
+import com.example.myplants.data.backup.FakeBackupRepository
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantWithPhotos
-import com.example.myplants.plant.FakePlantRepository
-import com.example.myplants.plants.PlantsViewModel
+import com.example.myplants.data.plant.FakePlantRepository
+import com.example.myplants.ui.viewmodels.PlantsViewModel
 import com.example.myplants.ui.navigation.PlantsNavHost
-import com.example.myplants.ui.navigation.UiStateViewModel
-import com.example.myplants.ui.plant_card.PlantCardMin
+import com.example.myplants.ui.viewmodels.UiStateViewModel
+import com.example.myplants.ui.componets.plant_card.PlantCardMin
 import com.example.myplants.ui.theme.MyPlantsTheme
 
 @Composable

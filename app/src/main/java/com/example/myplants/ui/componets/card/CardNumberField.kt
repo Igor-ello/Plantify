@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.input.KeyboardType
-import com.example.myplants.ui.componets.custom.CardText
-import com.example.myplants.ui.componets.custom.CardTextField
+import com.example.myplants.ui.componets.common.CardText
+import com.example.myplants.ui.componets.common.CardTextField
 
 @Composable
 fun CardNumberField(

@@ -1,4 +1,4 @@
-package com.example.myplants.ui.navigation
+package com.example.myplants.ui.viewmodels
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
@@ -6,7 +6,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-
 
 class UiStateViewModel : ViewModel() {
     private var _drawerTitle by mutableStateOf("MyPlants")
@@ -28,4 +27,3 @@ class UiStateViewModel : ViewModel() {
 
     fun showBackButton(show: Boolean) { _showBackButton = show }
 }
-

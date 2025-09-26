@@ -1,4 +1,4 @@
-package com.example.myplants.ui.componets.custom
+package com.example.myplants.ui.componets.common
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions

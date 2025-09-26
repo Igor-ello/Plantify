@@ -1,4 +1,4 @@
-package com.example.myplants.plant
+package com.example.myplants.data.plant
 
 import androidx.lifecycle.LiveData
 import com.example.myplants.dao.PlantDao
