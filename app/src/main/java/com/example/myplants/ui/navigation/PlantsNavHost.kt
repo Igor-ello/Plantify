@@ -34,8 +34,7 @@ fun PlantsNavHost(
     var title: String
     val viewModel: PlantsViewModel = viewModel(
         factory = PlantsViewModelFactory(
-            appContainer.plantRepository,
-            appContainer.backupRepository
+            appContainer.plantRepository
         )
     )
     NavHost(
@@ -124,7 +123,7 @@ fun PlantsNavHost(
             }
 
             SettingsScreen(
-                viewModel = viewModel
+                repository = appContainer.backupRepository
             )
         }
 
