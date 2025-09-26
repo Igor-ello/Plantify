@@ -4,25 +4,22 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.myplants.ui.theme.MyPlantsTheme
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var appContainer: AppContainer
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        appContainer = AppContainer(applicationContext)
 
         enableEdgeToEdge()
         setContent {
             MyPlantsTheme {
-                PlantsApp()
+                PlantsApp(appContainer)
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PlantScreenPreview() {
-    MyPlantsTheme {}
 }

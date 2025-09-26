@@ -4,16 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myplants.backup.BackupRepository
+import com.example.myplants.backup.BackupRepositoryInterface
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantPhoto
 import com.example.myplants.models.PlantWithPhotos
+import com.example.myplants.plant.PlantRepositoryInterface
 import kotlinx.coroutines.launch
 import java.io.File
 
 class PlantsViewModel(
-    private val repository: PlantRepository,
-    private val backupRepository: BackupRepository
+    private val repository: PlantRepositoryInterface,
+    private val backupRepository: BackupRepositoryInterface
 ) : ViewModel() {
 
     val plants: LiveData<List<PlantWithPhotos>> = repository.getAllPlantsWithPhotos()

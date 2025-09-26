@@ -3,7 +3,7 @@ package com.example.myplants.plants
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.myplants.backup.BackupRepository
-import com.example.myplants.dao.PlantDao
+import com.example.myplants.plant.PlantRepository
 
 class PlantsViewModelFactory(
     private val repository: PlantRepository,

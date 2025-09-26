@@ -1,6 +1,7 @@
 package com.example.myplants.plants
 
 import com.example.myplants.models.Plant
+import com.example.myplants.plant.PlantRepositoryInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -8,7 +9,7 @@ import kotlinx.coroutines.launch
 
 object PlantDataInitializer {
 
-    fun initialize(repository: PlantRepository) {
+    fun initialize(repository: PlantRepositoryInterface) {
         CoroutineScope(Dispatchers.IO).launch {
             val currentPlants = repository.getAllPlantsSnapshot()
             if (currentPlants.isEmpty()) {
@@ -17,7 +18,7 @@ object PlantDataInitializer {
         }
     }
 
-    private suspend fun addTestPlants(repository: PlantRepository) {
+    private suspend fun addTestPlants(repository: PlantRepositoryInterface) {
         val aloeVera = Plant(
             name = "Aloe Vera",
             species = "Aloe",

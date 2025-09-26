@@ -19,7 +19,7 @@ class BackupRepository(
     private val plantDao: PlantDao,
     private val plantPhotoDao: PlantPhotoDao,
     private val context: Context
-) {
+) : BackupRepositoryInterface {
     private val backupDir: File = File(context.filesDir, "backups").apply { mkdirs() }
 
     private fun generateBackupFile(): File {
@@ -28,7 +28,7 @@ class BackupRepository(
         return File(backupDir, "plants_backup_$timestamp.json")
     }
 
-    suspend fun createBackup(): File = withContext(Dispatchers.IO) {
+    override suspend fun createBackup(): File = withContext(Dispatchers.IO) {
         val plants: List<Plant> = plantDao.getAll()
         val photos: List<PlantPhoto> = plantPhotoDao.getAll()
         val backup = BackupData(plants = plants, photos = photos)
@@ -38,14 +38,14 @@ class BackupRepository(
         file
     }
 
-    fun listBackups(): List<File> =
+    override fun listBackups(): List<File> =
         backupDir.listFiles()?.sortedByDescending { it.lastModified() } ?: emptyList()
 
-    suspend fun deleteBackupFile(file: File) = withContext(Dispatchers.IO) {
+    override suspend fun deleteBackupFile(file: File) = withContext(Dispatchers.IO) {
         if (file.exists()) file.delete()
     }
 
-    suspend fun restoreBackup(file: File) = withContext(Dispatchers.IO) {
+    override suspend fun restoreBackup(file: File) = withContext(Dispatchers.IO) {
         if (!file.exists()) return@withContext
         val json = file.readText()
         val backup: BackupData = Json.decodeFromString(json)
@@ -57,7 +57,7 @@ class BackupRepository(
         }
     }
 
-    suspend fun restoreMerge(file: File) = withContext(Dispatchers.IO) {
+    override suspend fun restoreMerge(file: File) = withContext(Dispatchers.IO) {
         if (!file.exists()) return@withContext
         val json = file.readText()
         val backup: BackupData = Json.decodeFromString(json)
