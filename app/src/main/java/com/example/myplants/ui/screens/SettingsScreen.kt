@@ -32,19 +32,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.myplants.data.backup.BackupRepositoryInterface
 import com.example.myplants.ui.componets.settings.BackupItemRow
 import com.example.myplants.ui.viewmodels.SettingsViewModel
-import com.example.myplants.ui.viewmodels.SettingsViewModelFactory
 import kotlinx.coroutines.launch
 import java.io.File
 
 @Composable
-fun SettingsScreen(repository: BackupRepositoryInterface) {
-    val viewModel: SettingsViewModel = viewModel(
-        factory = SettingsViewModelFactory(repository)
-    )
+fun SettingsScreen(viewModel: SettingsViewModel) {
 
     val backups by viewModel.backups.observeAsState(emptyList())
     val context = LocalContext.current

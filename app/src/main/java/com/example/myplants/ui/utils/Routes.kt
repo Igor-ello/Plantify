@@ -1,11 +1,14 @@
 package com.example.myplants.ui.utils
 
-object Routes {
-    const val ALL_PLANTS = "all_plants"
-    const val PLANT_DETAIL = "plant_detail"
-    const val ADD_PLANT = "add_plant"
-    const val FAVORITES = "favorites"
-    const val WISHLIST = "wishlist"
-    const val SETTINGS = "settings"
-    const val HELP = "help"
+sealed class Routes(val route: String) {
+    object AllPlants : Routes("all_plants")
+    object AddPlant : Routes("add_plant")
+    object Favorites : Routes("favorites")
+    object Wishlist : Routes("wishlist")
+    object Settings : Routes("settings")
+    object Help : Routes("help")
+
+    object PlantDetail : Routes("plant_detail/{plantId}") {
+        fun createRoute(plantId: Long) = "plant_detail/$plantId"
+    }
 }

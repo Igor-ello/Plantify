@@ -76,33 +76,33 @@ fun NavigationDrawer(
                     )
                     NavigationDrawerItem(
                         label = { Text(stringResource(R.string.screen_all_plants)) },
-                        selected = currentRoute == Routes.ALL_PLANTS
-                                || currentRoute.startsWith(Routes.PLANT_DETAIL)
-                                || currentRoute.startsWith(Routes.ADD_PLANT),
+                        selected = currentRoute == Routes.AllPlants.route
+                                || currentRoute.startsWith(Routes.PlantDetail.route)
+                                || currentRoute.startsWith(Routes.AddPlant.route),
                         onClick = {
                             scope.launch { drawerState.close() }
-                            navController.navigate(Routes.ALL_PLANTS) {
-                                popUpTo(Routes.ALL_PLANTS) { inclusive = false }
+                            navController.navigate(Routes.AllPlants.route) {
+                                popUpTo(Routes.AllPlants.route) { inclusive = false }
                             }
                         }
                     )
                     NavigationDrawerItem(
                         label = { Text(stringResource(R.string.screen_favorites)) },
-                        selected = (currentRoute == Routes.FAVORITES),
+                        selected = (currentRoute == Routes.Favorites.route),
                         onClick = {
                             scope.launch { drawerState.close() }
-                            navController.navigate(Routes.FAVORITES) {
-                                popUpTo(Routes.ALL_PLANTS) { inclusive = false }
+                            navController.navigate(Routes.Favorites.route) {
+                                popUpTo(Routes.AllPlants.route) { inclusive = false }
                             }
                         }
                     )
                     NavigationDrawerItem(
                         label = { Text(stringResource(R.string.screen_wishlist)) },
-                        selected = (currentRoute == Routes.WISHLIST),
+                        selected = (currentRoute == Routes.Wishlist.route),
                         onClick = {
                             scope.launch { drawerState.close() }
-                            navController.navigate(Routes.WISHLIST) {
-                                popUpTo(Routes.ALL_PLANTS) { inclusive = false }
+                            navController.navigate(Routes.Wishlist.route) {
+                                popUpTo(Routes.AllPlants.route) { inclusive = false }
                             }
                         }
                     )
@@ -118,22 +118,22 @@ fun NavigationDrawer(
                     NavigationDrawerItem(
                         label = { Text(stringResource(R.string.screen_settings)) },
                         icon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
-                        selected = (currentRoute == Routes.SETTINGS),
+                        selected = (currentRoute == Routes.Settings.route),
                         onClick = {
                             scope.launch { drawerState.close() }
-                            navController.navigate(Routes.SETTINGS) {
-                                popUpTo(Routes.ALL_PLANTS) { inclusive = false }
+                            navController.navigate(Routes.Settings.route) {
+                                popUpTo(Routes.AllPlants.route) { inclusive = false }
                             }
                         }
                     )
                     NavigationDrawerItem(
                         label = { Text(stringResource(R.string.screen_help_feedback)) },
                         icon = { Icon(Icons.Outlined.Info, contentDescription = null) },
-                        selected = (currentRoute == Routes.HELP),
+                        selected = (currentRoute == Routes.Help.route),
                         onClick = {
                             scope.launch { drawerState.close() }
-                            navController.navigate(Routes.HELP){
-                                popUpTo(Routes.ALL_PLANTS) { inclusive = false }
+                            navController.navigate(Routes.Help.route){
+                                popUpTo(Routes.AllPlants.route) { inclusive = false }
                             }
                         }
                     )

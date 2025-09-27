@@ -32,28 +32,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.myplants.data.plant.PlantRepositoryInterface
 import com.example.myplants.models.PlantWithPhotos
 import com.example.myplants.ui.componets.card.CardDeleteButton
 import com.example.myplants.ui.componets.plant_card.PlantCardMax
 import com.example.myplants.ui.viewmodels.PlantDetailViewModel
-import com.example.myplants.ui.viewmodels.PlantDetailViewModelFactory
 import com.example.myplants.ui.viewmodels.UiStateViewModel
 
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun PlantDetailScreen(
-    plantId: Long,
+    viewModel: PlantDetailViewModel,
     navController: NavHostController,
     uiStateViewModel: UiStateViewModel? = null,
-    repository: PlantRepositoryInterface,
     modifier: Modifier = Modifier
 ) {
-    val viewModel: PlantDetailViewModel = viewModel(
-        factory = PlantDetailViewModelFactory(plantId, repository)
-    )
-
     val uiStateViewModel: UiStateViewModel = uiStateViewModel ?: viewModel<UiStateViewModel>()
 
     val plantWithPhotos by viewModel.plantWithPhotos.observeAsState()

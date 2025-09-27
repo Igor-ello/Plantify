@@ -4,13 +4,15 @@ package com.example.myplants.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.myplants.R
 import com.example.myplants.ui.AppContainerInterface
+import com.example.myplants.ui.componets.SetupTopBar
 import com.example.myplants.ui.screens.AddPlantScreen
 import com.example.myplants.ui.screens.AllPlantsScreen
 import com.example.myplants.ui.screens.FavoritesScreen
@@ -19,8 +21,14 @@ import com.example.myplants.ui.screens.PlantDetailScreen
 import com.example.myplants.ui.screens.SettingsScreen
 import com.example.myplants.ui.screens.WishlistScreen
 import com.example.myplants.ui.utils.Routes
+import com.example.myplants.ui.viewmodels.AddPlantViewModel
+import com.example.myplants.ui.viewmodels.AddPlantViewModelFactory
+import com.example.myplants.ui.viewmodels.PlantDetailViewModel
+import com.example.myplants.ui.viewmodels.PlantDetailViewModelFactory
 import com.example.myplants.ui.viewmodels.PlantsViewModel
 import com.example.myplants.ui.viewmodels.PlantsViewModelFactory
+import com.example.myplants.ui.viewmodels.SettingsViewModel
+import com.example.myplants.ui.viewmodels.SettingsViewModelFactory
 import com.example.myplants.ui.viewmodels.UiStateViewModel
 
 
@@ -31,7 +39,6 @@ fun PlantsNavHost(
     uiStateViewModel: UiStateViewModel,
     modifier: Modifier = Modifier
 ) {
-    var title: String
     val viewModel: PlantsViewModel = viewModel(
         factory = PlantsViewModelFactory(
             appContainer.plantRepository
@@ -39,101 +46,93 @@ fun PlantsNavHost(
     )
     NavHost(
         navController = navController,
-        startDestination = Routes.ALL_PLANTS,
+        startDestination = Routes.AllPlants.route,
         modifier = modifier
     ) {
-        composable(Routes.ALL_PLANTS) {
+        composable(Routes.AllPlants.route) {
             AllPlantsScreen(
                 viewModel = viewModel,
                 onPlantClick = { plantWithPhotos ->
-                    navController.navigate("${Routes.PLANT_DETAIL}/${plantWithPhotos.plant.id}")
+                    navController.navigate(Routes.PlantDetail.createRoute(plantWithPhotos.plant.id))
                 },
-                onAddPlant = { navController.navigate(Routes.ADD_PLANT) },
-                uiStateViewModel = uiStateViewModel,
-                navController = navController
-            )
-        }
-
-        composable("${Routes.PLANT_DETAIL}/{plantId}") { backStackEntry ->
-            val plantId = backStackEntry.arguments?.getString("plantId")?.toLongOrNull()
-            if (plantId == null) { LaunchedEffect(Unit) { navController.popBackStack() }; return@composable }
-
-            PlantDetailScreen(
-                plantId = plantId,
+                onAddPlant = { navController.navigate(Routes.AddPlant.route) },
                 navController = navController,
-                uiStateViewModel = uiStateViewModel,
-                repository = appContainer.plantRepository
+                uiStateViewModel = uiStateViewModel
             )
         }
 
-        composable(Routes.ADD_PLANT) {
-            title = stringResource(R.string.screen_add_plant)
-
-            LaunchedEffect(Unit) {
-                uiStateViewModel.setDrawerTitle(title)
-                uiStateViewModel.setTopBarActions(null)
-                uiStateViewModel.showBackButton(true)
+        composable(
+            Routes.PlantDetail.route,
+            arguments = listOf(navArgument("plantId") { type = NavType.LongType })
+        ) { backStackEntry ->
+            val plantId = backStackEntry.arguments?.getLong("plantId")
+            if (plantId == null) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+                return@composable
             }
 
+            val plantDetailViewModel: PlantDetailViewModel = viewModel(
+                factory = PlantDetailViewModelFactory(plantId, appContainer.plantRepository)
+            )
+
+            PlantDetailScreen(
+                viewModel = plantDetailViewModel,
+                navController = navController,
+                uiStateViewModel = uiStateViewModel
+            )
+        }
+
+        composable(Routes.AddPlant.route) {
+            SetupTopBar(uiStateViewModel, R.string.screen_add_plant, true)
+
+            val addPlantsViewModel: AddPlantViewModel = viewModel(
+                factory = AddPlantViewModelFactory(appContainer.plantRepository)
+            )
+
             AddPlantScreen(
-                repository = appContainer.plantRepository,
+                viewModel = addPlantsViewModel,
                 onSave = { navController.popBackStack() },
                 onCancel = { navController.popBackStack() }
             )
         }
 
-        composable(Routes.FAVORITES) {
-            title = stringResource(R.string.screen_favorites)
-
-            LaunchedEffect(Unit) {
-                uiStateViewModel.setDrawerTitle(title)
-                uiStateViewModel.setTopBarActions(null)
-            }
+        composable(Routes.Favorites.route) {
+            SetupTopBar(uiStateViewModel, R.string.screen_favorites)
 
             FavoritesScreen(
                 viewModel = viewModel,
                 onPlantClick = { plant ->
-                    navController.navigate("${Routes.PLANT_DETAIL}/${plant.id}")
+                    navController.navigate(Routes.PlantDetail.createRoute(plant.id))
                 }
             )
         }
 
-        composable(Routes.WISHLIST) {
-            title = stringResource(R.string.screen_wishlist)
-
-            LaunchedEffect(Unit) {
-                uiStateViewModel.setDrawerTitle(title)
-                uiStateViewModel.setTopBarActions(null)
-            }
+        composable(Routes.Wishlist.route) {
+            SetupTopBar(uiStateViewModel, R.string.screen_wishlist)
 
             WishlistScreen(
                 viewModel = viewModel,
                 onPlantClick = { plant ->
-                    navController.navigate("${Routes.WISHLIST}/${plant.id}")
+                    navController.navigate(Routes.PlantDetail.createRoute(plant.id))
                 }
             )
         }
 
-        composable(Routes.SETTINGS) {
-            title = stringResource(R.string.screen_settings)
+        composable(Routes.Settings.route) {
+            SetupTopBar(uiStateViewModel, R.string.screen_settings)
 
-            LaunchedEffect(Unit) {
-                uiStateViewModel.setDrawerTitle(title)
-                uiStateViewModel.setTopBarActions(null)
-            }
+            val settingsViewModel: SettingsViewModel = viewModel(
+                factory = SettingsViewModelFactory(appContainer.backupRepository)
+            )
 
             SettingsScreen(
-                repository = appContainer.backupRepository
+                 viewModel = settingsViewModel
             )
         }
 
-        composable(Routes.HELP) {
-            title = stringResource(R.string.screen_help_feedback)
+        composable(Routes.Help.route) {
+            SetupTopBar(uiStateViewModel, R.string.screen_help_feedback)
 
-            LaunchedEffect(Unit) {
-                uiStateViewModel.setDrawerTitle(title)
-                uiStateViewModel.setTopBarActions(null)
-            }
             HelpScreen(
                 onBack = { navController.popBackStack() }
             )
