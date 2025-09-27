@@ -60,6 +60,7 @@ data class Plant (
     var airHumidity: String? = null,
 
     // Период покоя
+    // TODO Период покоя -> Жизненный цикл (rest_period -> life_cycle)
     @ColumnInfo(name = "rest_period")
     var restPeriod: String? = null,
 

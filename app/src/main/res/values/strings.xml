@@ -9,7 +9,7 @@
     <string name="plant_transfer">Пересадка</string>
     <string name="plant_temperature">Температура</string>
     <string name="plant_air_humidity">Влажность воздуха</string>
-    <string name="plant_rest_period">Период покоя</string>
+    <string name="plant_life_cycle">Жизненный цикл</string>
     <string name="plant_reproduction">Размножение</string>
     <string name="plant_pests">Вредители</string>
     <string name="plant_diseases">Болезни</string>

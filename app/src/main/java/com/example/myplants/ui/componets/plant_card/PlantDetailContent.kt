@@ -22,88 +22,20 @@ fun PlantDetailContent(
     Column (
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        CardTextField(
-            label = stringResource(R.string.plant_subspecies),
-            value = plant.subSpecies ?: "",
-            editable = editable,
-            onValueChange = { onValueChange(plant.copy(subSpecies = it)) }
-        )
+        if (plant.subSpecies.isNullOrBlank()){
+            CardTextField(
+                label = stringResource(R.string.plant_subspecies),
+                value = plant.subSpecies ?: "",
+                editable = editable,
+                onValueChange = { onValueChange(plant.copy(subSpecies = it)) }
+            )
+        }
 
         CardTextField(
             label = stringResource(R.string.plant_lighting),
             value = plant.lighting ?: "",
             editable = editable,
             onValueChange = { onValueChange(plant.copy(lighting = it)) }
-        )
-
-        CardTextField(
-            label = stringResource(R.string.plant_bloom),
-            value = plant.bloom ?: "",
-            editable = editable,
-            onValueChange = { onValueChange(plant.copy(bloom = it)) }
-        )
-
-        CardTextField(
-            label = stringResource(R.string.soil_composition),
-            value = plant.soilComposition ?: "",
-            editable = editable,
-            onValueChange = { onValueChange(plant.copy(soilComposition = it)) }
-        )
-
-        CardTextField(
-            label = stringResource(R.string.plant_transfer),
-            value = plant.transfer ?: "",
-            editable = editable,
-            onValueChange = { onValueChange(plant.copy(transfer = it)) }
-        )
-
-        CardTextField(
-            label = stringResource(R.string.plant_temperature),
-            value = plant.temperature ?: "",
-            editable = editable,
-            onValueChange = { onValueChange(plant.copy(temperature = it)) }
-        )
-
-        CardTextField(
-            label = stringResource(R.string.plant_air_humidity),
-            value = plant.airHumidity ?: "",
-            editable = editable,
-            onValueChange = { onValueChange(plant.copy(airHumidity = it)) }
-        )
-
-        CardTextField(
-            label = stringResource(R.string.plant_rest_period),
-            value = plant.restPeriod ?: "",
-            editable = editable,
-            onValueChange = { onValueChange(plant.copy(restPeriod = it)) }
-        )
-
-        CardTextField(
-            label = stringResource(R.string.plant_reproduction),
-            value = plant.reproduction ?: "",
-            editable = editable,
-            onValueChange = { onValueChange(plant.copy(reproduction = it)) }
-        )
-
-        CardTextField(
-            label = stringResource(R.string.plant_pests),
-            value = plant.pests ?: "",
-            editable = editable,
-            onValueChange = { onValueChange(plant.copy(pests = it)) }
-        )
-
-        CardTextField(
-            label = stringResource(R.string.plant_diseases),
-            value = plant.diseases ?: "",
-            editable = editable,
-            onValueChange = { onValueChange(plant.copy(diseases = it)) }
-        )
-
-        CardTextField(
-            label = stringResource(R.string.palnt_first_landing),
-            value = plant.firstLanding ?: "",
-            editable = editable,
-            onValueChange = { onValueChange(plant.copy(firstLanding = it)) }
         )
 
         CardDropdown(
@@ -118,20 +50,6 @@ fun PlantDetailContent(
             onItemSelected = {
                 onValueChange(plant.copy(sunlightRequirement = it.ifEmpty { null }))
             }
-        )
-
-        CardCheckbox(
-            label = stringResource(R.string.plant_toxic),
-            checked = plant.isToxic ?: false,
-            editable = editable,
-            onCheckedChange = { onValueChange(plant.copy(isToxic = it)) }
-        )
-
-        CardTextField(
-            label = stringResource(R.string.plant_about),
-            value = plant.aboutThePlant ?: "",
-            editable = editable,
-            onValueChange = { onValueChange(plant.copy(aboutThePlant = it)) }
         )
 
         CardTextField(
@@ -158,6 +76,54 @@ fun PlantDetailContent(
             onValueChange = { onValueChange(plant.copy(lastWateringDate = it)) }
         )
 
+        CardTextField(
+            label = stringResource(R.string.plant_temperature),
+            value = plant.temperature ?: "",
+            editable = editable,
+            onValueChange = { onValueChange(plant.copy(temperature = it)) }
+        )
+
+        CardTextField(
+            label = stringResource(R.string.plant_air_humidity),
+            value = plant.airHumidity ?: "",
+            editable = editable,
+            onValueChange = { onValueChange(plant.copy(airHumidity = it)) }
+        )
+
+        CardTextField(
+            label = stringResource(R.string.plant_life_cycle),
+            value = plant.restPeriod ?: "",
+            editable = editable,
+            onValueChange = { onValueChange(plant.copy(restPeriod = it)) }
+        )
+
+        CardTextField(
+            label = stringResource(R.string.plant_bloom),
+            value = plant.bloom ?: "",
+            editable = editable,
+            onValueChange = { onValueChange(plant.copy(bloom = it)) }
+        )
+
+        CardTextField(
+            label = stringResource(R.string.soil_composition),
+            value = plant.soilComposition ?: "",
+            editable = editable,
+            onValueChange = { onValueChange(plant.copy(soilComposition = it)) }
+        )
+
+        CardTextField(
+            label = stringResource(R.string.plant_transfer),
+            value = plant.transfer ?: "",
+            editable = editable,
+            onValueChange = { onValueChange(plant.copy(transfer = it)) }
+        )
+
+        CardTextField(
+            label = stringResource(R.string.plant_reproduction),
+            value = plant.reproduction ?: "",
+            editable = editable,
+            onValueChange = { onValueChange(plant.copy(reproduction = it)) }
+        )
 
         CardTextField(
             label = stringResource(R.string.plant_fertilizer),
@@ -174,6 +140,41 @@ fun PlantDetailContent(
                 val num = it.toIntOrNull()
                 onValueChange(plant.copy(fertilizationFrequency = num))
             }
+        )
+
+        CardTextField(
+            label = stringResource(R.string.plant_pests),
+            value = plant.pests ?: "",
+            editable = editable,
+            onValueChange = { onValueChange(plant.copy(pests = it)) }
+        )
+
+        CardTextField(
+            label = stringResource(R.string.plant_diseases),
+            value = plant.diseases ?: "",
+            editable = editable,
+            onValueChange = { onValueChange(plant.copy(diseases = it)) }
+        )
+
+        CardCheckbox(
+            label = stringResource(R.string.plant_toxic),
+            checked = plant.isToxic ?: false,
+            editable = editable,
+            onCheckedChange = { onValueChange(plant.copy(isToxic = it)) }
+        )
+
+        CardTextField(
+            label = stringResource(R.string.palnt_first_landing),
+            value = plant.firstLanding ?: "",
+            editable = editable,
+            onValueChange = { onValueChange(plant.copy(firstLanding = it)) }
+        )
+
+        CardTextField(
+            label = stringResource(R.string.plant_about),
+            value = plant.aboutThePlant ?: "",
+            editable = editable,
+            onValueChange = { onValueChange(plant.copy(aboutThePlant = it)) }
         )
     }
 }

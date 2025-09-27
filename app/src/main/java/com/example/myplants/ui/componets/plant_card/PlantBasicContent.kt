@@ -26,4 +26,14 @@ fun PlantBasicContent(
         editable = editable,
         onValueChange = { onValueChange(plant.copy(species = it)) }
     )
+
+    if (!plant.subSpecies.isNullOrBlank()){
+        CardTextField(
+            label = stringResource(R.string.plant_subspecies),
+            value = plant.subSpecies!!,
+            editable = editable,
+            onValueChange = { onValueChange(plant.copy(subSpecies = it)) }
+        )
+    }
+
 }
