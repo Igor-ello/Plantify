@@ -1,17 +1,18 @@
 package com.example.myplants.ui.navigation
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -36,6 +37,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.myplants.R
 import com.example.myplants.ui.utils.Routes
 import com.example.myplants.ui.viewmodels.UiStateViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,93 +53,79 @@ fun NavigationDrawer(
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route ?: ""
 
+    // Список элементов навигации
+    val drawerItems = listOf(
+        DrawerItemData(
+            labelRes = R.string.screen_all_plants,
+            route = Routes.AllPlants.route
+        ),
+        DrawerItemData(
+            labelRes = R.string.screen_favorites,
+            route = Routes.Favorites.route
+        ),
+        DrawerItemData(
+            labelRes = R.string.screen_wishlist,
+            route = Routes.Wishlist.route
+        ),
+        DrawerItemData(
+            labelRes = R.string.screen_settings,
+            route = Routes.Settings.route,
+            icon = { Icon(Icons.Outlined.Settings, contentDescription = null) }
+        ),
+        DrawerItemData(
+            labelRes = R.string.screen_help_feedback,
+            route = Routes.Help.route,
+            icon = { Icon(Icons.Outlined.Info, contentDescription = null) }
+        )
+    )
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-                Column(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    Spacer(Modifier.height(12.dp))
+                Column(modifier = Modifier.padding(vertical = 12.dp)) {
                     Text(
                         text = stringResource(R.string.app_name),
-                        modifier = Modifier.padding(16.dp),
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                         style = MaterialTheme.typography.titleLarge
                     )
-                    HorizontalDivider()
+                    HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
 
-                    // Plants Section
-                    Text(
-                        text = stringResource(R.string.plants_section),
-                        modifier = Modifier.padding(16.dp),
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    NavigationDrawerItem(
-                        label = { Text(stringResource(R.string.screen_all_plants)) },
-                        selected = currentRoute == Routes.AllPlants.route
-                                || currentRoute.startsWith(Routes.PlantDetail.route)
-                                || currentRoute.startsWith(Routes.AddPlant.route),
-                        onClick = {
-                            scope.launch { drawerState.close() }
-                            navController.navigate(Routes.AllPlants.route) {
-                                popUpTo(Routes.AllPlants.route) { inclusive = false }
-                            }
+                    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                        // Plants Section
+                        item {
+                            Text(
+                                text = stringResource(R.string.plants_section),
+                                modifier = Modifier.padding(16.dp),
+                                style = MaterialTheme.typography.titleMedium
+                            )
                         }
-                    )
-                    NavigationDrawerItem(
-                        label = { Text(stringResource(R.string.screen_favorites)) },
-                        selected = (currentRoute == Routes.Favorites.route),
-                        onClick = {
-                            scope.launch { drawerState.close() }
-                            navController.navigate(Routes.Favorites.route) {
-                                popUpTo(Routes.AllPlants.route) { inclusive = false }
-                            }
+                        items(drawerItems.filter { it.route in listOf(
+                            Routes.AllPlants.route,
+                            Routes.Favorites.route,
+                            Routes.Wishlist.route
+                        ) }) { item ->
+                            DrawerItem(item, currentRoute, navController, drawerState, scope)
                         }
-                    )
-                    NavigationDrawerItem(
-                        label = { Text(stringResource(R.string.screen_wishlist)) },
-                        selected = (currentRoute == Routes.Wishlist.route),
-                        onClick = {
-                            scope.launch { drawerState.close() }
-                            navController.navigate(Routes.Wishlist.route) {
-                                popUpTo(Routes.AllPlants.route) { inclusive = false }
-                            }
-                        }
-                    )
 
-                    HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                        item { HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp)) }
 
-                    // App Section
-                    Text(
-                        text = stringResource(R.string.app_section),
-                        modifier = Modifier.padding(16.dp),
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    NavigationDrawerItem(
-                        label = { Text(stringResource(R.string.screen_settings)) },
-                        icon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
-                        selected = (currentRoute == Routes.Settings.route),
-                        onClick = {
-                            scope.launch { drawerState.close() }
-                            navController.navigate(Routes.Settings.route) {
-                                popUpTo(Routes.AllPlants.route) { inclusive = false }
-                            }
+                        // App Section
+                        item {
+                            Text(
+                                text = stringResource(R.string.app_section),
+                                modifier = Modifier.padding(16.dp),
+                                style = MaterialTheme.typography.titleMedium
+                            )
                         }
-                    )
-                    NavigationDrawerItem(
-                        label = { Text(stringResource(R.string.screen_help_feedback)) },
-                        icon = { Icon(Icons.Outlined.Info, contentDescription = null) },
-                        selected = (currentRoute == Routes.Help.route),
-                        onClick = {
-                            scope.launch { drawerState.close() }
-                            navController.navigate(Routes.Help.route){
-                                popUpTo(Routes.AllPlants.route) { inclusive = false }
-                            }
+                        items(drawerItems.filter { it.route in listOf(
+                            Routes.Settings.route,
+                            Routes.Help.route
+                        ) }) { item ->
+                            DrawerItem(item, currentRoute, navController, drawerState, scope)
                         }
-                    )
-                    Spacer(Modifier.height(12.dp))
+                    }
+
                 }
             }
         }
@@ -153,15 +141,15 @@ fun NavigationDrawer(
                             }
                         } else {
                             IconButton(onClick = {
-                                scope.launch { if (drawerState.isClosed) drawerState.open() else drawerState.close() }
+                                scope.launch {
+                                    if (drawerState.isClosed) drawerState.open() else drawerState.close()
+                                }
                             }) {
                                 Icon(Icons.Default.Menu, contentDescription = "Menu")
                             }
                         }
                     },
-                    actions = {
-                        uiStateViewModel.topBarActions?.invoke(this)
-                    }
+                    actions = uiStateViewModel.topBarActions ?: {}
                 )
             }
         ) { innerPadding ->
@@ -169,3 +157,39 @@ fun NavigationDrawer(
         }
     }
 }
+
+// -------------------- HELPER --------------------
+
+data class DrawerItemData(
+    @StringRes val labelRes: Int,
+    val route: String,
+    val icon: (@Composable (() -> Unit))? = null
+)
+
+@Composable
+fun DrawerItem(
+    item: DrawerItemData,
+    currentRoute: String,
+    navController: NavController,
+    drawerState: DrawerState,
+    scope: CoroutineScope
+) {
+    val selected = currentRoute.startsWith(item.route)
+    NavigationDrawerItem(
+        label = { Text(stringResource(item.labelRes)) },
+        icon = item.icon,
+        selected = selected,
+        onClick = {
+            scope.launch { drawerState.close() }
+            navController.navigateSingleTop(item.route, Routes.AllPlants.route)
+        }
+    )
+}
+
+fun NavController.navigateSingleTop(route: String, popUpToRoute: String) {
+    this.navigate(route) {
+        popUpTo(popUpToRoute) { inclusive = false }
+        launchSingleTop = true
+    }
+}
+
