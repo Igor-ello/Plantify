@@ -24,6 +24,9 @@ interface PlantDao {
     @Query("SELECT * FROM plant_table ORDER BY id DESC")
     suspend fun getAll(): List<Plant>
 
+    @Query("SELECT * FROM plant_table WHERE name = :name")
+    suspend fun getPlantsByName(name: String): List<Plant>
+
     @Query("DELETE FROM plant_table WHERE id = :plantId")
     suspend fun deleteById(plantId: Long)
 
@@ -50,7 +53,7 @@ interface PlantDao {
     fun getByIdWithPhotos(plantId: Long): LiveData<PlantWithPhotos?>
 
     @Query("SELECT * FROM plant_table ORDER BY id DESC")
-    suspend fun getAllSnapshot(): List<Plant>
+    suspend fun getAllPlants(): List<Plant>
 
     @Transaction
     @Query("SELECT * FROM plant_table WHERE is_favorite = 1 ORDER BY id DESC")

@@ -79,8 +79,7 @@ dependencies {
 
     // Bom
     implementation(platform(libs.androidx.compose.bom))
-    implementation("androidx.compose.foundation:foundation")
-    implementation("androidx.compose.animation:animation")
+    implementation(libs.androidx.compose.foundation)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -14,7 +14,8 @@ class FakePlantRepository(
 
     override suspend fun insertPlant(plant: Plant) = 1L
     override suspend fun updatePlant(plant: Plant) {}
-    override suspend fun getAllPlantsSnapshot() = fakePlants.map { it.plant }
+    override suspend fun getAllPlants() = fakePlants.map { it.plant }
+    override suspend fun getPlantsByName(name: String): List<Plant> = listOf(fakePlants[0].plant)
 
     override fun getFavorites() = MutableLiveData(fakePlants.filter { it.plant.isFavorite })
     override suspend fun setFavorite(plantId: Long, isFavorite: Boolean) {}

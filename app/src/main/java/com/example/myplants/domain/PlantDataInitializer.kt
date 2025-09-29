@@ -10,7 +10,7 @@ object PlantDataInitializer {
 
     fun initialize(repository: PlantRepositoryInterface) {
         CoroutineScope(Dispatchers.IO).launch {
-            val currentPlants = repository.getAllPlantsSnapshot()
+            val currentPlants = repository.getAllPlants()
             if (currentPlants.isEmpty()) {
                 addTestPlants(repository)
             }
