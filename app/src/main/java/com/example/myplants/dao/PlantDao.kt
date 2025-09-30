@@ -36,13 +36,6 @@ interface PlantDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(plants: List<Plant>)
 
-    // Additional
-    @Query("UPDATE plant_table SET is_favorite = :isFavorite WHERE id = :plantId")
-    suspend fun setFavorite(plantId: Long, isFavorite: Boolean)
-
-    @Query("UPDATE plant_table SET is_wishlist = :isWishlist WHERE id = :plantId")
-    suspend fun setWishlist(plantId: Long, isWishlist: Boolean)
-
     // Для PlantWithPhotos
     @Transaction
     @Query("SELECT * FROM plant_table ORDER BY id DESC")
