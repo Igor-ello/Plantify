@@ -26,7 +26,6 @@ class PlantRepository(
     override suspend fun updatePlant(plant: Plant) = plantDao.update(plant)
 
     override suspend fun getAllPlants(): List<Plant> = plantDao.getAllPlants()
-    override suspend fun getPlantsByName(name: String): List<Plant> = plantDao.getPlantsByName(name)
 
     // Favourite
     override fun getFavorites(): LiveData<List<PlantWithPhotos>> = plantDao.getFavorites()

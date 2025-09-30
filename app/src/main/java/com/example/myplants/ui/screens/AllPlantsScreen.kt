@@ -28,6 +28,8 @@ import com.example.myplants.data.backup.FakeBackupRepository
 import com.example.myplants.data.plant.FakePlantRepository
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantWithPhotos
+import com.example.myplants.models.sections.MainInfo
+import com.example.myplants.models.sections.StateInfo
 import com.example.myplants.ui.FakeAppContainer
 import com.example.myplants.ui.componets.plant_card.PlantCardMin
 import com.example.myplants.ui.navigation.PlantsNavHost
@@ -103,8 +105,29 @@ fun AllPlantsScreen(
 fun PlantScreenPreview() {
     MyPlantsTheme {
         val fakePlants = listOf(
-            PlantWithPhotos(Plant(1, "Rose", "Red", isFavorite = true), emptyList()),
-            PlantWithPhotos(Plant(2, "Tulip", "Yellow", isWishlist = true), emptyList())
+            PlantWithPhotos(
+                plant = Plant(
+                    id = 1,
+                    main = MainInfo(
+                        species = "Rose Red",
+                        genus = "Rose",
+                    ),
+                    state = StateInfo(isFavorite = true)
+                ),
+                photos = emptyList()
+            ),
+
+            PlantWithPhotos(
+                plant = Plant(
+                    id = 2,
+                    main = MainInfo(
+                        species = "Tulip Yellow",
+                        genus = "Tulipa"
+                    ),
+                    state = StateInfo(isWishlist = true)
+                ),
+                photos = emptyList()
+            )
         )
 
         val fakeRepo = FakePlantRepository(fakePlants)

@@ -1,5 +1,6 @@
 package com.example.myplants.models.sections
 
+import androidx.room.ColumnInfo
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -17,5 +18,9 @@ data class MainInfo(
     // Отдел
     var phylum: String? = null,
     // Царство
-    var kingdom: String = "Растения"
+    var kingdom: String = "Растения",
+
+    // Full name
+    @ColumnInfo(name = "full_name")
+    var fullName: String? = null
 )

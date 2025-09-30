@@ -15,12 +15,11 @@ class FakePlantRepository(
     override suspend fun insertPlant(plant: Plant) = 1L
     override suspend fun updatePlant(plant: Plant) {}
     override suspend fun getAllPlants() = fakePlants.map { it.plant }
-    override suspend fun getPlantsByName(name: String): List<Plant> = listOf(fakePlants[0].plant)
 
-    override fun getFavorites() = MutableLiveData(fakePlants.filter { it.plant.isFavorite })
+    override fun getFavorites() = MutableLiveData(fakePlants.filter { it.plant.state.isFavorite })
     override suspend fun setFavorite(plantId: Long, isFavorite: Boolean) {}
 
-    override fun getWishlist() = MutableLiveData(fakePlants.filter { it.plant.isWishlist })
+    override fun getWishlist() = MutableLiveData(fakePlants.filter { it.plant.state.isWishlist })
     override suspend fun setWishlist(plantId: Long, isWishlist: Boolean) {}
 
     override suspend fun insertPhoto(photo: PlantPhoto) {}

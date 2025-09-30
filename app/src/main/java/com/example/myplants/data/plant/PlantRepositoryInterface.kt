@@ -12,7 +12,6 @@ interface PlantRepositoryInterface {
     suspend fun insertPlant(plant: Plant): Long
     suspend fun updatePlant(plant: Plant)
     suspend fun getAllPlants(): List<Plant>
-    suspend fun getPlantsByName(name: String): List<Plant>
 
     fun getFavorites(): LiveData<List<PlantWithPhotos>>
     suspend fun setFavorite(plantId: Long, isFavorite: Boolean)

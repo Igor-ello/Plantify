@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantWithPhotos
+import com.example.myplants.models.sections.MainInfo
 import com.example.myplants.ui.componets.plant_card.PlantCardMax
 import com.example.myplants.ui.viewmodels.AddPlantViewModel
 
@@ -28,7 +29,7 @@ fun AddPlantScreen(
     onCancel: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val newPlant by viewModel.newPlant.observeAsState(Plant(name = "", species = ""))
+    val newPlant by viewModel.newPlant.observeAsState(Plant(main = MainInfo(genus = "", species = "")))
     val newPhotos by viewModel.newPlantPhotos.observeAsState(emptyList())
     val newPlantWithPhotos = PlantWithPhotos(plant = newPlant, photos = newPhotos)
 
@@ -56,7 +57,7 @@ fun AddPlantScreen(
 
                 Button(
                     onClick = { viewModel.saveNewPlant(onSave) },
-                    enabled = newPlant.name.isNotBlank() && newPlant.species.isNotBlank()
+                    enabled = newPlant.main.genus.isNotBlank() && newPlant.main.species.isNotBlank()
                 ) {
                     Text("Save")
                 }

@@ -21,12 +21,12 @@ fun CardIconWishlist(
     ) {
         Icon(
             painter = painterResource(
-                id = if (plantWithPhotos.plant.isWishlist)
+                id = if (plantWithPhotos.plant.state.isWishlist)
                     R.drawable.wishlist_active
                 else
                     R.drawable.wishlist_unactive
             ),
-            contentDescription = if (plantWithPhotos.plant.isFavorite) "Unfavorite" else "Favorite",
+            contentDescription = if (plantWithPhotos.plant.state.isFavorite) "Unfavorite" else "Favorite",
             tint = Color.Unspecified
         )
     }

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.myplants.data.plant.PlantRepositoryInterface
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantPhoto
+import com.example.myplants.models.sections.MainInfo
 import kotlinx.coroutines.launch
 
 class AddPlantViewModel(
@@ -14,7 +15,7 @@ class AddPlantViewModel(
 ) : ViewModel() {
 
     // LiveData для нового растения и его фотографий
-    private val _newPlant = MutableLiveData(Plant(name = "", species = ""))
+    private val _newPlant = MutableLiveData(Plant(main = MainInfo(genus = "", species = "")))
     val newPlant: LiveData<Plant> get() = _newPlant
 
     private val _newPlantPhotos = MutableLiveData<List<PlantPhoto>>(emptyList())
@@ -35,7 +36,7 @@ class AddPlantViewModel(
 
     // Сброс всех полей нового растения
     fun clearNewPlant() {
-        _newPlant.value = Plant(name = "", species = "")
+        _newPlant.value = Plant(main = MainInfo(genus = "", species = ""))
         _newPlantPhotos.value = emptyList()
     }
 

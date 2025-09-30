@@ -27,7 +27,7 @@ class PlantsViewModel(
 
     fun toggleFavorite(plant: Plant) {
         viewModelScope.launch {
-            repository.setFavorite(plant.id, !plant.isFavorite)
+            repository.setFavorite(plant.id, !plant.state.isFavorite)
         }
     }
 
@@ -36,7 +36,7 @@ class PlantsViewModel(
 
     fun toggleWishlist(plant: Plant) {
         viewModelScope.launch {
-            repository.setWishlist(plant.id, !plant.isWishlist)
+            repository.setWishlist(plant.id, !plant.state.isWishlist)
         }
     }
 }

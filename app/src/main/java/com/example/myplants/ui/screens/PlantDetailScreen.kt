@@ -61,7 +61,9 @@ fun PlantDetailScreen(
     var isEditing by remember { mutableStateOf(false) }
 
     LaunchedEffect(isEditing, editedPlant) {
-        val title = if (isEditing) "Edit: ${editedPlant?.name}" else editedPlant?.name!!.ifBlank { "Plant" }
+        val title =
+            if (isEditing) "Edit: ${editedPlant?.main?.species}"
+            else editedPlant?.main?.species!!.ifBlank { "Plant" }
         uiStateViewModel.setDrawerTitle(title)
         uiStateViewModel.showBackButton(true)
 
@@ -77,9 +79,9 @@ fun PlantDetailScreen(
                     onClick = {
                         viewModel.saveChanges()
                         isEditing = false
-                        uiStateViewModel.setDrawerTitle(editedPlant?.name!!.ifBlank { "Plant" })
+                        uiStateViewModel.setDrawerTitle(editedPlant?.main?.species!!.ifBlank { "Plant" })
                     },
-                    enabled = editedPlant?.name?.isNotBlank() == true
+                    enabled = editedPlant?.main?.species?.isNotBlank() == true
                 ) {
                     Icon(Icons.Default.Check, contentDescription = "Save")
                 }
@@ -118,7 +120,7 @@ fun PlantDetailScreen(
                     Button(onClick = {
                         viewModel.resetChanges()
                         isEditing = false
-                        uiStateViewModel.setDrawerTitle(plantWithPhotos!!.plant.name.ifBlank { "Plant" })
+                        uiStateViewModel.setDrawerTitle(plantWithPhotos!!.plant.main.species.ifBlank { "Plant" })
                     }) {
                         Text("Cancel")
                     }
@@ -126,9 +128,9 @@ fun PlantDetailScreen(
                         onClick = {
                             viewModel.saveChanges()
                             isEditing = false
-                            uiStateViewModel.setDrawerTitle(editedPlant?.name!!.ifBlank { "Plant" })
+                            uiStateViewModel.setDrawerTitle(editedPlant?.main?.species!!.ifBlank { "Plant" })
                         },
-                        enabled = editedPlant?.name?.isNotBlank() == true
+                        enabled = editedPlant?.main?.species?.isNotBlank() == true
                     ) {
                         Text("Save Changes")
                     }

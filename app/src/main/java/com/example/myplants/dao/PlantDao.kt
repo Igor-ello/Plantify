@@ -24,9 +24,6 @@ interface PlantDao {
     @Query("SELECT * FROM plant_table ORDER BY id DESC")
     suspend fun getAll(): List<Plant>
 
-    @Query("SELECT * FROM plant_table WHERE name = :name")
-    suspend fun getPlantsByName(name: String): List<Plant>
-
     @Query("DELETE FROM plant_table WHERE id = :plantId")
     suspend fun deleteById(plantId: Long)
 
@@ -48,11 +45,18 @@ interface PlantDao {
     @Query("SELECT * FROM plant_table ORDER BY id DESC")
     suspend fun getAllPlants(): List<Plant>
 
-    @Transaction
-    @Query("SELECT * FROM plant_table WHERE is_favorite = 1 ORDER BY id DESC")
-    fun getFavorites(): LiveData<List<PlantWithPhotos>>
+    // Additional
+    @Query("UPDATE plant_table SET state_is_favorite = :isFavorite WHERE id = :plantId")
+    suspend fun setFavorite(plantId: Long, isFavorite: Boolean)
 
     @Transaction
-    @Query("SELECT * FROM plant_table WHERE is_wishlist = 1 ORDER BY id DESC")
+    @Query("SELECT * FROM plant_table WHERE state_is_favorite = 1 ORDER BY id DESC")
+    fun getFavorites(): LiveData<List<PlantWithPhotos>>
+
+    @Query("UPDATE plant_table SET state_is_wishlist = :isWishlist WHERE id = :plantId")
+    suspend fun setWishlist(plantId: Long, isWishlist: Boolean)
+
+    @Transaction
+    @Query("SELECT * FROM plant_table WHERE state_is_wishlist = 1 ORDER BY id DESC")
     fun getWishlist(): LiveData<List<PlantWithPhotos>>
 }

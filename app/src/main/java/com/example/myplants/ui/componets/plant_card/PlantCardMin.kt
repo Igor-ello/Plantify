@@ -86,7 +86,7 @@ fun PlantCardMin(
                             .data(mainPhotoUri)
                             .crossfade(true)
                             .build(),
-                        contentDescription = "${plant.name} photo",
+                        contentDescription = "${plant.main.fullName} photo",
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop,
                         placeholder = painterResource(id = R.drawable.placeholder),

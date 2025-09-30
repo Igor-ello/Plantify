@@ -15,25 +15,36 @@ fun PlantBasicContent(
 ) {
     CardTextField(
         label = stringResource(R.string.plant_name),
-        value = plant.name,
+        value = plant.main.genus,
         editable = editable,
-        onValueChange = { onValueChange(plant.copy(name = it)) }
+        onValueChange = {
+            onValueChange(
+                plant.copy(main = plant.main.copy(genus = it))
+            )
+        }
     )
 
     CardTextField(
         label = stringResource(R.string.plant_species),
-        value = plant.species,
+        value = plant.main.species,
         editable = editable,
-        onValueChange = { onValueChange(plant.copy(species = it)) }
+        onValueChange = {
+            onValueChange(
+                plant.copy(main = plant.main.copy(species = it))
+            )
+        }
     )
 
-    if (!plant.subSpecies.isNullOrBlank()){
+    if (!plant.main.fullName.isNullOrBlank()){
         CardTextField(
-            label = stringResource(R.string.plant_subspecies),
-            value = plant.subSpecies!!,
+            label = stringResource(R.string.plant_full_name),
+            value = plant.main.fullName!!,
             editable = editable,
-            onValueChange = { onValueChange(plant.copy(subSpecies = it)) }
+            onValueChange = {
+                onValueChange(
+                    plant.copy(main = plant.main.copy(fullName = it))
+                )
+            }
         )
     }
-
 }

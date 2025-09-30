@@ -6,12 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.myplants.dao.PlantDao
 import com.example.myplants.dao.PlantPhotoDao
+import com.example.myplants.models.Genus
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantPhoto
 
 @Database(
-    entities = [Plant::class, PlantPhoto::class],
-    version = 4,
+    entities = [Plant::class, PlantPhoto::class, Genus::class],
+    version = 1,
     exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -30,7 +31,6 @@ abstract class AppDatabase : RoomDatabase() {
                         AppDatabase::class.java,
                         "app_database"
                     )
-                        .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
                         .build()
                     INSTANCE = instance
                 }

@@ -23,6 +23,7 @@ import coil.compose.AsyncImage
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantPhoto
 import com.example.myplants.models.PlantWithPhotos
+import com.example.myplants.models.sections.MainInfo
 import com.example.myplants.ui.componets.card.CardPhotoEditable
 import com.example.myplants.ui.theme.GreenLight
 
@@ -113,8 +114,10 @@ fun PlantCardGroup(
 fun PlantCardGroupPreview_Editable() {
     val samplePlant = Plant(
         id = 1L,
-        name = "Монстера",
-        species = "Monstera deliciosa"
+        main = MainInfo(
+            genus = "Монстера",
+            species = "Monstera deliciosa"
+        )
     )
 
     val samplePhotos = listOf(
