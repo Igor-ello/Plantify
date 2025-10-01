@@ -1,7 +1,10 @@
 package com.example.myplants.ui.screens
 
 import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -50,11 +53,35 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
     var restoreReplaceMode by remember { mutableStateOf(true) }
     var showJsonPreview by remember { mutableStateOf(false) }
 
+    // Лаунчер выбора файла из внутреннего хранилища
+    val importLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            val inputStream = context.contentResolver.openInputStream(it)
+            val importedFile = File(context.filesDir, "imported_backup.json")
+            inputStream?.use { input ->
+                importedFile.outputStream().use { output ->
+                    input.copyTo(output)
+                }
+            }
+            scope.launch {
+                viewModel.restore(importedFile)
+                Toast.makeText(context, "Файл импортирован", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     LaunchedEffect(Unit) { viewModel.refreshBackups() }
 
     Column(modifier = Modifier.padding(16.dp)) {
         Button(onClick = { showCreateConfirm = true }) {
             Text("Создать резервную копию")
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(onClick = { importLauncher.launch("application/json") }) {
+            Text("Импортировать файл")
         }
 
         Spacer(modifier = Modifier.height(12.dp))
