@@ -1,14 +1,11 @@
 package com.example.myplants.ui.screens
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -31,7 +28,7 @@ import com.example.myplants.models.PlantWithPhotos
 import com.example.myplants.models.sections.MainInfo
 import com.example.myplants.models.sections.StateInfo
 import com.example.myplants.ui.FakeAppContainer
-import com.example.myplants.ui.componets.plant_card.PlantCardMin
+import com.example.myplants.ui.componets.plant_card.GenusCard
 import com.example.myplants.ui.navigation.PlantsNavHost
 import com.example.myplants.ui.theme.MyPlantsTheme
 import com.example.myplants.ui.viewmodels.PlantsViewModel
@@ -62,39 +59,28 @@ fun AllPlantsScreen(
     val plantsWithPhotos by viewModel.plants.observeAsState(emptyList())
     val listState = rememberLazyListState()
 
+    val groupedPlants = plantsWithPhotos.groupBy { it.plant.main.genus }
     LazyColumn(
         state = listState,
         modifier = modifier.padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
         contentPadding = PaddingValues(bottom = 64.dp)
     ) {
-        items(
-            items = plantsWithPhotos,
-            key = { it.plant.id },
-            contentType = { "plant" }
-        ) { plantWithPhotos ->
-            val plantId = plantWithPhotos.plant.id
-
-            // safer: remember the whole item so lambda captures the correct instance
-//            val onClick = remember(plantId) { { onPlantClick(plantWithPhotos) } }
-//            val onToggleFavorite = remember(plantId) { { viewModel.toggleFavorite(plantWithPhotos.plant) } }
-//            val onToggleWishlist = remember(plantId) { { viewModel.toggleWishlist(plantWithPhotos.plant) } }
-
-            val onClick: (Plant) -> Unit = { onPlantClick(plantWithPhotos) }
-            val onToggleFavorite: (PlantWithPhotos) -> Unit = { viewModel.toggleFavorite(it.plant) }
-            val onToggleWishlist: (PlantWithPhotos) -> Unit = { viewModel.toggleWishlist(it.plant) }
-
-            PlantCardMin(
-                plantWithPhotos = plantWithPhotos,
-                editable = false,
-                onValueChange = {},
-                onClick = onClick,
-                onToggleFavorite = onToggleFavorite,
-                onToggleWishlist = onToggleWishlist,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .animateContentSize()
-            )
+        groupedPlants.forEach { (genus, plants) ->
+            item(key = genus) {
+                GenusCard(
+                    genus = genus,
+                    plants = plants,
+                    onPlantClick = onPlantClick,
+                    onToggleFavorite = { pw -> viewModel.toggleFavorite(pw.plant) },
+                    onToggleWishlist = { pw -> viewModel.toggleWishlist(pw.plant) },
+                    onEditGenus = { newGenus ->
+                        plants.forEach { pw ->
+                            viewModel.updatePlant(pw.plant.copy(main = pw.plant.main.copy(genus = newGenus)))
+                        }
+                    }
+                )
+            }
         }
     }
 }

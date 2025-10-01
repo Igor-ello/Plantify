@@ -15,10 +15,15 @@ class PlantsViewModel(
 
     val plants: LiveData<List<PlantWithPhotos>> = repository.getAllPlantsWithPhotos()
 
-
     init {
         viewModelScope.launch {
             PlantDataInitializer.initialize(repository)
+        }
+    }
+
+    fun updatePlant(plant: Plant) {
+        viewModelScope.launch {
+            repository.updatePlant(plant)
         }
     }
 

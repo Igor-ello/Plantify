@@ -2,9 +2,11 @@ package com.example.myplants.data.backup
 
 import android.content.Context
 import androidx.room.withTransaction
+import com.example.myplants.dao.GenusDao
 import com.example.myplants.dao.PlantDao
 import com.example.myplants.dao.PlantPhotoDao
 import com.example.myplants.db.AppDatabase
+import com.example.myplants.models.Genus
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantPhoto
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +20,7 @@ import java.util.Locale
 class BackupRepository(
     private val plantDao: PlantDao,
     private val plantPhotoDao: PlantPhotoDao,
+    private val genusDao: GenusDao,
     private val context: Context
 ) : BackupRepositoryInterface {
     private val backupDir: File = File(context.filesDir, "backups").apply { mkdirs() }
@@ -31,7 +34,8 @@ class BackupRepository(
     override suspend fun createBackup(): File = withContext(Dispatchers.IO) {
         val plants: List<Plant> = plantDao.getAll()
         val photos: List<PlantPhoto> = plantPhotoDao.getAll()
-        val backup = BackupData(plants = plants, photos = photos)
+        val genus: List<Genus> = genusDao.getAll()
+        val backup = BackupData(plants = plants, photos = photos, genus = genus)
         val json = Json { prettyPrint = true }.encodeToString(backup)
         val file = generateBackupFile()
         file.writeText(json)

@@ -16,6 +16,7 @@ open class AppContainer(context: Context) : AppContainerInterface {
     override val backupRepository = BackupRepository(
         database.plantDao,
         database.plantPhotoDao,
+        database.genusDao,
         context
     )
 }
