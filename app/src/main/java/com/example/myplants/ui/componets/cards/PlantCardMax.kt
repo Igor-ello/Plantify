@@ -1,4 +1,4 @@
-package com.example.myplants.ui.componets.plant_card
+package com.example.myplants.ui.componets.cards
 
 
 import androidx.compose.foundation.layout.Arrangement
@@ -22,17 +22,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.myplants.models.Plant
+import com.example.myplants.models.PlantEntityInterface
 import com.example.myplants.models.PlantPhoto
 import com.example.myplants.models.PlantWithPhotos
 import com.example.myplants.models.sections.MainInfo
-import com.example.myplants.ui.componets.card.CardPhotoEditable
+import com.example.myplants.ui.componets.card_fields.CardPhotoEditable
+import com.example.myplants.ui.componets.card_fields.CardBasicContent
+import com.example.myplants.ui.componets.card_fields.CardDetailContent
 import com.example.myplants.ui.theme.GreenLight
 
 @Composable
-fun PlantCardMax(
+fun PlantCardFull(
     plantWithPhotos: PlantWithPhotos,
     editable: Boolean,
-    onValueChange: (Plant) -> Unit,
+    onValueChange: (PlantEntityInterface) -> Unit,
     onPhotosChanged: (List<PlantPhoto>) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
@@ -105,8 +108,8 @@ fun PlantCardMax(
                 }
             }
 
-            PlantBasicContent(plantWithPhotos.plant, editable, onValueChange)
-            PlantDetailContent(plantWithPhotos.plant, editable, onValueChange)
+            CardBasicContent(plantWithPhotos.plant, editable, onValueChange)
+            CardDetailContent(plantWithPhotos.plant, editable, onValueChange)
         }
     }
 }
@@ -138,7 +141,7 @@ fun PlantCardMaxPreview_Editable() {
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        PlantCardMax(
+        PlantCardFull(
             plantWithPhotos = plantWithPhotos,
             editable = true,
             onValueChange = { /* preview - ничего не делаем */ },

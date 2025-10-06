@@ -1,4 +1,4 @@
-package com.example.myplants.ui.componets.card
+package com.example.myplants.ui.componets.card_fields
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton

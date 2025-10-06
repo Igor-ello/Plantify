@@ -11,4 +11,8 @@ sealed class Routes(val route: String) {
     object PlantDetail : Routes("plant_detail/{plantId}") {
         fun createRoute(plantId: Long) = "plant_detail/$plantId"
     }
+
+    object GenusDetail : Routes("genus_detail/{genusId}") {
+        fun createRoute(genusId: Long) = "genus_detail/$genusId"
+    }
 }

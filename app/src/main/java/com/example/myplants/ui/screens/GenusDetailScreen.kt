@@ -32,39 +32,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.myplants.models.Plant
-import com.example.myplants.models.PlantWithPhotos
+import com.example.myplants.models.Genus
 import com.example.myplants.ui.componets.card_fields.CardDeleteButton
-import com.example.myplants.ui.componets.cards.PlantCardFull
-import com.example.myplants.ui.viewmodels.PlantDetailViewModel
+import com.example.myplants.ui.componets.cards.GenusCardFull
+import com.example.myplants.ui.viewmodels.GenusDetailViewModel
 import com.example.myplants.ui.viewmodels.UiStateViewModel
-
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun PlantDetailScreen(
-    viewModel: PlantDetailViewModel,
+fun GenusDetailScreen(
+    viewModel: GenusDetailViewModel,
     navController: NavHostController,
     uiStateViewModel: UiStateViewModel? = null,
     modifier: Modifier = Modifier
 ) {
     val uiStateViewModel: UiStateViewModel = uiStateViewModel ?: viewModel<UiStateViewModel>()
 
-    val plantWithPhotos by viewModel.plantWithPhotos.observeAsState()
-    val editedPlant by viewModel.editedPlant.observeAsState()
-    val editedPhotos by viewModel.editedPhotos.observeAsState(emptyList())
+    val editedGenus by viewModel.editedGenus.observeAsState()
 
-    if (plantWithPhotos == null || editedPlant == null) {
-        Text("Plant not found", modifier = modifier.padding(16.dp))
+    if (editedGenus == null) {
+        Text("Genus not found", modifier = modifier.padding(16.dp))
         return
     }
 
     var isEditing by remember { mutableStateOf(false) }
 
-    LaunchedEffect(isEditing, editedPlant) {
-        val title =
-            if (isEditing) "Edit: ${editedPlant?.main?.species}"
-            else editedPlant?.main?.species!!.ifBlank { "Plant" }
+    LaunchedEffect(isEditing, editedGenus) {
+        val title = if (isEditing) "Edit: ${editedGenus?.main?.genus}" else editedGenus?.main?.genus!!.ifBlank { "Genus" }
         uiStateViewModel.setDrawerTitle(title)
         uiStateViewModel.showBackButton(true)
 
@@ -80,9 +74,9 @@ fun PlantDetailScreen(
                     onClick = {
                         viewModel.saveChanges()
                         isEditing = false
-                        uiStateViewModel.setDrawerTitle(editedPlant?.main?.species!!.ifBlank { "Plant" })
+                        uiStateViewModel.setDrawerTitle(editedGenus?.main?.genus!!.ifBlank { "Genus" })
                     },
-                    enabled = editedPlant?.main?.species?.isNotBlank() == true
+                    enabled = editedGenus?.main?.genus?.isNotBlank() == true
                 ) {
                     Icon(Icons.Default.Check, contentDescription = "Save")
                 }
@@ -105,11 +99,13 @@ fun PlantDetailScreen(
             .padding(16.dp)
     ) {
         Column {
-            PlantCardFull(
-                plantWithPhotos = PlantWithPhotos(plant = editedPlant!!, photos = editedPhotos),
+            GenusCardFull(
+                genus = editedGenus!!,
                 editable = isEditing,
-                onValueChange = { updatedPlant -> viewModel.updateEditedPlant(updatedPlant as Plant) },
-                onPhotosChanged = { updatedPhotos -> viewModel.updateEditedPhotos(updatedPhotos) }
+                onValueChange = { updatedGenus ->
+                    viewModel.updateEditedGenus(updatedGenus as Genus)
+                },
+                modifier = Modifier.fillMaxWidth()
             )
 
             if (isEditing) {
@@ -121,7 +117,7 @@ fun PlantDetailScreen(
                     Button(onClick = {
                         viewModel.resetChanges()
                         isEditing = false
-                        uiStateViewModel.setDrawerTitle(plantWithPhotos!!.plant.main.species.ifBlank { "Plant" })
+                        uiStateViewModel.setDrawerTitle(editedGenus!!.main.genus.ifBlank { "Genus" })
                     }) {
                         Text("Cancel")
                     }
@@ -129,9 +125,9 @@ fun PlantDetailScreen(
                         onClick = {
                             viewModel.saveChanges()
                             isEditing = false
-                            uiStateViewModel.setDrawerTitle(editedPlant?.main?.species!!.ifBlank { "Plant" })
+                            uiStateViewModel.setDrawerTitle(editedGenus!!.main.genus.ifBlank { "Genus" })
                         },
-                        enabled = editedPlant?.main?.species?.isNotBlank() == true
+                        enabled = editedGenus?.main?.genus?.isNotBlank() == true
                     ) {
                         Text("Save Changes")
                     }
@@ -142,7 +138,7 @@ fun PlantDetailScreen(
 
             CardDeleteButton(
                 onDeleteConfirmed = {
-                    viewModel.deletePlant { navController.popBackStack() }
+                    viewModel.deleteGenus { navController.popBackStack() }
                 },
                 modifier = Modifier.padding(top = 16.dp)
             )

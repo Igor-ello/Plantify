@@ -14,20 +14,35 @@ import kotlinx.serialization.Serializable
 @Entity(tableName = "genus_table")
 data class Genus (
     @PrimaryKey(autoGenerate = true)
-    var id: Long = 0,
+    override var id: Long = 0,
 
     @Embedded(prefix = "main_")
-    var main: MainInfo,
+    override var main: MainInfo,
 
     @Embedded(prefix = "care_")
-    var care: CareInfo = CareInfo(),
+    override var care: CareInfo = CareInfo(),
 
     @Embedded(prefix = "lifecycle_")
-    var lifecycle: LifecycleInfo = LifecycleInfo(),
+    override var lifecycle: LifecycleInfo = LifecycleInfo(),
 
     @Embedded(prefix = "health_")
-    var health: HealthInfo = HealthInfo(),
+    override var health: HealthInfo = HealthInfo(),
 
     @Embedded(prefix = "state_")
-    var state: StateInfo = StateInfo()
-)
+    override var state: StateInfo = StateInfo()
+) : PlantEntityInterface {
+
+    override fun update(
+        main: MainInfo,
+        care: CareInfo,
+        lifecycle: LifecycleInfo,
+        health: HealthInfo,
+        state: StateInfo
+    ): PlantEntityInterface = copy(
+        main = main,
+        care = care,
+        lifecycle = lifecycle,
+        health = health,
+        state = state
+    )
+}

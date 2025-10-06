@@ -1,15 +1,18 @@
 package com.example.myplants.data.plant
 
 import androidx.lifecycle.LiveData
+import com.example.myplants.dao.GenusDao
 import com.example.myplants.dao.PlantDao
 import com.example.myplants.dao.PlantPhotoDao
+import com.example.myplants.models.Genus
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantPhoto
 import com.example.myplants.models.PlantWithPhotos
 
 class PlantRepository(
     private val plantDao: PlantDao,
-    private val photoDao: PlantPhotoDao
+    private val plantPhotoDao: PlantPhotoDao,
+    private val genusDao: GenusDao
 ) : PlantRepositoryInterface {
 
     // Растения с их фотографиями
@@ -41,22 +44,33 @@ class PlantRepository(
         plantDao.setWishlist(plantId, isWishlist)
 
     // Работа с фотографиями
-    override suspend fun insertPhoto(photo: PlantPhoto) = photoDao.insertPhoto(photo)
+    override suspend fun insertPhoto(photo: PlantPhoto) = plantPhotoDao.insertPhoto(photo)
 
-    override suspend fun insertPhotos(photos: List<PlantPhoto>) = photoDao.insertPhotos(photos)
+    override suspend fun insertPhotos(photos: List<PlantPhoto>) = plantPhotoDao.insertPhotos(photos)
 
-    override suspend fun updatePhoto(photo: PlantPhoto) = photoDao.updatePhoto(photo)
+    override suspend fun updatePhoto(photo: PlantPhoto) = plantPhotoDao.updatePhoto(photo)
 
-    override suspend fun deletePhoto(photoId: Long) = photoDao.deleteById(photoId)
+    override suspend fun deletePhoto(photoId: Long) = plantPhotoDao.deleteById(photoId)
 
-    override suspend fun setMainPhoto(plantId: Long, photoId: Long) = photoDao.setMainPhoto(plantId, photoId)
+    override suspend fun setMainPhoto(plantId: Long, photoId: Long) = plantPhotoDao.setMainPhoto(plantId, photoId)
 
-    override suspend fun getPhotosForPlant(plantId: Long): List<PlantPhoto> = photoDao.getPhotosForPlant(plantId)
+    override suspend fun getPhotosForPlant(plantId: Long): List<PlantPhoto> = plantPhotoDao.getPhotosForPlant(plantId)
 
     // --- Комплексные операции ---
     override suspend fun deletePlantWithPhotos(plantId: Long) {
         // Удаляем сначала фото, потом само растение
-        photoDao.deletePhotosByPlantId(plantId)
+        plantPhotoDao.deletePhotosByPlantId(plantId)
         plantDao.deleteById(plantId)
+    }
+
+    override suspend fun getGenusByName(name: String) =
+        genusDao.getGenusByName(name)
+
+    override suspend fun createGenus(genus: Genus): Long {
+        return genusDao.insertGenus(genus)
+    }
+
+    override suspend fun getGenusById(genusId: Long): Genus {
+        return genusDao.getGenusById(genusId)
     }
 }

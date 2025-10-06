@@ -21,12 +21,12 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+    }
 
-        ksp {
-            arg("room.schemaLocation", "$projectDir/schemas")
-            arg("room.incremental", "true")
-            arg("room.expandProjection", "true")
-        }
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
+        arg("room.incremental", "true")
+        arg("room.expandProjection", "true")
     }
 
     buildTypes {
@@ -65,6 +65,7 @@ dependencies {
     // Room
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.runtime.livedata)
+    implementation(libs.room.ktx)
     ksp(libs.androidx.room.compiler)
 
     // Navigation Compose

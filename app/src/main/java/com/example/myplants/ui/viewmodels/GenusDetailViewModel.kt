@@ -1,0 +1,79 @@
+package com.example.myplants.ui.viewmodels
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.myplants.models.Genus
+import com.example.myplants.models.sections.CareInfo
+import com.example.myplants.models.sections.HealthInfo
+import com.example.myplants.models.sections.LifecycleInfo
+import com.example.myplants.models.sections.MainInfo
+import com.example.myplants.models.sections.StateInfo
+import kotlinx.coroutines.launch
+
+class GenusDetailViewModel(
+    private val genusId: Long,
+    private val repository: GenusRepository
+) : ViewModel() {
+
+    private val _originalGenus = MutableLiveData<Genus?>()
+    val originalGenus: LiveData<Genus?> = _originalGenus
+
+    private val _editedGenus = MutableLiveData<Genus?>()
+    val editedGenus: LiveData<Genus?> = _editedGenus
+
+    init {
+        loadGenus()
+    }
+
+    private fun loadGenus(genusId: Long? = null) {
+        viewModelScope.launch {
+            val genus = if (genusId != null) repository.getGenusById(genusId) else Genus.empty()
+            _originalGenus.value = genus
+            _editedGenus.value = genus?.copy()
+        }
+    }
+
+    // Обновление текущего редактируемого рода
+    fun updateEditedGenus(updatedGenus: Genus) {
+        _editedGenus.value = updatedGenus
+    }
+
+    // Сброс изменений
+    fun resetChanges() {
+        _editedGenus.value = _originalGenus.value?.copy()
+    }
+
+    // Сохранение изменений
+    fun saveChanges() {
+        val genus = _editedGenus.value ?: return
+        viewModelScope.launch {
+            repository.updateGenus(genus)
+            _originalGenus.value = genus.copy()
+            _editedGenus.value = genus.copy()
+        }
+    }
+
+    // Удаление рода
+    fun deleteGenus(onDeleted: () -> Unit) {
+        val genus = _editedGenus.value ?: return
+        viewModelScope.launch {
+            repository.deleteGenus(genus)
+            onDeleted()
+        }
+    }
+}
+
+// Вспомогательный метод для пустого рода
+fun Genus.Companion.empty() = Genus(
+    id = 0L,
+    main = MainInfo(
+        genus = "",
+        species = ""
+    ),
+    care = CareInfo(),
+    lifecycle = LifecycleInfo(),
+    health = HealthInfo(),
+    state = StateInfo()
+)

@@ -14,6 +14,7 @@ lifecycleViewmodelCompose = "2.9.4"
 navigationCompose = "2.9.4"
 roomVersion = "2.7.2"
 runtimeLivedata = "1.9.0"
+roomKtx = "2.8.1"
 
 [libraries]
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation" }
@@ -38,6 +39,7 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomVersion" }
 androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

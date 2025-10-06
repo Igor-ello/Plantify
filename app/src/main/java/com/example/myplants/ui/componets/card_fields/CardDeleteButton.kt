@@ -1,4 +1,4 @@
-package com.example.myplants.ui.componets.card
+package com.example.myplants.ui.componets.card_fields
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures

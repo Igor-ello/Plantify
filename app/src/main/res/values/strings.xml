@@ -21,7 +21,7 @@
     <string name="plant_last_watering_date">Дата последнего полива (в формате \"yyyy-MM-dd\")</string>
     <string name="plant_fertilizer">Подкормки</string>
     <string name="plant_fertilization_frequency">Частота удобрения (месяцы)</string>
-    <string name="palnt_first_landing">Возраст</string>
+    <string name="plant_first_landing">Возраст</string>
     <string name="sunlight_shadeloving">Тенелюбивое</string>
     <string name="plant_moderate">Умеренное</string>
     <string name="plant_light_loving">Светлолюбивое</string>
@@ -36,4 +36,5 @@
     <string name="screen_settings">Settings</string>
     <string name="screen_help_feedback"><![CDATA[Help & Feedback]]></string>
     <string name="plant_genus">Род</string>
+    <string name="plant_fertilizer_last_date">Последняя дата удобрения</string>
 </resources>

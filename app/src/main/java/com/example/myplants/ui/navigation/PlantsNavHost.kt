@@ -16,6 +16,7 @@ import com.example.myplants.ui.componets.SetupTopBar
 import com.example.myplants.ui.screens.AddPlantScreen
 import com.example.myplants.ui.screens.AllPlantsScreen
 import com.example.myplants.ui.screens.FavoritesScreen
+import com.example.myplants.ui.screens.GenusDetailScreen
 import com.example.myplants.ui.screens.HelpScreen
 import com.example.myplants.ui.screens.PlantDetailScreen
 import com.example.myplants.ui.screens.SettingsScreen
@@ -23,6 +24,8 @@ import com.example.myplants.ui.screens.WishlistScreen
 import com.example.myplants.ui.utils.Routes
 import com.example.myplants.ui.viewmodels.AddPlantViewModel
 import com.example.myplants.ui.viewmodels.AddPlantViewModelFactory
+import com.example.myplants.ui.viewmodels.GenusDetailViewModel
+import com.example.myplants.ui.viewmodels.GenusDetailViewModelFactory
 import com.example.myplants.ui.viewmodels.PlantDetailViewModel
 import com.example.myplants.ui.viewmodels.PlantDetailViewModelFactory
 import com.example.myplants.ui.viewmodels.PlantsViewModel
@@ -93,6 +96,27 @@ fun PlantsNavHost(
                 viewModel = addPlantsViewModel,
                 onSave = { navController.popBackStack() },
                 onCancel = { navController.popBackStack() }
+            )
+        }
+
+        composable(
+            Routes.GenusDetail.route,
+            arguments = listOf(navArgument("genusId") { type = NavType.LongType })
+        ) { backStackEntry ->
+            val genusId = backStackEntry.arguments?.getLong("genusId")
+            if (genusId == null) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+                return@composable
+            }
+
+            val genusDetailViewModel: GenusDetailViewModel = viewModel(
+                factory = GenusDetailViewModelFactory(genusId, appContainer.genusRepository)
+            )
+
+            GenusDetailScreen(
+                viewModel = genusDetailViewModel,
+                navController = navController,
+                uiStateViewModel = uiStateViewModel
             )
         }
 

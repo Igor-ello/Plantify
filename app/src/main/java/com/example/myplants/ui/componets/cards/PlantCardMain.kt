@@ -1,4 +1,4 @@
-package com.example.myplants.ui.componets.plant_card
+package com.example.myplants.ui.componets.cards
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -30,18 +30,20 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.myplants.R
 import com.example.myplants.models.Plant
+import com.example.myplants.models.PlantEntityInterface
 import com.example.myplants.models.PlantWithPhotos
-import com.example.myplants.ui.componets.card.CardIconFavourite
-import com.example.myplants.ui.componets.card.CardIconWishlist
+import com.example.myplants.ui.componets.card_fields.CardIconFavourite
+import com.example.myplants.ui.componets.card_fields.CardIconWishlist
+import com.example.myplants.ui.componets.card_fields.CardBasicContent
 import com.example.myplants.ui.theme.GreenLight
 
 
 @Composable
-fun PlantCardMin(
+fun PlantCardMain(
     plantWithPhotos: PlantWithPhotos,
     editable: Boolean,
-    onValueChange: (Plant) -> Unit,
     onClick: (Plant) -> Unit,
+    onValueChange: (PlantEntityInterface) ->   Unit,
     onToggleFavorite: (PlantWithPhotos) -> Unit,
     onToggleWishlist: (PlantWithPhotos) -> Unit,
     modifier: Modifier = Modifier
@@ -132,7 +134,7 @@ fun PlantCardMin(
             }
 
             // Основная информация о растении
-            PlantBasicContent(plant, editable, onValueChange)
+            CardBasicContent(plant, editable, onValueChange)
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.myplants.ui.componets.card
+package com.example.myplants.ui.componets.card_fields
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable

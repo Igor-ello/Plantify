@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.myplants.models.Plant
 import com.example.myplants.ui.viewmodels.PlantsViewModel
-import com.example.myplants.ui.componets.plant_card.PlantCardMin
+import com.example.myplants.ui.componets.cards.PlantCardMain
 
 @Composable
 fun WishlistScreen (
@@ -22,7 +22,7 @@ fun WishlistScreen (
 
     LazyColumn(modifier = modifier.padding(16.dp)) {
         items(wishlist) { plantWithPhotos ->
-            PlantCardMin(
+            PlantCardMain(
                 plantWithPhotos = plantWithPhotos,
                 editable = false,
                 onValueChange = {},

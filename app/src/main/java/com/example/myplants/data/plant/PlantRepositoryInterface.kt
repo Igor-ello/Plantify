@@ -1,6 +1,7 @@
 package com.example.myplants.data.plant
 
 import androidx.lifecycle.LiveData
+import com.example.myplants.models.Genus
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantPhoto
 import com.example.myplants.models.PlantWithPhotos
@@ -27,4 +28,7 @@ interface PlantRepositoryInterface {
     suspend fun getPhotosForPlant(plantId: Long): List<PlantPhoto>
 
     suspend fun deletePlantWithPhotos(plantId: Long)
+    suspend fun getGenusByName(name: String): Genus?
+    suspend fun createGenus(genus: Genus): Long
+    suspend fun getGenusById(genusId: Long): Genus
 }

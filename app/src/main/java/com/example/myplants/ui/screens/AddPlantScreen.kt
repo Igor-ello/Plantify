@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantWithPhotos
 import com.example.myplants.models.sections.MainInfo
-import com.example.myplants.ui.componets.plant_card.PlantCardMax
+import com.example.myplants.ui.componets.cards.PlantCardFull
 import com.example.myplants.ui.viewmodels.AddPlantViewModel
 
 
@@ -40,10 +40,10 @@ fun AddPlantScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            PlantCardMax(
+            PlantCardFull(
                 plantWithPhotos = newPlantWithPhotos,
                 editable = true,
-                onValueChange = { updatedPlant -> viewModel.updateNewPlant(updatedPlant) },
+                onValueChange = { updatedPlant -> viewModel.updateNewPlant(updatedPlant as Plant) },
                 onPhotosChanged = { updatedPhotos -> viewModel.updateNewPlantPhotos(updatedPhotos) }
             )
 
