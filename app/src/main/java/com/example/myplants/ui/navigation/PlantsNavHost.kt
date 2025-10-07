@@ -11,7 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.myplants.R
-import com.example.myplants.ui.AppContainerInterface
+import com.example.myplants.core.di.AppContainerInterface
 import com.example.myplants.ui.componets.SetupTopBar
 import com.example.myplants.ui.screens.AddPlantScreen
 import com.example.myplants.ui.screens.AllPlantsScreen
@@ -21,7 +21,7 @@ import com.example.myplants.ui.screens.HelpScreen
 import com.example.myplants.ui.screens.PlantDetailScreen
 import com.example.myplants.ui.screens.SettingsScreen
 import com.example.myplants.ui.screens.WishlistScreen
-import com.example.myplants.ui.utils.Routes
+import com.example.myplants.core.utils.Routes
 import com.example.myplants.ui.viewmodels.AddPlantViewModel
 import com.example.myplants.ui.viewmodels.AddPlantViewModelFactory
 import com.example.myplants.ui.viewmodels.GenusDetailViewModel

@@ -1,4 +1,4 @@
-package com.example.myplants.db
+package com.example.myplants.core.db
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase

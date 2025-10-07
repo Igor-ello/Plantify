@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.myplants.R
-import com.example.myplants.ui.utils.Routes
+import com.example.myplants.core.utils.Routes
 import com.example.myplants.ui.viewmodels.UiStateViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

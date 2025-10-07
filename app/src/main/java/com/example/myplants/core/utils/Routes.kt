@@ -1,4 +1,4 @@
-package com.example.myplants.ui.utils
+package com.example.myplants.core.utils
 
 sealed class Routes(val route: String) {
     object AllPlants : Routes("all_plants")

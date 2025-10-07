@@ -5,7 +5,7 @@ import androidx.room.withTransaction
 import com.example.myplants.data.genus.GenusRepository
 import com.example.myplants.data.photo.PhotoRepository
 import com.example.myplants.data.plant.PlantRepository
-import com.example.myplants.db.AppDatabase
+import com.example.myplants.core.db.AppDatabase
 import com.example.myplants.models.Genus
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantPhoto

@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import com.example.myplants.ui.AppContainer
+import com.example.myplants.core.di.AppContainer
 import com.example.myplants.ui.navigation.NavigationDrawer
 import com.example.myplants.ui.navigation.PlantsNavHost
 import com.example.myplants.ui.viewmodels.UiStateViewModel

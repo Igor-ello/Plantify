@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.myplants.ui.AppContainer
+import com.example.myplants.core.di.AppContainer
 import com.example.myplants.ui.theme.MyPlantsTheme
 
 class MainActivity : ComponentActivity() {

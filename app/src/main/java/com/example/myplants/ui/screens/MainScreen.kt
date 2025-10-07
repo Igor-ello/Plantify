@@ -1,6 +1,5 @@
 package com.example.myplants.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,10 +24,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.myplants.models.Genus
 import com.example.myplants.models.PlantWithPhotos
 import com.example.myplants.ui.componets.cards.GenusCardMain
-import com.example.myplants.ui.utils.Routes
+import com.example.myplants.core.utils.Routes
 import com.example.myplants.ui.viewmodels.MainViewModel
 import com.example.myplants.ui.viewmodels.UiStateViewModel
-import java.util.Objects.toString
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

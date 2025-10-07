@@ -1,11 +1,10 @@
-package com.example.myplants.ui
+package com.example.myplants.core.di
 
 import android.content.Context
-import com.example.myplants.dao.PlantPhotoDao
 import com.example.myplants.data.MainFacade
 import com.example.myplants.data.backup.BackupRepository
 import com.example.myplants.data.plant.PlantRepository
-import com.example.myplants.db.AppDatabase
+import com.example.myplants.core.db.AppDatabase
 import com.example.myplants.data.genus.GenusRepository
 import com.example.myplants.data.photo.PhotoRepository
 import com.example.myplants.data.plant_with_photos.PlantStateRepository
