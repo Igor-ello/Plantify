@@ -5,58 +5,32 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
 import androidx.room.Update
 import com.example.myplants.models.Plant
-import com.example.myplants.models.PlantWithPhotos
 
 @Dao
 interface PlantDao {
     @Insert
-    suspend fun insert(plant: Plant): Long
-
-    @Update
-    suspend fun update(plant: Plant)
-
-    @Query("SELECT * FROM plant_table WHERE id = :plantId")
-    fun getById(plantId: Long): LiveData<Plant>
-
-    @Query("SELECT * FROM plant_table ORDER BY id DESC")
-    suspend fun getAll(): List<Plant>
-
-    @Query("DELETE FROM plant_table WHERE id = :plantId")
-    suspend fun deleteById(plantId: Long)
-
-    @Query("DELETE FROM plant_table")
-    suspend fun deleteAll()
+    suspend fun insertPlant(plant: Plant): Long
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertAll(plants: List<Plant>)
+    suspend fun insertPlants(plants: List<Plant>)
 
-    // Для PlantWithPhotos
-    @Transaction
-    @Query("SELECT * FROM plant_table ORDER BY id DESC")
-    fun getAllWithPhotos(): LiveData<List<PlantWithPhotos>>
+    @Update
+    suspend fun updatePlant(plant: Plant)
 
-    @Transaction
     @Query("SELECT * FROM plant_table WHERE id = :plantId")
-    fun getByIdWithPhotos(plantId: Long): LiveData<PlantWithPhotos?>
+    fun getPlantById(plantId: Long): LiveData<Plant>
+
+    @Query("SELECT * FROM plant_table ORDER BY id DESC")
+    fun getAllPlantsLive(): LiveData<List<Plant>>
 
     @Query("SELECT * FROM plant_table ORDER BY id DESC")
     suspend fun getAllPlants(): List<Plant>
 
-    // Additional
-    @Query("UPDATE plant_table SET state_is_favorite = :isFavorite WHERE id = :plantId")
-    suspend fun setFavorite(plantId: Long, isFavorite: Boolean)
+    @Query("DELETE FROM plant_table WHERE id = :plantId")
+    suspend fun deletePlantsById(plantId: Long)
 
-    @Transaction
-    @Query("SELECT * FROM plant_table WHERE state_is_favorite = 1 ORDER BY id DESC")
-    fun getFavorites(): LiveData<List<PlantWithPhotos>>
-
-    @Query("UPDATE plant_table SET state_is_wishlist = :isWishlist WHERE id = :plantId")
-    suspend fun setWishlist(plantId: Long, isWishlist: Boolean)
-
-    @Transaction
-    @Query("SELECT * FROM plant_table WHERE state_is_wishlist = 1 ORDER BY id DESC")
-    fun getWishlist(): LiveData<List<PlantWithPhotos>>
+    @Query("DELETE FROM plant_table")
+    suspend fun deleteAllPlants()
 }

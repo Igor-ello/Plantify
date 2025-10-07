@@ -4,18 +4,25 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myplants.data.photo.PhotoRepository
+import com.example.myplants.data.photo.PhotoRepositoryInterface
+import com.example.myplants.data.plant.PlantRepository
 import com.example.myplants.data.plant.PlantRepositoryInterface
+import com.example.myplants.data.plant_with_photos.PlantWithPhotosRepository
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantPhoto
 import com.example.myplants.models.PlantWithPhotos
 import kotlinx.coroutines.launch
 
 class PlantDetailViewModel(
-    private val repository: PlantRepositoryInterface,
+    private val plantWithPhotosRepository: PlantWithPhotosRepository,
+    private val plantRepository: PlantRepositoryInterface,
+    private val photoRepository: PhotoRepositoryInterface,
     plantId: Long
 ) : ViewModel() {
 
-    val plantWithPhotos: LiveData<PlantWithPhotos?> = repository.getPlantWithPhotosById(plantId)
+    val plantWithPhotos: LiveData<PlantWithPhotos?> =
+        plantWithPhotosRepository.getPlantWithPhotosById(plantId)
 
     private val _editedPlant = MutableLiveData<Plant>()
     val editedPlant: LiveData<Plant> get() = _editedPlant
@@ -45,10 +52,10 @@ class PlantDetailViewModel(
         val plant = _editedPlant.value ?: return
         val photos = _editedPhotos.value ?: emptyList()
         viewModelScope.launch {
-            repository.updatePlant(plant)
+            plantRepository.updatePlant(plant)
             photos.forEach {
-                if (it.id == 0L) repository.insertPhoto(it.copy(plantId = plant.id))
-                else repository.updatePhoto(it)
+                if (it.id == 0L) photoRepository.insertPhoto(it.copy(plantId = plant.id))
+                else photoRepository.updatePhoto(it)
             }
         }
     }
@@ -63,7 +70,7 @@ class PlantDetailViewModel(
     fun deletePlant(onDeleted: () -> Unit) {
         val plant = _editedPlant.value ?: return
         viewModelScope.launch {
-            repository.deletePlantWithPhotos(plant.id)
+            plantWithPhotosRepository.deletePlantWithPhotos(plant.id)
             onDeleted()
         }
     }

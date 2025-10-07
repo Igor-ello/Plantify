@@ -7,6 +7,8 @@ import androidx.room.RoomDatabase
 import com.example.myplants.dao.GenusDao
 import com.example.myplants.dao.PlantDao
 import com.example.myplants.dao.PlantPhotoDao
+import com.example.myplants.dao.PlantStateDao
+import com.example.myplants.dao.PlantWithPhotosDao
 import com.example.myplants.models.Genus
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantPhoto
@@ -19,6 +21,8 @@ import com.example.myplants.models.PlantPhoto
 abstract class AppDatabase : RoomDatabase() {
     abstract val plantDao: PlantDao
     abstract val plantPhotoDao: PlantPhotoDao
+    abstract val plantState: PlantStateDao
+    abstract val plantWithPhotosDao: PlantWithPhotosDao
     abstract val genusDao: GenusDao
 
     companion object {

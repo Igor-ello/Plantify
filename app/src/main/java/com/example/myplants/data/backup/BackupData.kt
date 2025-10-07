@@ -9,5 +9,5 @@ import kotlinx.serialization.Serializable
 data class BackupData(
     val plants: List<Plant>,
     val photos: List<PlantPhoto>,
-    val genus: List<Genus>
+    val genera: List<Genus>
 )

@@ -1,5 +1,6 @@
 package com.example.myplants.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -15,11 +16,14 @@ interface PlantPhotoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPhotos(photos: List<PlantPhoto>)
 
-    @Query("SELECT * FROM plant_photo_table ORDER BY id DESC")
-    suspend fun getAll(): List<PlantPhoto>
+    @Update
+    suspend fun updatePhoto(photo: PlantPhoto)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertAll(plants: List<PlantPhoto>)
+    @Query("SELECT * FROM plant_photo_table ORDER BY id DESC")
+    fun getAllPhotoLive(): LiveData<List<PlantPhoto>>
+
+    @Query("SELECT * FROM plant_photo_table ORDER BY id DESC")
+    suspend fun getAllPhoto(): List<PlantPhoto>
 
     @Query("SELECT * FROM plant_photo_table WHERE plant_id = :plantId ORDER BY is_primary DESC, id ASC")
     suspend fun getPhotosForPlant(plantId: Long): List<PlantPhoto>
@@ -28,13 +32,10 @@ interface PlantPhotoDao {
     suspend fun setMainPhoto(plantId: Long, photoId: Long)
 
     @Query("DELETE FROM plant_photo_table WHERE id = :photoId")
-    suspend fun deleteById(photoId: Long)
+    suspend fun deletePhotoById(photoId: Long)
 
     @Query("DELETE FROM plant_photo_table")
-    suspend fun deleteAll()
-
-    @Update
-    suspend fun updatePhoto(photo: PlantPhoto)
+    suspend fun deleteAllPhoto()
 
     @Query("DELETE FROM plant_photo_table WHERE plant_id = :plantId")
     suspend fun deletePhotosByPlantId(plantId: Long)

@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myplants.data.photo.PhotoRepository
+import com.example.myplants.data.photo.PhotoRepositoryInterface
 import com.example.myplants.data.plant.PlantRepositoryInterface
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantPhoto
@@ -11,7 +13,8 @@ import com.example.myplants.models.sections.MainInfo
 import kotlinx.coroutines.launch
 
 class AddPlantViewModel(
-    private val repository: PlantRepositoryInterface
+    private val plantRepository: PlantRepositoryInterface,
+    private val photoRepository: PhotoRepositoryInterface
 ) : ViewModel() {
 
     // LiveData для нового растения и его фотографий
@@ -20,9 +23,6 @@ class AddPlantViewModel(
 
     private val _newPlantPhotos = MutableLiveData<List<PlantPhoto>>(emptyList())
     val newPlantPhotos: LiveData<List<PlantPhoto>> get() = _newPlantPhotos
-
-    // Режим применения поля
-    enum class ApplyMode { Overwrite, Prepend, Append }
 
     // Обновление текущего растения
     fun updateNewPlant(plant: Plant) {
@@ -45,8 +45,8 @@ class AddPlantViewModel(
         val plant = _newPlant.value ?: return
         val photos = _newPlantPhotos.value ?: emptyList()
         viewModelScope.launch {
-            val plantId = repository.insertPlant(plant)
-            photos.forEach { repository.insertPhoto(it.copy(plantId = plantId)) }
+            val plantId = plantRepository.insertPlant(plant)
+            photos.forEach { photoRepository.insertPhoto(it.copy(plantId = plantId)) }
             clearNewPlant()
             onSaved()
         }

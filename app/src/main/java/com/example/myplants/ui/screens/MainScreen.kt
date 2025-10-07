@@ -24,21 +24,16 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.myplants.models.Genus
 import com.example.myplants.models.PlantWithPhotos
-import com.example.myplants.models.sections.CareInfo
-import com.example.myplants.models.sections.HealthInfo
-import com.example.myplants.models.sections.LifecycleInfo
-import com.example.myplants.models.sections.MainInfo
-import com.example.myplants.models.sections.StateInfo
 import com.example.myplants.ui.componets.cards.GenusCardMain
 import com.example.myplants.ui.utils.Routes
-import com.example.myplants.ui.viewmodels.PlantsViewModel
+import com.example.myplants.ui.viewmodels.MainViewModel
 import com.example.myplants.ui.viewmodels.UiStateViewModel
 import java.util.Objects.toString
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AllPlantsScreen(
-    viewModel: PlantsViewModel,
+    viewModel: MainViewModel,
     onPlantClick: (PlantWithPhotos) -> Unit,
     onAddPlant: () -> Unit,
     uiStateViewModel: UiStateViewModel,
@@ -71,9 +66,7 @@ fun AllPlantsScreen(
             item(key = genusName) {
                 var genus by remember { mutableStateOf<Genus?>(null) }
                 LaunchedEffect(genusName) {
-                    genus = viewModel.getOrCreateGenus(genusName)
-                    Log.i("MyLog", genusName + toString(genus?.main?.genus))
-                    Log.i("MyLog2", genusName + genus.toString())
+                    genus = viewModel.getOrCreateGenusOnce(genusName)
                 }
 
                 if (genus != null) {

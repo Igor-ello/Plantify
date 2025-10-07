@@ -2,9 +2,9 @@ package com.example.myplants.data.backup
 
 import android.content.Context
 import androidx.room.withTransaction
-import com.example.myplants.dao.GenusDao
-import com.example.myplants.dao.PlantDao
-import com.example.myplants.dao.PlantPhotoDao
+import com.example.myplants.data.genus.GenusRepository
+import com.example.myplants.data.photo.PhotoRepository
+import com.example.myplants.data.plant.PlantRepository
 import com.example.myplants.db.AppDatabase
 import com.example.myplants.models.Genus
 import com.example.myplants.models.Plant
@@ -18,9 +18,9 @@ import java.util.Date
 import java.util.Locale
 
 class BackupRepository(
-    private val plantDao: PlantDao,
-    private val plantPhotoDao: PlantPhotoDao,
-    private val genusDao: GenusDao,
+    private val plantRepository: PlantRepository,
+    private val photoRepository: PhotoRepository,
+    private val genusRepository: GenusRepository,
     private val context: Context
 ) : BackupRepositoryInterface {
     private val backupDir: File = File(context.filesDir, "backups").apply { mkdirs() }
@@ -32,10 +32,10 @@ class BackupRepository(
     }
 
     override suspend fun createBackup(): File = withContext(Dispatchers.IO) {
-        val plants: List<Plant> = plantDao.getAll()
-        val photos: List<PlantPhoto> = plantPhotoDao.getAll()
-        val genus: List<Genus> = genusDao.getAll()
-        val backup = BackupData(plants = plants, photos = photos, genus = genus)
+        val plants: List<Plant> = plantRepository.getAllPlants()
+        val photos: List<PlantPhoto> = photoRepository.getAllPhoto()
+        val genera: List<Genus> = genusRepository.getAllGenus()
+        val backup = BackupData(plants = plants, photos = photos, genera = genera)
         val json = Json { prettyPrint = true }.encodeToString(backup)
         val file = generateBackupFile()
         file.writeText(json)
@@ -54,10 +54,12 @@ class BackupRepository(
         val json = file.readText()
         val backup: BackupData = Json.decodeFromString(json)
         AppDatabase.getInstance(context).withTransaction {
-            plantPhotoDao.deleteAll()
-            plantDao.deleteAll()
-            if (backup.plants.isNotEmpty()) plantDao.insertAll(backup.plants)
-            if (backup.photos.isNotEmpty()) plantPhotoDao.insertPhotos(backup.photos)
+            plantRepository.deleteAllPlants()
+            photoRepository.deleteAllPhoto()
+            genusRepository.deleteAllGenus()
+            if (backup.plants.isNotEmpty()) plantRepository.insertPlants(backup.plants)
+            if (backup.photos.isNotEmpty()) photoRepository.insertPhotos(backup.photos)
+            if (backup.genera.isNotEmpty()) genusRepository.insertGenera(backup.genera)
         }
     }
 
@@ -65,7 +67,8 @@ class BackupRepository(
         if (!file.exists()) return@withContext
         val json = file.readText()
         val backup: BackupData = Json.decodeFromString(json)
-        if (backup.plants.isNotEmpty()) plantDao.insertAll(backup.plants)
-        if (backup.photos.isNotEmpty()) plantPhotoDao.insertPhotos(backup.photos)
+        if (backup.plants.isNotEmpty()) plantRepository.insertPlants(backup.plants)
+        if (backup.photos.isNotEmpty()) photoRepository.insertPhotos(backup.photos)
+        if (backup.photos.isNotEmpty()) genusRepository.insertGenera(backup.genera)
     }
 }

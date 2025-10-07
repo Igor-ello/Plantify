@@ -26,10 +26,10 @@ import com.example.myplants.ui.viewmodels.AddPlantViewModel
 import com.example.myplants.ui.viewmodels.AddPlantViewModelFactory
 import com.example.myplants.ui.viewmodels.GenusDetailViewModel
 import com.example.myplants.ui.viewmodels.GenusDetailViewModelFactory
+import com.example.myplants.ui.viewmodels.MainViewModel
+import com.example.myplants.ui.viewmodels.MainViewModelFactory
 import com.example.myplants.ui.viewmodels.PlantDetailViewModel
 import com.example.myplants.ui.viewmodels.PlantDetailViewModelFactory
-import com.example.myplants.ui.viewmodels.PlantsViewModel
-import com.example.myplants.ui.viewmodels.PlantsViewModelFactory
 import com.example.myplants.ui.viewmodels.SettingsViewModel
 import com.example.myplants.ui.viewmodels.SettingsViewModelFactory
 import com.example.myplants.ui.viewmodels.UiStateViewModel
@@ -42,9 +42,9 @@ fun PlantsNavHost(
     uiStateViewModel: UiStateViewModel,
     modifier: Modifier = Modifier
 ) {
-    val viewModel: PlantsViewModel = viewModel(
-        factory = PlantsViewModelFactory(
-            appContainer.plantRepository
+    val viewModel: MainViewModel = viewModel(
+        factory = MainViewModelFactory(
+            appContainer.mainFacade
         )
     )
     NavHost(
@@ -75,7 +75,11 @@ fun PlantsNavHost(
             }
 
             val plantDetailViewModel: PlantDetailViewModel = viewModel(
-                factory = PlantDetailViewModelFactory(plantId, appContainer.plantRepository)
+                factory = PlantDetailViewModelFactory(plantId,
+                    appContainer.plantWithPhotosRepository,
+                    appContainer.plantRepository,
+                    appContainer.photoRepository
+                )
             )
 
             PlantDetailScreen(
@@ -89,7 +93,10 @@ fun PlantsNavHost(
             SetupTopBar(uiStateViewModel, R.string.screen_add_plant, true)
 
             val addPlantsViewModel: AddPlantViewModel = viewModel(
-                factory = AddPlantViewModelFactory(appContainer.plantRepository)
+                factory = AddPlantViewModelFactory(
+                    appContainer.plantRepository,
+                    appContainer.photoRepository
+                )
             )
 
             AddPlantScreen(

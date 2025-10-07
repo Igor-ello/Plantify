@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myplants.data.genus.GenusRepository
 import com.example.myplants.models.Genus
 import com.example.myplants.models.sections.CareInfo
 import com.example.myplants.models.sections.HealthInfo
@@ -59,7 +60,7 @@ class GenusDetailViewModel(
     fun deleteGenus(onDeleted: () -> Unit) {
         val genus = _editedGenus.value ?: return
         viewModelScope.launch {
-            repository.deleteGenus(genus)
+            repository.deleteGenusById(genus.id)
             onDeleted()
         }
     }

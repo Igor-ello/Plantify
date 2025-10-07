@@ -1,5 +1,7 @@
 package com.example.myplants.domain
 
+import com.example.myplants.data.MainFacade
+import com.example.myplants.data.MainFacadeInterface
 import com.example.myplants.data.plant.PlantRepositoryInterface
 import com.example.myplants.models.Plant
 import com.example.myplants.models.sections.CareInfo
@@ -15,16 +17,14 @@ import kotlinx.coroutines.launch
 
 object PlantDataInitializer {
 
-    fun initialize(repository: PlantRepositoryInterface) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val currentPlants = repository.getAllPlants()
-            if (currentPlants.isEmpty()) {
-                addTestPlants(repository)
-            }
+    suspend fun initialize(facade: MainFacadeInterface) {
+        val currentPlants = facade.getAllPlants()
+        if (currentPlants.isEmpty()) {
+            addTestPlants(facade)
         }
     }
 
-    private suspend fun addTestPlants(repository: PlantRepositoryInterface) {
+    private suspend fun addTestPlants(facade: MainFacadeInterface) {
         val aloeVera = Plant(
             main = MainInfo(
                 genus = "Aloe",
@@ -111,7 +111,7 @@ object PlantDataInitializer {
             )
         )
 
-        repository.insertPlant(aloeVera)
-        repository.insertPlant(ficus)
+        facade.insertPlant(aloeVera)
+        facade.insertPlant(ficus)
     }
 }

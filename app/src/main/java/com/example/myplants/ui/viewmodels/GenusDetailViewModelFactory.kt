@@ -2,6 +2,7 @@ package com.example.myplants.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.myplants.data.genus.GenusRepository
 
 class GenusDetailViewModelFactory(
     private val genusId: Long,
