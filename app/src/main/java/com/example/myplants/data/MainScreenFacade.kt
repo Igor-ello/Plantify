@@ -1,19 +1,19 @@
 package com.example.myplants.data
 
 import androidx.lifecycle.LiveData
-import com.example.myplants.data.genus.GenusRepository
-import com.example.myplants.data.plant.PlantRepository
-import com.example.myplants.data.plant_with_photos.PlantStateRepository
-import com.example.myplants.data.plant_with_photos.PlantWithPhotosRepository
+import com.example.myplants.data.genus.GenusRepositoryInterface
+import com.example.myplants.data.plant.PlantRepositoryInterface
+import com.example.myplants.data.plant_with_photos.PlantStateRepositoryInterface
+import com.example.myplants.data.plant_with_photos.PlantWithPhotosRepositoryInterface
 import com.example.myplants.models.Genus
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantWithPhotos
 
 class MainFacade (
-    private val plantRepository: PlantRepository,
-    private val plantWithPhotosRepository: PlantWithPhotosRepository,
-    private val plantStateRepository: PlantStateRepository,
-    private val genusRepository: GenusRepository
+    private val plantRepository: PlantRepositoryInterface,
+    private val plantWithPhotosRepository: PlantWithPhotosRepositoryInterface,
+    private val plantStateRepository: PlantStateRepositoryInterface,
+    private val genusRepository: GenusRepositoryInterface
 ) : MainFacadeInterface {
 
     // Plant

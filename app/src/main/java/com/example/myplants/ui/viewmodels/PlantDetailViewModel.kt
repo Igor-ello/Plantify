@@ -2,24 +2,28 @@ package com.example.myplants.ui.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myplants.data.photo.PhotoRepository
 import com.example.myplants.data.photo.PhotoRepositoryInterface
-import com.example.myplants.data.plant.PlantRepository
 import com.example.myplants.data.plant.PlantRepositoryInterface
-import com.example.myplants.data.plant_with_photos.PlantWithPhotosRepository
+import com.example.myplants.data.plant_with_photos.PlantWithPhotosRepositoryInterface
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantPhoto
 import com.example.myplants.models.PlantWithPhotos
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PlantDetailViewModel(
-    private val plantWithPhotosRepository: PlantWithPhotosRepository,
+@HiltViewModel
+class PlantDetailViewModel @Inject constructor(
+    plantWithPhotosRepository: PlantWithPhotosRepositoryInterface,
     private val plantRepository: PlantRepositoryInterface,
     private val photoRepository: PhotoRepositoryInterface,
-    plantId: Long
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    private val plantId: Long = savedStateHandle.get<Long>("plantId") ?: 0L
 
     val plantWithPhotos: LiveData<PlantWithPhotos?> =
         plantWithPhotosRepository.getPlantWithPhotosById(plantId)
@@ -70,7 +74,8 @@ class PlantDetailViewModel(
     fun deletePlant(onDeleted: () -> Unit) {
         val plant = _editedPlant.value ?: return
         viewModelScope.launch {
-            plantWithPhotosRepository.deletePlantWithPhotos(plant.id)
+            photoRepository.deletePhotosByPlantId(plant.id)
+            plantRepository.deletePlantById(plant.id)
             onDeleted()
         }
     }

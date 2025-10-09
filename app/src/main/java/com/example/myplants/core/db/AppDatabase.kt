@@ -21,7 +21,7 @@ import com.example.myplants.models.PlantPhoto
 abstract class AppDatabase : RoomDatabase() {
     abstract val plantDao: PlantDao
     abstract val plantPhotoDao: PlantPhotoDao
-    abstract val plantState: PlantStateDao
+    abstract val plantStateDao: PlantStateDao
     abstract val plantWithPhotosDao: PlantWithPhotosDao
     abstract val genusDao: GenusDao
 
@@ -36,8 +36,7 @@ abstract class AppDatabase : RoomDatabase() {
                         context.applicationContext,
                         AppDatabase::class.java,
                         "app_database"
-                    )
-                        .build()
+                    ).build()
                     INSTANCE = instance
                 }
                 return instance

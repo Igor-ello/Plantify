@@ -4,18 +4,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myplants.data.genus.GenusRepository
+import com.example.myplants.data.genus.GenusRepositoryInterface
 import com.example.myplants.models.Genus
 import com.example.myplants.models.sections.CareInfo
 import com.example.myplants.models.sections.HealthInfo
 import com.example.myplants.models.sections.LifecycleInfo
 import com.example.myplants.models.sections.MainInfo
 import com.example.myplants.models.sections.StateInfo
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class GenusDetailViewModel(
-    private val genusId: Long,
-    private val repository: GenusRepository
+@HiltViewModel
+class GenusDetailViewModel @Inject constructor(
+    private val repository: GenusRepositoryInterface
 ) : ViewModel() {
 
     private val _originalGenus = MutableLiveData<Genus?>()

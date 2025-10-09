@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myplants.models.PlantPhoto
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-
-class PlantPhotosViewModel : ViewModel() {
+@HiltViewModel
+class PlantPhotosViewModel @Inject constructor(): ViewModel() {
 
     private val _photos = MutableLiveData<List<PlantPhoto>>(emptyList())
     val photos: LiveData<List<PlantPhoto>> = _photos

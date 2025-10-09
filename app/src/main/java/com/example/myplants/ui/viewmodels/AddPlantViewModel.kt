@@ -10,9 +10,12 @@ import com.example.myplants.data.plant.PlantRepositoryInterface
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantPhoto
 import com.example.myplants.models.sections.MainInfo
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AddPlantViewModel(
+@HiltViewModel
+class AddPlantViewModel @Inject constructor(
     private val plantRepository: PlantRepositoryInterface,
     private val photoRepository: PhotoRepositoryInterface
 ) : ViewModel() {

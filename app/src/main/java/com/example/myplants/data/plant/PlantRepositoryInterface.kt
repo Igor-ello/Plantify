@@ -18,5 +18,7 @@ interface PlantRepositoryInterface {
 
     suspend fun getAllPlants(): List<Plant>
 
+    suspend fun deletePlantById(plantId: Long)
+
     fun getAllPlantsLive(): LiveData<List<Plant>>
 }

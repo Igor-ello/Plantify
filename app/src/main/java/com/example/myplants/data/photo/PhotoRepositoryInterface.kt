@@ -19,4 +19,6 @@ interface PhotoRepositoryInterface {
     suspend fun deleteAllPhoto()
 
     suspend fun getAllPhoto(): List<PlantPhoto>
+
+    suspend fun deletePhotosByPlantId(plantId: Long)
 }

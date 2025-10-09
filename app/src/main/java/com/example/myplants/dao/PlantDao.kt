@@ -29,7 +29,7 @@ interface PlantDao {
     suspend fun getAllPlants(): List<Plant>
 
     @Query("DELETE FROM plant_table WHERE id = :plantId")
-    suspend fun deletePlantsById(plantId: Long)
+    suspend fun deletePlantById(plantId: Long)
 
     @Query("DELETE FROM plant_table")
     suspend fun deleteAllPlants()

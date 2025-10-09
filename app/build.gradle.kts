@@ -2,8 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("com.google.devtools.ksp")
     kotlin("plugin.serialization") version "2.2.20"
+    id("com.google.dagger.hilt.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -21,12 +22,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-    }
-
-    ksp {
-        arg("room.schemaLocation", "$projectDir/schemas")
-        arg("room.incremental", "true")
-        arg("room.expandProjection", "true")
     }
 
     buildTypes {
@@ -66,7 +61,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.room.ktx)
-    ksp(libs.androidx.room.compiler)
+    kapt(libs.androidx.room.compiler)
 
     // Navigation Compose
     implementation(libs.androidx.navigation.compose)
@@ -81,6 +76,11 @@ dependencies {
     // Bom
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.foundation)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

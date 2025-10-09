@@ -3,7 +3,6 @@ package com.example.myplants.ui.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myplants.data.MainFacade
 import com.example.myplants.data.MainFacadeInterface
 import com.example.myplants.domain.PlantDataInitializer
 import com.example.myplants.models.Genus
@@ -14,9 +13,12 @@ import com.example.myplants.models.sections.HealthInfo
 import com.example.myplants.models.sections.LifecycleInfo
 import com.example.myplants.models.sections.MainInfo
 import com.example.myplants.models.sections.StateInfo
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(
+@HiltViewModel
+class MainViewModel @Inject constructor(
     private val facade: MainFacadeInterface
 ) : ViewModel() {
 

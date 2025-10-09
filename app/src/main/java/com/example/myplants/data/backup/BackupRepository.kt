@@ -6,6 +6,9 @@ import com.example.myplants.data.genus.GenusRepository
 import com.example.myplants.data.photo.PhotoRepository
 import com.example.myplants.data.plant.PlantRepository
 import com.example.myplants.core.db.AppDatabase
+import com.example.myplants.data.genus.GenusRepositoryInterface
+import com.example.myplants.data.photo.PhotoRepositoryInterface
+import com.example.myplants.data.plant.PlantRepositoryInterface
 import com.example.myplants.models.Genus
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantPhoto
@@ -18,9 +21,9 @@ import java.util.Date
 import java.util.Locale
 
 class BackupRepository(
-    private val plantRepository: PlantRepository,
-    private val photoRepository: PhotoRepository,
-    private val genusRepository: GenusRepository,
+    private val plantRepository: PlantRepositoryInterface,
+    private val photoRepository: PhotoRepositoryInterface,
+    private val genusRepository: GenusRepositoryInterface,
     private val context: Context
 ) : BackupRepositoryInterface {
     private val backupDir: File = File(context.filesDir, "backups").apply { mkdirs() }

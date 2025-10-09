@@ -4,18 +4,18 @@ package com.example.myplants
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
-import com.example.myplants.core.di.AppContainer
 import com.example.myplants.ui.navigation.NavigationDrawer
 import com.example.myplants.ui.navigation.PlantsNavHost
 import com.example.myplants.ui.viewmodels.UiStateViewModel
 
 @Composable
-fun PlantsApp(appContainer: AppContainer) {
+fun PlantsApp() {
     val navController = rememberNavController()
 
-    val uiStateViewModel: UiStateViewModel = viewModel()
+    // Hilt сам создаст ViewModel
+    val uiStateViewModel: UiStateViewModel = hiltViewModel()
 
     NavigationDrawer(
         navController = navController,
@@ -23,7 +23,6 @@ fun PlantsApp(appContainer: AppContainer) {
     ) { innerPadding ->
         PlantsNavHost(
             navController = navController,
-            appContainer = appContainer,
             uiStateViewModel = uiStateViewModel,
             modifier = Modifier.padding(innerPadding)
         )
