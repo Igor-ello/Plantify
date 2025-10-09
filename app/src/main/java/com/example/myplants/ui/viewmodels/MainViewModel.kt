@@ -3,7 +3,7 @@ package com.example.myplants.ui.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myplants.data.MainFacadeInterface
+import com.example.myplants.data.main_facade.MainFacadeInterface
 import com.example.myplants.domain.PlantDataInitializer
 import com.example.myplants.models.Genus
 import com.example.myplants.models.Plant

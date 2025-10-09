@@ -1,4 +1,4 @@
-package com.example.myplants.data
+package com.example.myplants.data.main_facade
 
 import androidx.lifecycle.LiveData
 import com.example.myplants.models.Genus

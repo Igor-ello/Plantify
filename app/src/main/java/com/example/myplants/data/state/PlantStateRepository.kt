@@ -1,4 +1,4 @@
-package com.example.myplants.data.plant_with_photos
+package com.example.myplants.data.state
 
 import com.example.myplants.dao.PlantStateDao
 

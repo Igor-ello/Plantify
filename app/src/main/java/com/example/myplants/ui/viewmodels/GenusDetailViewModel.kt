@@ -66,17 +66,16 @@ class GenusDetailViewModel @Inject constructor(
             onDeleted()
         }
     }
-}
 
-// Вспомогательный метод для пустого рода
-fun Genus.Companion.empty() = Genus(
-    id = 0L,
-    main = MainInfo(
-        genus = "",
-        species = ""
-    ),
-    care = CareInfo(),
-    lifecycle = LifecycleInfo(),
-    health = HealthInfo(),
-    state = StateInfo()
-)
+    private fun Genus.Companion.empty() = Genus(
+        id = 0L,
+        main = MainInfo(
+            genus = "",
+            species = ""
+        ),
+        care = CareInfo(),
+        lifecycle = LifecycleInfo(),
+        health = HealthInfo(),
+        state = StateInfo()
+    )
+}

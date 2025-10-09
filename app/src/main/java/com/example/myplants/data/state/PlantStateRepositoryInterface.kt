@@ -1,4 +1,4 @@
-package com.example.myplants.data.plant_with_photos
+package com.example.myplants.data.state
 
 import androidx.lifecycle.LiveData
 import com.example.myplants.models.PlantWithPhotos

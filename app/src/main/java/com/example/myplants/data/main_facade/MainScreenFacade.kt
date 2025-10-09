@@ -1,9 +1,9 @@
-package com.example.myplants.data
+package com.example.myplants.data.main_facade
 
 import androidx.lifecycle.LiveData
 import com.example.myplants.data.genus.GenusRepositoryInterface
 import com.example.myplants.data.plant.PlantRepositoryInterface
-import com.example.myplants.data.plant_with_photos.PlantStateRepositoryInterface
+import com.example.myplants.data.state.PlantStateRepositoryInterface
 import com.example.myplants.data.plant_with_photos.PlantWithPhotosRepositoryInterface
 import com.example.myplants.models.Genus
 import com.example.myplants.models.Plant

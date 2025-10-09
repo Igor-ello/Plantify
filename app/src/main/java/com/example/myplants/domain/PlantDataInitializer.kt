@@ -1,8 +1,6 @@
 package com.example.myplants.domain
 
-import com.example.myplants.data.MainFacade
-import com.example.myplants.data.MainFacadeInterface
-import com.example.myplants.data.plant.PlantRepositoryInterface
+import com.example.myplants.data.main_facade.MainFacadeInterface
 import com.example.myplants.models.Plant
 import com.example.myplants.models.sections.CareInfo
 import com.example.myplants.models.sections.FertilizerInfo
@@ -11,9 +9,6 @@ import com.example.myplants.models.sections.LifecycleInfo
 import com.example.myplants.models.sections.MainInfo
 import com.example.myplants.models.sections.StateInfo
 import com.example.myplants.models.sections.WateringInfo
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 object PlantDataInitializer {
 
