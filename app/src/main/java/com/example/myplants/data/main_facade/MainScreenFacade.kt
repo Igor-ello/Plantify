@@ -51,6 +51,9 @@ class MainFacade (
 
     // Genus
 
+    override suspend fun getGenusById(genusId: Long): Genus =
+        genusRepository.getGenusById(genusId)
+
     override suspend fun insertGenus(genus: Genus) =
         genusRepository.insertGenus(genus)
 

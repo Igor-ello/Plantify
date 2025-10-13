@@ -14,7 +14,6 @@ import com.example.myplants.ui.viewmodels.UiStateViewModel
 fun PlantsApp() {
     val navController = rememberNavController()
 
-    // Hilt сам создаст ViewModel
     val uiStateViewModel: UiStateViewModel = hiltViewModel()
 
     NavigationDrawer(

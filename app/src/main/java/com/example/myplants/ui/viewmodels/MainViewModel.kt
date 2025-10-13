@@ -1,7 +1,10 @@
 package com.example.myplants.ui.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.example.myplants.data.main_facade.MainFacadeInterface
 import com.example.myplants.domain.PlantDataInitializer
@@ -21,6 +24,9 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val facade: MainFacadeInterface
 ) : ViewModel() {
+
+    private val _genusMap = MutableLiveData<Map<String, Genus>>(emptyMap())
+    val genusMap: LiveData<Map<String, Genus>> = _genusMap
 
     val plants: LiveData<List<PlantWithPhotos>> = facade.getAllPlantsWithPhotos()
 
@@ -55,30 +61,46 @@ class MainViewModel @Inject constructor(
     }
 
     // Genus
+    init {
+        viewModelScope.launch {
+            PlantDataInitializer.initialize(facade)
+        }
 
-    suspend fun getOrCreateGenusOnce(name: String): Genus {
-        return facade.getGenusByName(name)
-    }
-
-    fun getOrCreateGenus(genusName: String): LiveData<Genus> {
-        // Сначала пытаемся найти существующий род
-        var genus = facade.getGenusByNameLive(genusName)
-
-        // Если не найден, создаем новый
-        if (genus == null) {
-            val newGenus = Genus(
-                id = 0L,
-                main = MainInfo(genus = genusName, species = ""),
-                care = CareInfo(),
-                lifecycle = LifecycleInfo(),
-                health = HealthInfo(),
-                state = StateInfo()
-            )
-            viewModelScope.launch {
-                val newId = facade.insertGenus(newGenus)
-                genus = facade.getGenusByIdLive(newId)
+        // Наблюдаем за растениями и когда они загружаются - загружаем роды
+        viewModelScope.launch {
+            plants.asFlow().collect { plantsList ->
+                if (plantsList.isNotEmpty()) {
+                    loadAllGenuses(plantsList)
+                }
             }
         }
-        return genus
+    }
+
+    private suspend fun loadAllGenuses(plantsList: List<PlantWithPhotos>) {
+        val genusNames = plantsList.map { it.plant.main.genus }.distinct()
+        val newGenusMap = mutableMapOf<String, Genus>()
+
+        genusNames.forEach { genusName ->
+            var genus = facade.getGenusByName(genusName)
+
+//            if (genus == null) {
+//                val newGenus = Genus(
+//                    id = 0L,
+//                    main = MainInfo(genus = genusName, species = ""),
+//                    care = CareInfo(),
+//                    lifecycle = LifecycleInfo(),
+//                    health = HealthInfo(),
+//                    state = StateInfo()
+//                )
+//                val newId = facade.insertGenus(newGenus)
+//                genus = facade.getGenusById(newId)
+//            }
+
+            if (genus != null) {
+                newGenusMap[genusName] = genus
+            }
+        }
+
+        _genusMap.value = newGenusMap
     }
 }

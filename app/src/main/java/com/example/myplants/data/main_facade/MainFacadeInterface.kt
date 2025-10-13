@@ -33,6 +33,8 @@ interface MainFacadeInterface {
 
     // Genus
 
+    suspend fun getGenusById(genusId: Long): Genus
+
     suspend fun insertGenus(genus: Genus): Long
 
     fun getGenusByIdLive(genusId: Long): LiveData<Genus>

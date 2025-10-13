@@ -14,14 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.myplants.models.Genus
 import com.example.myplants.models.PlantWithPhotos
 import com.example.myplants.ui.componets.cards.GenusCardMain
 import com.example.myplants.core.utils.Routes
@@ -30,7 +26,7 @@ import com.example.myplants.ui.viewmodels.UiStateViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun AllPlantsScreen(
+fun MainScreen(
     viewModel: MainViewModel,
     onPlantClick: (PlantWithPhotos) -> Unit,
     onAddPlant: () -> Unit,
@@ -51,6 +47,7 @@ fun AllPlantsScreen(
     }
 
     val plantsWithPhotos by viewModel.plants.observeAsState(emptyList())
+    val genusMap by viewModel.genusMap.observeAsState(emptyMap())
     val listState = rememberLazyListState()
 
     val groupedPlants = plantsWithPhotos.groupBy { it.plant.main.genus }
@@ -62,14 +59,11 @@ fun AllPlantsScreen(
     ) {
         groupedPlants.forEach { (genusName, plants) ->
             item(key = genusName) {
-                var genus by remember { mutableStateOf<Genus?>(null) }
-                LaunchedEffect(genusName) {
-                    genus = viewModel.getOrCreateGenusOnce(genusName)
-                }
+                val genus = genusMap[genusName]
 
                 if (genus != null) {
                     GenusCardMain(
-                        genus = genus!!,
+                        genus = genus,
                         plants = plants,
                         onPlantClick = onPlantClick,
                         onToggleFavorite = { pw -> viewModel.toggleFavorite(pw.plant) },
