@@ -12,8 +12,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,7 +26,6 @@ import com.example.myplants.models.Genus
 import com.example.myplants.models.PlantWithPhotos
 import com.example.myplants.ui.componets.card_fields.CardTextField
 import com.example.myplants.ui.theme.GreenLight
-import kotlin.collections.forEach
 
 @Composable
 fun GenusCardMain(
