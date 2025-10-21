@@ -22,16 +22,6 @@ fun CardDetailContent(
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        if (entity.main.fullName.isNullOrBlank()) {
-            CardTextField(
-                label = stringResource(R.string.plant_full_name),
-                value = entity.main.fullName ?: "",
-                editable = editable,
-                onValueChange = {
-                    onValueChange(entity.update(main = entity.main.copy(fullName = it)))
-                }
-            )
-        }
 
         ShowMainInfo(
             entity = entity,
@@ -61,95 +51,46 @@ fun CardDetailContent(
 }
 
 @Composable
-fun ShowHealthInfo(
+fun ShowMainInfo(
     entity: PlantEntityInterface,
     editable: Boolean,
-    onValueChange: (PlantEntityInterface) -> Unit
+    onValueChange: (PlantEntityInterface) -> Unit,
+    showSpecies: Boolean
 ) {
-    // Вредители
-    CardTextField(
-        label = stringResource(R.string.plant_pests),
-        value = entity.health.pests ?: "",
+    // Род
+    CardTextAndField(
+        label = stringResource(R.string.plant_genus),
+        value = entity.main.genus,
         editable = editable,
         onValueChange = {
-            onValueChange(entity.update(health = entity.health.copy(pests = it)))
+            onValueChange(
+                entity.update(main = entity.main.copy(genus = it))
+            )
         }
     )
 
-    // Болезни
-    CardTextField(
-        label = stringResource(R.string.plant_diseases),
-        value = entity.health.diseases ?: "",
+    // Вид
+    if (showSpecies) {
+        CardTextAndField(
+            label = stringResource(R.string.plant_species),
+            value = entity.main.species,
+            editable = editable,
+            onValueChange = {
+                onValueChange(
+                    entity.update(main = entity.main.copy(species = it)))
+            }
+        )
+    }
+
+    // Полное название
+    CardTextAndField(
+        label = stringResource(R.string.plant_full_name),
+        value = entity.main.fullName ?: "",
         editable = editable,
         onValueChange = {
-            onValueChange(entity.update(health = entity.health.copy(diseases = it)))
-        }
-    )
-}
-
-@Composable
-fun ShowLifecycleInfo(
-    entity: PlantEntityInterface,
-    editable: Boolean,
-    onValueChange: (PlantEntityInterface) -> Unit
-) {
-    // Цикл жизни
-    CardTextField(
-        label = stringResource(R.string.plant_life_cycle),
-        value = entity.lifecycle.lifecycle ?: "",
-        editable = editable,
-        onValueChange = {
-            onValueChange(entity.update(lifecycle = entity.lifecycle.copy(lifecycle = it)))
-        }
-    )
-
-    // Цветение
-    CardTextField(
-        label = stringResource(R.string.plant_bloom),
-        value = entity.lifecycle.bloom ?: "",
-        editable = editable,
-        onValueChange = {
-            onValueChange(entity.update(lifecycle = entity.lifecycle.copy(bloom = it)))
-        }
-    )
-
-    // Размножение
-    CardTextField(
-        label = stringResource(R.string.plant_reproduction),
-        value = entity.lifecycle.reproduction ?: "",
-        editable = editable,
-        onValueChange = {
-            onValueChange(entity.update(lifecycle = entity.lifecycle.copy(reproduction = it)))
-        }
-    )
-
-    // Дата первого посадки
-    CardTextField(
-        label = stringResource(R.string.plant_first_landing),
-        value = entity.lifecycle.firstLanding ?: "",
-        editable = editable,
-        onValueChange = {
-            onValueChange(entity.update(lifecycle = entity.lifecycle.copy(firstLanding = it)))
-        }
-    )
-
-    // Ядовитость
-    CardCheckbox(
-        label = stringResource(R.string.plant_toxic),
-        checked = entity.lifecycle.isToxic ?: false,
-        editable = editable,
-        onCheckedChange = {
-            onValueChange(entity.update(lifecycle = entity.lifecycle.copy(isToxic = it)))
-        }
-    )
-
-    // Описание растения
-    CardTextField(
-        label = stringResource(R.string.plant_about),
-        value = entity.lifecycle.aboutThePlant ?: "",
-        editable = editable,
-        onValueChange = {
-            onValueChange(entity.update(lifecycle = entity.lifecycle.copy(aboutThePlant = it)))
+            onValueChange(
+                entity.update(main = entity.main.copy(fullName = it))
+            )
         }
     )
 }
@@ -161,7 +102,7 @@ fun ShowCareInfo(
     onValueChange: (PlantEntityInterface) -> Unit
 ) {
     // Освещение
-    CardTextField(
+    CardTextAndField(
         label = stringResource(R.string.plant_lighting),
         value = entity.care.lighting ?: "",
         editable = editable,
@@ -171,7 +112,7 @@ fun ShowCareInfo(
     )
 
     // Температура
-    CardTextField(
+    CardTextAndField(
         label = stringResource(R.string.plant_temperature),
         value = entity.care.temperature ?: "",
         editable = editable,
@@ -181,7 +122,7 @@ fun ShowCareInfo(
     )
 
     // Влажность воздуха
-    CardTextField(
+    CardTextAndField(
         label = stringResource(R.string.plant_air_humidity),
         value = entity.care.airHumidity ?: "",
         editable = editable,
@@ -191,7 +132,7 @@ fun ShowCareInfo(
     )
 
     // Состав почвы
-    CardTextField(
+    CardTextAndField(
         label = stringResource(R.string.soil_composition),
         value = entity.care.soilComposition ?: "",
         editable = editable,
@@ -201,7 +142,7 @@ fun ShowCareInfo(
     )
 
     // Пересадка
-    CardTextField(
+    CardTextAndField(
         label = stringResource(R.string.plant_transfer),
         value = entity.care.transfer ?: "",
         editable = editable,
@@ -213,7 +154,7 @@ fun ShowCareInfo(
     // Вложенные таблицы
 
     // Полив
-    CardTextField(
+    CardTextAndField(
         label = stringResource(R.string.plant_watering),
         value = entity.care.watering.watering ?: "",
         editable = editable,
@@ -234,7 +175,7 @@ fun ShowCareInfo(
     )
 
     // Последний полив
-    CardTextField(
+    CardTextAndField(
         label = stringResource(R.string.plant_last_watering_date),
         value = entity.care.watering.lastDate ?: "",
         editable = editable,
@@ -244,7 +185,7 @@ fun ShowCareInfo(
     )
 
     // Удобрения
-    CardTextField(
+    CardTextAndField(
         label = stringResource(R.string.plant_fertilizer),
         value = entity.care.fertilizer.fertilizer ?: "",
         editable = editable,
@@ -265,7 +206,7 @@ fun ShowCareInfo(
     )
 
     // Последнее удобрение
-    CardTextField(
+    CardTextAndField(
         label = stringResource(R.string.plant_fertilizer_last_date),
         value = entity.care.fertilizer.lastDate ?: "",
         editable = editable,
@@ -276,49 +217,99 @@ fun ShowCareInfo(
 }
 
 @Composable
-fun ShowMainInfo(
+fun ShowLifecycleInfo(
     entity: PlantEntityInterface,
     editable: Boolean,
-    onValueChange: (PlantEntityInterface) -> Unit,
-    showSpecies: Boolean
+    onValueChange: (PlantEntityInterface) -> Unit
 ) {
-    // Вид
-    if (showSpecies) {
-        CardTextField(
-            label = stringResource(R.string.plant_species),
-            value = entity.main.species,
-            editable = editable,
-            onValueChange = {
-                onValueChange(
-                    entity.update(main = entity.main.copy(species = it)))
-            }
-        )
-    }
-
-    // Род
-    CardTextField(
-        label = stringResource(R.string.plant_genus),
-        value = entity.main.genus,
+    // Цикл жизни
+    CardTextAndField(
+        label = stringResource(R.string.plant_life_cycle),
+        value = entity.lifecycle.lifecycle ?: "",
         editable = editable,
         onValueChange = {
-            onValueChange(entity.update(main = entity.main.copy(genus = it)))
+            onValueChange(entity.update(lifecycle = entity.lifecycle.copy(lifecycle = it)))
         }
     )
 
-    // Полное название
-    if (!entity.main.fullName.isNullOrBlank()) {
-        CardTextField(
-            label = stringResource(R.string.plant_full_name),
-            value = entity.main.fullName!!,
-            editable = editable,
-            onValueChange = {
-                onValueChange(
-                    entity.update(main = entity.main.copy(fullName = it))
-                )
-            }
-        )
-    }
+    // Цветение
+    CardTextAndField(
+        label = stringResource(R.string.plant_bloom),
+        value = entity.lifecycle.bloom ?: "",
+        editable = editable,
+        onValueChange = {
+            onValueChange(entity.update(lifecycle = entity.lifecycle.copy(bloom = it)))
+        }
+    )
+
+    // Размножение
+    CardTextAndField(
+        label = stringResource(R.string.plant_reproduction),
+        value = entity.lifecycle.reproduction ?: "",
+        editable = editable,
+        onValueChange = {
+            onValueChange(entity.update(lifecycle = entity.lifecycle.copy(reproduction = it)))
+        }
+    )
+
+    // Дата первого посадки
+    CardTextAndField(
+        label = stringResource(R.string.plant_first_landing),
+        value = entity.lifecycle.firstLanding ?: "",
+        editable = editable,
+        onValueChange = {
+            onValueChange(entity.update(lifecycle = entity.lifecycle.copy(firstLanding = it)))
+        }
+    )
+
+    // Ядовитость
+    CardCheckbox(
+        label = stringResource(R.string.plant_toxic),
+        checked = entity.lifecycle.isToxic ?: false,
+        editable = editable,
+        onCheckedChange = {
+            onValueChange(entity.update(lifecycle = entity.lifecycle.copy(isToxic = it)))
+        }
+    )
+
+    // Описание растения
+    CardTextAndField(
+        label = stringResource(R.string.plant_about),
+        value = entity.lifecycle.aboutThePlant ?: "",
+        editable = editable,
+        onValueChange = {
+            onValueChange(entity.update(lifecycle = entity.lifecycle.copy(aboutThePlant = it)))
+        }
+    )
 }
+
+@Composable
+fun ShowHealthInfo(
+    entity: PlantEntityInterface,
+    editable: Boolean,
+    onValueChange: (PlantEntityInterface) -> Unit
+) {
+    // Вредители
+    CardTextAndField(
+        label = stringResource(R.string.plant_pests),
+        value = entity.health.pests ?: "",
+        editable = editable,
+        onValueChange = {
+            onValueChange(entity.update(health = entity.health.copy(pests = it)))
+        }
+    )
+
+    // Болезни
+    CardTextAndField(
+        label = stringResource(R.string.plant_diseases),
+        value = entity.health.diseases ?: "",
+        editable = editable,
+        onValueChange = {
+            onValueChange(entity.update(health = entity.health.copy(diseases = it)))
+        }
+    )
+}
+
 
 fun PlantEntityInterface.updateCare(transform: (CareInfo) -> CareInfo): PlantEntityInterface =
     update(care = transform(care))

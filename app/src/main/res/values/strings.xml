@@ -2,7 +2,7 @@
     <string name="app_name">MyPlants</string>
     <string name="plant_name">Название</string>
     <string name="plant_species">Вид</string>
-    <string name="plant_full_name">Название</string>
+    <string name="plant_full_name">Полное название</string>
     <string name="plant_lighting">Освещение</string>
     <string name="plant_bloom">Цветение</string>
     <string name="soil_composition">Состав почвы</string>

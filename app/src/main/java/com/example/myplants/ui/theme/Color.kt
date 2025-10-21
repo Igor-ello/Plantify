@@ -14,6 +14,7 @@ val White = Color.White
 
 
 val GreenLight = Color(0xFF4DC591)
+val GreenLight2 = Color(0xFF75D3AA)
 val GreenDark = Color(0xFF00664F)
 val GreenAdditional = Color(0xFF0D6E58)
 val OrangeLight = Color(0xFFFFC278)

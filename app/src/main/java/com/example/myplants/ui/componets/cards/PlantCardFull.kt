@@ -108,7 +108,6 @@ fun PlantCardFull(
                 }
             }
 
-            CardBasicContent(plantWithPhotos.plant, editable, onValueChange)
             CardDetailContent(plantWithPhotos.plant, editable, onValueChange)
         }
     }

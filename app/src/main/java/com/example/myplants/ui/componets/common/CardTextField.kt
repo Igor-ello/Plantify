@@ -13,14 +13,15 @@ fun CardTextField(
     value: String,
     editable: Boolean,
     onValueChange: (String) -> Unit,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    modifier: Modifier = Modifier
 ) {
     TextField(
         value = value,
         onValueChange = onValueChange,
         enabled = editable,
         singleLine = false,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         colors = AppColors.textFieldColors(),
         keyboardOptions = keyboardOptions,
         textStyle = LocalTextStyle.current.copy(

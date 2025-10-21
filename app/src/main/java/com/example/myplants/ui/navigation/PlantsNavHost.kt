@@ -13,7 +13,6 @@ import androidx.navigation.navArgument
 import com.example.myplants.R
 import com.example.myplants.ui.componets.SetupTopBar
 import com.example.myplants.ui.screens.AddPlantScreen
-import com.example.myplants.ui.screens.AllPlantsScreen
 import com.example.myplants.ui.screens.FavoritesScreen
 import com.example.myplants.ui.screens.GenusDetailScreen
 import com.example.myplants.ui.screens.HelpScreen
@@ -21,6 +20,7 @@ import com.example.myplants.ui.screens.PlantDetailScreen
 import com.example.myplants.ui.screens.SettingsScreen
 import com.example.myplants.ui.screens.WishlistScreen
 import com.example.myplants.core.utils.Routes
+import com.example.myplants.ui.screens.MainScreen
 import com.example.myplants.ui.viewmodels.AddPlantViewModel
 import com.example.myplants.ui.viewmodels.GenusDetailViewModel
 import com.example.myplants.ui.viewmodels.MainViewModel
@@ -43,7 +43,7 @@ fun PlantsNavHost(
         modifier = modifier
     ) {
         composable(Routes.AllPlants.route) {
-            AllPlantsScreen(
+            MainScreen(
                 viewModel = mainViewModel,
                 onPlantClick = { plantWithPhotos ->
                     navController.navigate(Routes.PlantDetail.createRoute(plantWithPhotos.plant.id))

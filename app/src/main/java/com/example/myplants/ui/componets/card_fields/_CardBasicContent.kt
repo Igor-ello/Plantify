@@ -13,8 +13,8 @@ fun CardBasicContent(
     onValueChange: (PlantEntityInterface) -> Unit,
     showSpecies: Boolean = true
 ) {
-    CardTextField(
-        label = stringResource(R.string.plant_name),
+    CardTextAndField(
+        label = stringResource(R.string.plant_genus),
         value = entity.main.genus,
         editable = editable,
         onValueChange = {
@@ -25,7 +25,7 @@ fun CardBasicContent(
     )
 
     if (showSpecies) {
-        CardTextField(
+        CardTextAndField(
             label = stringResource(R.string.plant_species),
             value = entity.main.species,
             editable = editable,
@@ -38,7 +38,7 @@ fun CardBasicContent(
     }
 
     if (!entity.main.fullName.isNullOrBlank()) {
-        CardTextField(
+        CardTextAndField(
             label = stringResource(R.string.plant_full_name),
             value = entity.main.fullName!!,
             editable = editable,

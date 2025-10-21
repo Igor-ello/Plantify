@@ -12,8 +12,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,8 +24,11 @@ import androidx.compose.ui.unit.dp
 import com.example.myplants.R
 import com.example.myplants.models.Genus
 import com.example.myplants.models.PlantWithPhotos
-import com.example.myplants.ui.componets.card_fields.CardTextField
+import com.example.myplants.ui.componets.card_fields.CardTextAndField
+import com.example.myplants.ui.componets.common.CardTextField
+import com.example.myplants.ui.theme.GreenDark
 import com.example.myplants.ui.theme.GreenLight
+import com.example.myplants.ui.theme.GreenLight2
 import kotlin.collections.forEach
 
 @Composable
@@ -48,10 +49,9 @@ fun GenusCardMain(
             .padding(8.dp),
         shape = CardDefaults.shape,
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-        colors = CardDefaults.cardColors(containerColor = GreenLight.copy(alpha = 0.7f))
+        colors = CardDefaults.cardColors(containerColor = GreenLight2)
     ) {
         Column {
-            // Шапка карточки (genus + кнопка редактирования)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -61,14 +61,15 @@ fun GenusCardMain(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 CardTextField(
-                    label = stringResource(R.string.plant_genus),
+                    modifier = Modifier.weight(1f),
                     value = genus.main.genus,
                     onValueChange = { },
                     editable = false
                 )
-                IconButton(onClick = {
-                    onNavigateToGenusDetail(genus.id)
-                }) {
+                IconButton(
+                    onClick = { onNavigateToGenusDetail(genus.id) },
+                    modifier = Modifier.padding(start = 8.dp)
+                ) {
                     Icon(Icons.Default.PlayArrow, contentDescription = "Show detail")
                 }
             }
