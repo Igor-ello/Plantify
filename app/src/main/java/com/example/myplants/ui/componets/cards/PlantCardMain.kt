@@ -55,13 +55,16 @@ fun PlantCardMain(
     }
 
     // Локальные мемоизированные обработчики — предотвращают создание новых лямбд на каждую recomposition
-    val onClickMemo = remember(plant.id) { { onClick(plant) } }
+    val onClickMemo = remember(plant.id) {
+        { onClick(plant) }
+    }
     val onToggleFavoriteMemo = remember(plant.id) {
         { plant: PlantWithPhotos -> onToggleFavorite(plant) }
     }
     val onToggleWishlistMemo = remember(plant.id) {
         { plant: PlantWithPhotos -> onToggleWishlist(plant) }
     }
+
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -75,7 +78,7 @@ fun PlantCardMain(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            // Фото карточки — асинхронно через Coil, с фиксированной высотой для стабильного layout
+            // Фото карточки — асинхронно через Coil
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -88,7 +91,7 @@ fun PlantCardMain(
                             .data(mainPhotoUri)
                             .crossfade(true)
                             .build(),
-                        contentDescription = "${plant.main.fullName} photo",
+                        contentDescription = "${plant.main.species} photo",
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop,
                         placeholder = painterResource(id = R.drawable.placeholder),
@@ -133,7 +136,6 @@ fun PlantCardMain(
                 }
             }
 
-            // Основная информация о растении
             CardBasicContent(plant, editable, onValueChange)
         }
     }

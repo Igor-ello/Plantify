@@ -36,12 +36,6 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun updatePlant(plant: Plant) {
-        viewModelScope.launch {
-            facade.updatePlant(plant)
-        }
-    }
-
     // Favourite
     val favorites: LiveData<List<PlantWithPhotos>> = facade.getFavorites()
 

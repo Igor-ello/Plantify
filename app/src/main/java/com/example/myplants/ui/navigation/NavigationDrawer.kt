@@ -137,6 +137,7 @@ fun NavigationDrawer(
                     navigationIcon = {
                         if (uiStateViewModel.showBackButton) {
                             IconButton(onClick = { navController.popBackStack() }) {
+                                // TODO
                                 Icon(Icons.Default.Close, contentDescription = "Back")
                             }
                         } else {

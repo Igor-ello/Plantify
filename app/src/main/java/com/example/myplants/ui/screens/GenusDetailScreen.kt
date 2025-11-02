@@ -60,7 +60,10 @@ fun GenusDetailScreen(
     var isEditing by remember { mutableStateOf(false) }
 
     LaunchedEffect(isEditing, editedGenus) {
-        val title = if (isEditing) "Edit: ${editedGenus?.main?.genus}" else editedGenus?.main?.genus!!.ifBlank { "Genus" }
+        val title =
+            if (isEditing) "Edit: ${editedGenus?.main?.genus}"
+            // TODO
+            else editedGenus?.main?.genus!!.ifBlank { "Genus" }
         uiStateViewModel.setDrawerTitle(title)
         uiStateViewModel.showBackButton(true)
 
@@ -84,6 +87,7 @@ fun GenusDetailScreen(
                 }
             } else {
                 IconButton(onClick = { isEditing = true }) {
+                    // TODO
                     Icon(Icons.Default.Edit, contentDescription = "Edit")
                 }
             }

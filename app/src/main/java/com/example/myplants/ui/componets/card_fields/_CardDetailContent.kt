@@ -133,7 +133,7 @@ fun ShowCareInfo(
 
     // Состав почвы
     CardTextAndField(
-        label = stringResource(R.string.soil_composition),
+        label = stringResource(R.string.plant_soil_composition),
         value = entity.care.soilComposition ?: "",
         editable = editable,
         onValueChange = {newValue ->

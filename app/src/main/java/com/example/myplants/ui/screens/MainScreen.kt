@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
@@ -20,9 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.myplants.core.utils.Routes
 import com.example.myplants.models.PlantWithPhotos
 import com.example.myplants.ui.componets.cards.GenusCardMain
-import com.example.myplants.core.utils.Routes
 import com.example.myplants.ui.viewmodels.MainViewModel
 import com.example.myplants.ui.viewmodels.UiStateViewModel
 
@@ -43,6 +41,7 @@ fun MainScreen(
         uiStateViewModel.showBackButton(false)
         uiStateViewModel.setTopBarActions {
             IconButton(onClick = onAddPlant) {
+                // TODO icon_add
                 Icon(Icons.Default.Add, contentDescription = "Add")
             }
         }

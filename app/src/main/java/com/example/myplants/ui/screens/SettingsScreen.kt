@@ -79,16 +79,17 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
     Column(modifier = Modifier.padding(16.dp)) {
         AppButton(
             onClick = { showCreateConfirm = true },
-            text = stringResource(R.string.create_backup)
+            text = stringResource(R.string.action_create_backup)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
         AppButton(
             onClick = { importLauncher.launch("application/json") },
-            text = stringResource(R.string.import_file)
+            text = stringResource(R.string.action_import_file)
         )
 
         Spacer(modifier = Modifier.height(12.dp))
+        // TODO rename and add string resource
         Text("Доступные резервные копии:", style = MaterialTheme.typography.titleMedium)
         Spacer(modifier = Modifier.height(8.dp))
 

@@ -76,6 +76,7 @@ fun PlantDetailScreen(
                     viewModel.resetChanges()
                     isEditing = false
                 }) {
+                    // TODO
                     Icon(Icons.Default.Close, contentDescription = "Cancel")
                 }
                 IconButton(
