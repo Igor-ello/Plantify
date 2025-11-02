@@ -16,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -29,11 +28,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.myplants.R
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantWithPhotos
+import com.example.myplants.ui.componets.buttons.AppButton
 import com.example.myplants.ui.componets.card_fields.CardDeleteButton
 import com.example.myplants.ui.componets.cards.PlantCardFull
 import com.example.myplants.ui.viewmodels.PlantDetailViewModel
@@ -118,23 +120,24 @@ fun PlantDetailScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Button(onClick = {
-                        viewModel.resetChanges()
-                        isEditing = false
-                        uiStateViewModel.setDrawerTitle(plantWithPhotos!!.plant.main.species.ifBlank { "Plant" })
-                    }) {
-                        Text("Cancel")
-                    }
-                    Button(
+                    AppButton(
+                        onClick = {
+                            viewModel.resetChanges()
+                            isEditing = false
+                            uiStateViewModel
+                                .setDrawerTitle(plantWithPhotos!!.plant.main.species.ifBlank { "Plant" })
+                        },
+                        text = stringResource(R.string.button_cancel)
+                    )
+                    AppButton(
                         onClick = {
                             viewModel.saveChanges()
                             isEditing = false
                             uiStateViewModel.setDrawerTitle(editedPlant?.main?.species!!.ifBlank { "Plant" })
                         },
-                        enabled = editedPlant?.main?.species?.isNotBlank() == true
-                    ) {
-                        Text("Save Changes")
-                    }
+                        enabled = editedPlant?.main?.species?.isNotBlank() == true,
+                        text = stringResource(R.string.button_save)
+                    )
                 }
             }
 

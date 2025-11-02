@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
@@ -34,8 +36,8 @@ fun MainScreen(
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
+    // Состояние TopBar
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
-
     LaunchedEffect(currentBackStackEntry?.destination?.route) {
         uiStateViewModel.setDrawerTitle("All Plants")
         uiStateViewModel.showBackButton(false)
@@ -46,6 +48,7 @@ fun MainScreen(
         }
     }
 
+    // Отображение групп растений
     val plantsWithPhotos by viewModel.plants.observeAsState(emptyList())
     val genusMap by viewModel.genusMap.observeAsState(emptyMap())
     val listState = rememberLazyListState()
@@ -53,7 +56,8 @@ fun MainScreen(
     val groupedPlants = plantsWithPhotos.groupBy { it.plant.main.genus }
     LazyColumn(
         state = listState,
-        modifier = modifier.padding(16.dp),
+        modifier = modifier
+            .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         contentPadding = PaddingValues(bottom = 64.dp)
     ) {

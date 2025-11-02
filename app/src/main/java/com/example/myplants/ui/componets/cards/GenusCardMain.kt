@@ -19,17 +19,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.myplants.R
 import com.example.myplants.models.Genus
 import com.example.myplants.models.PlantWithPhotos
-import com.example.myplants.ui.componets.card_fields.CardTextAndField
 import com.example.myplants.ui.componets.common.CardTextField
-import com.example.myplants.ui.theme.GreenDark
-import com.example.myplants.ui.theme.GreenLight
 import com.example.myplants.ui.theme.GreenLight2
-import kotlin.collections.forEach
 
 @Composable
 fun GenusCardMain(

@@ -16,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -29,10 +28,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.myplants.R
 import com.example.myplants.models.Genus
+import com.example.myplants.ui.componets.buttons.AppButton
 import com.example.myplants.ui.componets.card_fields.CardDeleteButton
 import com.example.myplants.ui.componets.cards.GenusCardFull
 import com.example.myplants.ui.viewmodels.GenusDetailViewModel
@@ -114,23 +116,16 @@ fun GenusDetailScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Button(onClick = {
-                        viewModel.resetChanges()
-                        isEditing = false
-                        uiStateViewModel.setDrawerTitle(editedGenus!!.main.genus.ifBlank { "Genus" })
-                    }) {
-                        Text("Cancel")
-                    }
-                    Button(
+                    AppButton(
                         onClick = {
                             viewModel.saveChanges()
                             isEditing = false
-                            uiStateViewModel.setDrawerTitle(editedGenus!!.main.genus.ifBlank { "Genus" })
+                            uiStateViewModel
+                                .setDrawerTitle(editedGenus!!.main.genus.ifBlank { "Genus" })
                         },
-                        enabled = editedGenus?.main?.genus?.isNotBlank() == true
-                    ) {
-                        Text("Save Changes")
-                    }
+                        enabled = editedGenus?.main?.genus?.isNotBlank() == true,
+                        text = stringResource(R.string.button_save)
+                    )
                 }
             }
 

@@ -37,4 +37,9 @@
     <string name="screen_help_feedback"><![CDATA[Help & Feedback]]></string>
     <string name="plant_genus">Род</string>
     <string name="plant_fertilizer_last_date">Последняя дата удобрения</string>
+    <string name="button_save">Save</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_back">Back</string>
+    <string name="create_backup">Создать резервную копию</string>
+    <string name="import_file">Импортировать файл</string>
 </resources>

@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -33,8 +32,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
+import com.example.myplants.R
+import com.example.myplants.ui.componets.buttons.AppButton
 import com.example.myplants.ui.componets.settings.BackupItemRow
 import com.example.myplants.ui.viewmodels.SettingsViewModel
 import kotlinx.coroutines.launch
@@ -75,14 +77,16 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
     LaunchedEffect(Unit) { viewModel.refreshBackups() }
 
     Column(modifier = Modifier.padding(16.dp)) {
-        Button(onClick = { showCreateConfirm = true }) {
-            Text("Создать резервную копию")
-        }
+        AppButton(
+            onClick = { showCreateConfirm = true },
+            text = stringResource(R.string.create_backup)
+        )
 
         Spacer(modifier = Modifier.height(8.dp))
-        Button(onClick = { importLauncher.launch("application/json") }) {
-            Text("Импортировать файл")
-        }
+        AppButton(
+            onClick = { importLauncher.launch("application/json") },
+            text = stringResource(R.string.import_file)
+        )
 
         Spacer(modifier = Modifier.height(12.dp))
         Text("Доступные резервные копии:", style = MaterialTheme.typography.titleMedium)

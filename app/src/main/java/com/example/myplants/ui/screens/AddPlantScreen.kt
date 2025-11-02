@@ -8,16 +8,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.myplants.R
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantWithPhotos
 import com.example.myplants.models.sections.MainInfo
+import com.example.myplants.ui.componets.buttons.AppButton
 import com.example.myplants.ui.componets.cards.PlantCardFull
 import com.example.myplants.ui.viewmodels.AddPlantViewModel
 
@@ -48,19 +49,19 @@ fun AddPlantScreen(
             )
 
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Button(onClick = {
-                    viewModel.clearNewPlant()
-                    onCancel()
-                }) {
-                    Text("Cancel")
-                }
+                AppButton(
+                    onClick = {
+                        viewModel.clearNewPlant()
+                        onCancel()
+                    },
+                    text = stringResource(R.string.button_cancel)
+                )
 
-                Button(
+                AppButton(
                     onClick = { viewModel.saveNewPlant(onSave) },
-                    enabled = newPlant.main.genus.isNotBlank() && newPlant.main.species.isNotBlank()
-                ) {
-                    Text("Save")
-                }
+                    enabled = newPlant.main.genus.isNotBlank() && newPlant.main.species.isNotBlank(),
+                    text = stringResource(R.string.button_save)
+                )
             }
         }
     }
