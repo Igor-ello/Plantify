@@ -1,4 +1,4 @@
-package com.example.myplants.ui.componets.common
+package com.example.myplants.ui.componets.card_fields.common
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text

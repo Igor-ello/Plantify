@@ -19,8 +19,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.example.myplants.ui.componets.common.AppColors
-import com.example.myplants.ui.componets.common.CardText
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.myplants.ui.componets.card_fields.common.AppColors
+import com.example.myplants.ui.componets.card_fields.common.CardText
+import com.example.myplants.ui.theme.MyPlantsTheme
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -34,7 +36,7 @@ fun CardDatePicker(
     onDateSelected: (String) -> Unit
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
-    val dateFormatter = remember { SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()) }
+    val dateFormatter = remember { SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()) }
 
     Column {
         CardText(label)
@@ -80,5 +82,20 @@ fun CardDatePicker(
         ) {
             DatePicker(state = datePickerState)
         }
+    }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showBackground = true)
+@Composable
+fun CardDatePickerPreview_WithDate() {
+    MyPlantsTheme {
+        CardDatePicker(
+            label = "Дата посадки",
+            date = "15-01-2024",
+            editable = true,
+            onDateSelected = { /* preview logic */ }
+        )
     }
 }

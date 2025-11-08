@@ -35,7 +35,7 @@ import androidx.navigation.NavHostController
 import com.example.myplants.R
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantWithPhotos
-import com.example.myplants.ui.componets.buttons.AppButton
+import com.example.myplants.ui.componets.AppButton
 import com.example.myplants.ui.componets.card_fields.CardDeleteButton
 import com.example.myplants.ui.componets.cards.PlantCardFull
 import com.example.myplants.ui.viewmodels.PlantDetailViewModel

@@ -17,8 +17,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.example.myplants.ui.componets.common.AppColors
-import com.example.myplants.ui.componets.common.CardText
+import com.example.myplants.ui.componets.card_fields.common.AppColors
+import com.example.myplants.ui.componets.card_fields.common.CardText
 
 @Composable
 fun CardDropdown(

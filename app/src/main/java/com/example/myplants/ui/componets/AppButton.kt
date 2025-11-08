@@ -1,4 +1,4 @@
-package com.example.myplants.ui.componets.buttons
+package com.example.myplants.ui.componets
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults

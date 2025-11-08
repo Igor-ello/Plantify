@@ -1,4 +1,4 @@
-package com.example.myplants.ui.componets.card_fields
+package com.example.myplants.ui.componets
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -6,11 +6,11 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.myplants.ui.componets.common.CardText
+import com.example.myplants.ui.componets.card_fields.common.CardText
 
 
 @Composable
-fun CardCheckbox(
+fun AppCheckbox(
     label: String,
     checked: Boolean,
     editable: Boolean,

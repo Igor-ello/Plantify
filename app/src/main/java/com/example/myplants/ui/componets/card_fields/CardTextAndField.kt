@@ -3,8 +3,8 @@ package com.example.myplants.ui.componets.card_fields
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.myplants.ui.componets.common.CardText
-import com.example.myplants.ui.componets.common.CardTextField
+import com.example.myplants.ui.componets.card_fields.common.CardText
+import com.example.myplants.ui.componets.card_fields.common.CardTextField
 
 @Composable
 fun CardTextAndField(

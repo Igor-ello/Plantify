@@ -10,6 +10,7 @@ import com.example.myplants.models.PlantEntityInterface
 import com.example.myplants.models.sections.CareInfo
 import com.example.myplants.models.sections.FertilizerInfo
 import com.example.myplants.models.sections.WateringInfo
+import com.example.myplants.ui.componets.AppCheckbox
 
 
 @Composable
@@ -263,7 +264,7 @@ fun ShowLifecycleInfo(
     )
 
     // Ядовитость
-    CardCheckbox(
+    AppCheckbox(
         label = stringResource(R.string.plant_toxic),
         checked = entity.lifecycle.isToxic ?: false,
         editable = editable,
