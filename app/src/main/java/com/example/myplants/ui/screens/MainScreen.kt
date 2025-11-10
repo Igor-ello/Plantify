@@ -20,7 +20,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.myplants.core.utils.Routes
 import com.example.myplants.models.PlantWithPhotos
-import com.example.myplants.ui.componets.common.cards.GenusCardMain
+import com.example.myplants.ui.componets.cards.GenusCardMain
 import com.example.myplants.ui.viewmodels.MainViewModel
 import com.example.myplants.ui.viewmodels.UiStateViewModel
 

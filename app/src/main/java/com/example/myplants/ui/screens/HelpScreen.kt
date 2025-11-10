@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.myplants.R
-import com.example.myplants.ui.componets.base.AppButton
+import com.example.myplants.ui.componets.AppButton
 
 
 @Composable
