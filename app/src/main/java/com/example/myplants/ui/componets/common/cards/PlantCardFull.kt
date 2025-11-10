@@ -1,12 +1,9 @@
-package com.example.myplants.ui.componets.cards
-
+package com.example.myplants.ui.componets.common.cards
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyRow
@@ -26,10 +23,8 @@ import com.example.myplants.models.PlantEntityInterface
 import com.example.myplants.models.PlantPhoto
 import com.example.myplants.models.PlantWithPhotos
 import com.example.myplants.models.sections.MainInfo
-import com.example.myplants.ui.componets.card_fields.CardPhotoEditable
-import com.example.myplants.ui.componets.card_fields.CardBasicContent
-import com.example.myplants.ui.componets.card_fields.CardDetailContent
-import com.example.myplants.ui.theme.GreenLight
+import com.example.myplants.ui.componets.cards.CardDetailContent
+import com.example.myplants.ui.componets.cards.CardPhotoEditable
 
 @Composable
 fun PlantCardFull(
@@ -45,7 +40,6 @@ fun PlantCardFull(
             .padding(4.dp),
         shape = CardDefaults.shape,
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = GreenLight)
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
@@ -115,37 +109,49 @@ fun PlantCardFull(
 
 @Composable
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
-fun PlantCardMaxPreview_Editable() {
-    val samplePlant = Plant(
+fun PlantCardFullPreview() {
+    val samplePlant1 = Plant(
         id = 1L,
-        main = MainInfo(
-            genus = "Монстера",
-            species = "Monstera deliciosa"
-        )
+        main = MainInfo(genus = "Монстера", species = "Monstera deliciosa")
+    )
+    val samplePlant2 = Plant(
+        id = 2L,
+        main = MainInfo(genus = "Фикус", species = "Ficus lyrata")
     )
 
-    val samplePhotos = listOf(
-        PlantPhoto(
-            id = 1L,
-            plantId = 1L,
-            uri = "https://example.com/plant1.jpg",
-            isPrimary = true
-        )
+    val samplePhotos1 = listOf(
+        PlantPhoto(id = 1L, plantId = 1L, uri = "", isPrimary = true)
+    )
+    val samplePhotos2 = listOf(
+        PlantPhoto(id = 2L, plantId = 2L, uri = "", isPrimary = true)
     )
 
-    val plantWithPhotos = PlantWithPhotos(samplePlant, samplePhotos)
+    val plantsWithPhotos = listOf(
+        PlantWithPhotos(samplePlant1, samplePhotos1),
+        PlantWithPhotos(samplePlant2, samplePhotos2)
+    )
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        PlantCardFull(
-            plantWithPhotos = plantWithPhotos,
-            editable = true,
-            onValueChange = { /* preview - ничего не делаем */ },
-            onPhotosChanged = { /* preview - ничего не делаем */ }
-        )
-        Spacer(modifier = Modifier.height(1000.dp))
+        plantsWithPhotos.forEach { plantWithPhotos ->
+            PlantCardFull(
+                plantWithPhotos = plantWithPhotos,
+                editable = true,
+                onValueChange = {},
+                onPhotosChanged = {}
+            )
+
+            PlantCardFull(
+                plantWithPhotos = plantWithPhotos,
+                editable = false,
+                onValueChange = {},
+                onPhotosChanged = {}
+            )
+        }
     }
 }
