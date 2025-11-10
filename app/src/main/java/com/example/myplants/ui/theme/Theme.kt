@@ -35,13 +35,15 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 object CardColors {
-    val card1 = CardColor1
-    val card2 = CardColor2
-    val card3 = CardColor3
-    val card4 = CardColor4
-    val card5 = CardColor5
-    val card6 = CardColor6
-    val card7 = CardColor7
+    val colors = listOf(
+        CardColor1,
+        CardColor2,
+        CardColor3,
+        CardColor4,
+        CardColor5,
+        CardColor6,
+        CardColor7
+    )
 }
 
 object StateColors {
