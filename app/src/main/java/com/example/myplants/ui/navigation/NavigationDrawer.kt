@@ -1,8 +1,11 @@
 package com.example.myplants.ui.navigation
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,12 +21,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
@@ -38,6 +40,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.myplants.R
 import com.example.myplants.core.utils.Routes
+import com.example.myplants.ui.componets.base.BodyLarge
+import com.example.myplants.ui.componets.base.BodyMedium
+import com.example.myplants.ui.componets.base.TitleLarge
 import com.example.myplants.ui.theme.MyPlantsTheme
 import com.example.myplants.ui.theme.OnPrimaryWhite
 import com.example.myplants.ui.theme.PrimaryGreen
@@ -87,24 +92,38 @@ fun NavigationDrawer(
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet {
-                Column(modifier = Modifier.padding(vertical = 12.dp)) {
-                    Text(
+            ModalDrawerSheet(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .background(PrimaryGreen)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(PrimaryGreen)
+                        .padding(vertical = 12.dp)
+                ) {
+                    TitleLarge(
                         text = stringResource(R.string.app_name),
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                        style = MaterialTheme.typography.titleLarge
+                        color = OnPrimaryWhite
                     )
-                    HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+
+                    HorizontalDivider(
+                        modifier = Modifier.padding(vertical = 4.dp),
+                        color = OnPrimaryWhite.copy(alpha = 0.3f)
+                    )
 
                     LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                        // Plants Section
+
                         item {
-                            Text(
+                            TitleLarge(
                                 text = stringResource(R.string.plants_section),
                                 modifier = Modifier.padding(16.dp),
-                                style = MaterialTheme.typography.titleMedium
+                                color = OnPrimaryWhite
                             )
                         }
+
                         items(drawerItems.filter { it.route in listOf(
                             Routes.AllPlants.route,
                             Routes.Favorites.route,
@@ -113,16 +132,21 @@ fun NavigationDrawer(
                             DrawerItem(item, currentRoute, navController, drawerState, scope)
                         }
 
-                        item { HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp)) }
-
-                        // App Section
                         item {
-                            Text(
-                                text = stringResource(R.string.app_section),
-                                modifier = Modifier.padding(16.dp),
-                                style = MaterialTheme.typography.titleMedium
+                            HorizontalDivider(
+                                modifier = Modifier.padding(vertical = 8.dp),
+                                color = OnPrimaryWhite.copy(alpha = 0.3f)
                             )
                         }
+
+                        item {
+                            TitleLarge(
+                                text = stringResource(R.string.app_section),
+                                modifier = Modifier.padding(16.dp),
+                                color = OnPrimaryWhite
+                            )
+                        }
+
                         items(drawerItems.filter { it.route in listOf(
                             Routes.Settings.route,
                             Routes.Help.route
@@ -137,12 +161,12 @@ fun NavigationDrawer(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(uiStateViewModel.drawerTitle) },
+                    title = { TitleLarge(uiStateViewModel.drawerTitle, color = OnPrimaryWhite) },
                     navigationIcon = {
+                        val scope = rememberCoroutineScope()
                         if (uiStateViewModel.showBackButton) {
                             IconButton(onClick = { navController.popBackStack() }) {
-                                // TODO
-                                Icon(Icons.Default.Close, contentDescription = "Back")
+                                Icon(Icons.Default.Close, contentDescription = "Back", tint = OnPrimaryWhite)
                             }
                         } else {
                             IconButton(onClick = {
@@ -150,7 +174,7 @@ fun NavigationDrawer(
                                     if (drawerState.isClosed) drawerState.open() else drawerState.close()
                                 }
                             }) {
-                                Icon(Icons.Default.Menu, contentDescription = "Menu")
+                                Icon(Icons.Default.Menu, contentDescription = "Menu", tint = OnPrimaryWhite)
                             }
                         }
                     },
@@ -186,14 +210,28 @@ fun DrawerItem(
     scope: CoroutineScope
 ) {
     val selected = currentRoute.startsWith(item.route)
+
     NavigationDrawerItem(
-        label = { Text(stringResource(item.labelRes)) },
+        label = {
+            BodyLarge(
+                text = stringResource(item.labelRes),
+                color = OnPrimaryWhite
+            )
+        },
         icon = item.icon,
         selected = selected,
         onClick = {
             scope.launch { drawerState.close() }
             navController.navigateSingleTop(item.route, Routes.AllPlants.route)
-        }
+        },
+        colors = NavigationDrawerItemDefaults.colors(
+            unselectedContainerColor = PrimaryGreen,
+            selectedContainerColor = OnPrimaryWhite.copy(alpha = 0.2f),
+            unselectedIconColor = OnPrimaryWhite,
+            selectedIconColor = OnPrimaryWhite,
+            unselectedTextColor = OnPrimaryWhite,
+            selectedTextColor = OnPrimaryWhite
+        )
     )
 }
 
@@ -212,7 +250,7 @@ fun NavigationDrawerPreview() {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("My Plants", color = OnPrimaryWhite) },
+                    title = { TitleLarge("MyPlants", color = OnPrimaryWhite) },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = PrimaryGreen,
                         titleContentColor = OnPrimaryWhite
@@ -221,7 +259,7 @@ fun NavigationDrawerPreview() {
             }
         ) { padding ->
             Column(modifier = Modifier.padding(padding)) {
-                Text(
+                BodyMedium(
                     text = "Контент страницы...",
                     modifier = Modifier.padding(16.dp)
                 )
