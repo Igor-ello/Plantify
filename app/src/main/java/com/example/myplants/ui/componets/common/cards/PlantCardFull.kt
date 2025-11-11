@@ -23,8 +23,8 @@ import com.example.myplants.models.PlantEntityInterface
 import com.example.myplants.models.PlantPhoto
 import com.example.myplants.models.PlantWithPhotos
 import com.example.myplants.models.sections.MainInfo
-import com.example.myplants.ui.componets.cards.CardDetailContent
-import com.example.myplants.ui.componets.cards.CardPhotoEditable
+import com.example.myplants.ui.componets.card_fields.CardDetailContent
+import com.example.myplants.ui.componets.card_fields.CardPhotoEditable
 
 @Composable
 fun PlantCardFull(

@@ -27,9 +27,9 @@ import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantEntityInterface
 import com.example.myplants.models.PlantWithPhotos
 import com.example.myplants.models.sections.MainInfo
-import com.example.myplants.ui.componets.cards.CardBasicContent
-import com.example.myplants.ui.componets.cards.CardIconFavourite
-import com.example.myplants.ui.componets.cards.CardIconWishlist
+import com.example.myplants.ui.componets.card_fields.CardBasicContent
+import com.example.myplants.ui.componets.card_fields.CardIconFavourite
+import com.example.myplants.ui.componets.card_fields.CardIconWishlist
 import com.example.myplants.ui.theme.CardColors
 import com.example.myplants.ui.theme.MyPlantsTheme
 

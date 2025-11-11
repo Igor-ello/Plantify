@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.example.myplants.models.Genus
 import com.example.myplants.models.PlantEntityInterface
 import com.example.myplants.models.sections.MainInfo
-import com.example.myplants.ui.componets.cards.CardDetailContent
+import com.example.myplants.ui.componets.card_fields.CardDetailContent
 import com.example.myplants.ui.theme.MyPlantsTheme
 
 @Composable

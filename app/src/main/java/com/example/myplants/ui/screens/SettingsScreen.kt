@@ -36,7 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import com.example.myplants.R
-import com.example.myplants.ui.componets.AppButton
+import com.example.myplants.ui.componets.base.AppButton
 import com.example.myplants.ui.componets.settings.BackupItemRow
 import com.example.myplants.ui.viewmodels.SettingsViewModel
 import kotlinx.coroutines.launch
