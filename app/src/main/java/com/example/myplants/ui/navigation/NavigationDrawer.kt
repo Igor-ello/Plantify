@@ -25,17 +25,22 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.myplants.R
 import com.example.myplants.core.utils.Routes
+import com.example.myplants.ui.theme.MyPlantsTheme
+import com.example.myplants.ui.theme.OnPrimaryWhite
+import com.example.myplants.ui.theme.PrimaryGreen
 import com.example.myplants.ui.viewmodels.UiStateViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -125,7 +130,6 @@ fun NavigationDrawer(
                             DrawerItem(item, currentRoute, navController, drawerState, scope)
                         }
                     }
-
                 }
             }
         }
@@ -150,7 +154,13 @@ fun NavigationDrawer(
                             }
                         }
                     },
-                    actions = uiStateViewModel.topBarActions ?: {}
+                    actions = uiStateViewModel.topBarActions ?: {},
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = PrimaryGreen,
+                        titleContentColor = OnPrimaryWhite,
+                        navigationIconContentColor = OnPrimaryWhite,
+                        actionIconContentColor = OnPrimaryWhite
+                    )
                 )
             }
         ) { innerPadding ->
@@ -194,3 +204,28 @@ fun NavController.navigateSingleTop(route: String, popUpToRoute: String) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Composable
+fun NavigationDrawerPreview() {
+    MyPlantsTheme {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text("My Plants", color = OnPrimaryWhite) },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = PrimaryGreen,
+                        titleContentColor = OnPrimaryWhite
+                    )
+                )
+            }
+        ) { padding ->
+            Column(modifier = Modifier.padding(padding)) {
+                Text(
+                    text = "Контент страницы...",
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
+    }
+}
