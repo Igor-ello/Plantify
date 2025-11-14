@@ -27,7 +27,7 @@ fun WishlistScreen (
                 editable = false,
                 onValueChange = {},
                 onClick = { onPlantClick(plantWithPhotos.plant) },
-                onToggleFavorite = {},
+                onToggleFavorite = { viewModel.toggleFavorite(plantWithPhotos.plant) },
                 onToggleWishlist = { viewModel.toggleWishlist(plantWithPhotos.plant) }
             )
         }
