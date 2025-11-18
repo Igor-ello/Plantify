@@ -46,6 +46,27 @@
     <string name="button_save">Save</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_back">Back</string>
+    <string name="button_close">Close</string>
     <string name="action_create_backup">Create backup</string>
     <string name="action_import_file">Import file</string>
+
+    <!--  Text  -->
+    <string name="text_export">Export</string>
+    <string name="text_export_json">Export JSON</string>
+    <string name="text_show_json">Show JSON</string>
+    <string name="text_file_is_empty">File is empty</string>
+    <string name="text_recover">Recover</string>
+    <string name="toast_recovery_completed">Recovery completed</string>
+    <string name="text_merge_data">Merge with current data</string>
+    <string name="text_replace_db">Replace the current database</string>
+    <string name="toast_file_imported">The file is imported</string>
+    <string name="text_backups">Available backups:</string>
+    <string name="text_no_backups">There are no backups</string>
+    <string name="toast_file_deleted">The file has been deleted</string>
+    <string name="text_create_backup">Create a backup?</string>
+    <string name="text_backup_created">A backup file will be created in the application directory. Continue?</string>
+    <string name="toast_backup_created">Backup created</string>
+    <string name="text_create">Create</string>
+    <string name="text_cancel">Cancel</string>
+    <string name="text_recovery_mode">Select the recovery mode for %1$s:</string>
 </resources>

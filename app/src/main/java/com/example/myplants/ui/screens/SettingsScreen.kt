@@ -69,7 +69,11 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
             }
             scope.launch {
                 viewModel.restore(importedFile)
-                Toast.makeText(context, "Файл импортирован", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.toast_file_imported),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -89,12 +93,11 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
         )
 
         Spacer(modifier = Modifier.height(12.dp))
-        // TODO rename and add string resource
-        Text("Доступные резервные копии:", style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.text_backups), style = MaterialTheme.typography.titleMedium)
         Spacer(modifier = Modifier.height(8.dp))
 
         if (backups.isEmpty()) {
-            Text("Резервные копии отсутствуют", color = Color.Gray)
+            Text(stringResource(R.string.text_no_backups), color = Color.Gray)
         } else {
             LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 items(backups) { file ->
@@ -107,7 +110,11 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
                         onDeleteClick = { f ->
                             scope.launch {
                                 viewModel.deleteBackup(f)
-                                Toast.makeText(context, "Файл удалён", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.toast_file_deleted),
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         },
                         onPreviewClick = { f ->
@@ -123,36 +130,51 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
     if (showCreateConfirm) {
         AlertDialog(
             onDismissRequest = { showCreateConfirm = false },
-            title = { Text("Создать бэкап?") },
-            text = { Text("Будет создан файл бэкапа в каталоге приложения. Продолжить?") },
+            title = { Text(stringResource(R.string.text_create_backup)) },
+            text = { Text(stringResource(R.string.text_backup_created)) },
             confirmButton = {
                 TextButton(onClick = {
                     showCreateConfirm = false
                     scope.launch {
                         viewModel.backup()
-                        Toast.makeText(context, "Бэкап создан", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.toast_backup_created),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
-                }) { Text("Создать") }
+                }) { Text(stringResource(R.string.text_create)) }
             },
-            dismissButton = { TextButton(onClick = { showCreateConfirm = false }) { Text("Отмена") } }
+            dismissButton = {
+                TextButton(onClick = {
+                    showCreateConfirm = false
+                }) { Text(stringResource(R.string.text_cancel)) }
+            }
         )
     }
 
     if (showRestoreConfirm && selectedFile != null) {
         AlertDialog(
             onDismissRequest = { showRestoreConfirm = false; selectedFile = null },
-            title = { Text("Восстановление") },
+            title = { Text(stringResource(R.string.text_recover)) },
             text = {
                 Column {
-                    Text("Выберите режим восстановления для ${selectedFile?.name}:")
+                    Text(
+                        stringResource(R.string.text_recovery_mode,
+                            selectedFile?.name ?: "")
+                    )
                     Spacer(Modifier.height(8.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        RadioButton(selected = restoreReplaceMode, onClick = { restoreReplaceMode = true })
-                        Text("Заменить текущую базу")
+                        RadioButton(
+                            selected = restoreReplaceMode,
+                            onClick = { restoreReplaceMode = true })
+                        Text(stringResource(R.string.text_replace_db))
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        RadioButton(selected = !restoreReplaceMode, onClick = { restoreReplaceMode = false })
-                        Text("Слить с текущими данными")
+                        RadioButton(
+                            selected = !restoreReplaceMode,
+                            onClick = { restoreReplaceMode = false })
+                        Text(stringResource(R.string.text_merge_data))
                     }
                 }
             },
@@ -166,22 +188,31 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
                             if (restoreReplaceMode) viewModel.restore(file)
                             else viewModel.restoreMerge(file)
                             viewModel.refreshBackups()
-                            Toast.makeText(context, "Восстановление выполнено", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.toast_recovery_completed),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
-                }) { Text("Восстановить") }
+                }) { Text(stringResource(R.string.text_recover)) }
             },
-            dismissButton = { TextButton(onClick = { showRestoreConfirm = false; selectedFile = null }) { Text("Отмена") } }
+            dismissButton = {
+                TextButton(onClick = {
+                    showRestoreConfirm = false; selectedFile = null
+                }) { Text(stringResource(R.string.button_cancel)) }
+            }
         )
     }
 
     if (showJsonPreview && selectedFile != null) {
         AlertDialog(
             onDismissRequest = { showJsonPreview = false; selectedFile = null },
-            title = { Text("Просмотр JSON") },
+            title = { Text(stringResource(R.string.text_show_json)) },
             text = {
                 val jsonText = remember(selectedFile) {
-                    if (selectedFile!!.exists()) selectedFile!!.readText() else "Файл пуст"
+                    if (selectedFile!!.exists()) selectedFile!!.readText()
+                    else context.getString(R.string.text_file_is_empty)
                 }
                 Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                     Text(jsonText, style = MaterialTheme.typography.bodySmall)
@@ -200,12 +231,16 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
                         putExtra(Intent.EXTRA_STREAM, uri)
                         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     }
-                    context.startActivity(Intent.createChooser(intent, "Экспортировать JSON"))
+                    context.startActivity(Intent.createChooser(intent,
+                        context.getString(R.string.text_export_json)))
                     showJsonPreview = false
                     selectedFile = null
-                }) { Text("Экспорт") }
+                }) { Text(stringResource(R.string.text_export)) }
             },
-            dismissButton = { TextButton(onClick = { showJsonPreview = false; selectedFile = null }) { Text("Закрыть") } }
+            dismissButton = {
+                TextButton(onClick = { showJsonPreview = false; selectedFile = null })
+                { Text(stringResource(R.string.button_close)) }
+            }
         )
     }
 }
