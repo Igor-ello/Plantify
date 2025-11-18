@@ -55,8 +55,7 @@ fun MainScreen(
     val groupedPlants = plantsWithPhotos.groupBy { it.plant.main.genus }
     LazyColumn(
         state = listState,
-        modifier = modifier
-            .padding(16.dp),
+        modifier = modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         contentPadding = PaddingValues(bottom = 64.dp)
     ) {

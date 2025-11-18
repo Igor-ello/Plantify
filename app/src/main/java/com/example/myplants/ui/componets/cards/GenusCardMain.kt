@@ -39,8 +39,7 @@ fun GenusCardMain(
 
     Card(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(8.dp),
+            .fillMaxWidth(),
         shape = CardDefaults.shape,
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         colors = CardDefaults.cardColors(containerColor = GreenLight2)
