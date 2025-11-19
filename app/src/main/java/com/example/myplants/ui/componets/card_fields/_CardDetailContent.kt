@@ -10,7 +10,9 @@ import com.example.myplants.models.PlantEntityInterface
 import com.example.myplants.models.sections.CareInfo
 import com.example.myplants.models.sections.FertilizerInfo
 import com.example.myplants.models.sections.WateringInfo
-import com.example.myplants.ui.componets.AppCheckbox
+import com.example.myplants.ui.componets.base.AppCheckbox
+import com.example.myplants.ui.componets.base.NamedNumberField
+import com.example.myplants.ui.componets.base.NamedTextField
 
 
 @Composable
@@ -59,7 +61,7 @@ fun ShowMainInfo(
     showSpecies: Boolean
 ) {
     // Род
-    CardTextAndField(
+    NamedTextField(
         label = stringResource(R.string.plant_genus),
         value = entity.main.genus,
         editable = editable,
@@ -72,7 +74,7 @@ fun ShowMainInfo(
 
     // Вид
     if (showSpecies) {
-        CardTextAndField(
+        NamedTextField(
             label = stringResource(R.string.plant_species),
             value = entity.main.species,
             editable = editable,
@@ -84,7 +86,7 @@ fun ShowMainInfo(
     }
 
     // Полное название
-    CardTextAndField(
+    NamedTextField(
         label = stringResource(R.string.plant_full_name),
         value = entity.main.fullName ?: "",
         editable = editable,
@@ -103,7 +105,7 @@ fun ShowCareInfo(
     onValueChange: (PlantEntityInterface) -> Unit
 ) {
     // Освещение
-    CardTextAndField(
+    NamedTextField(
         label = stringResource(R.string.plant_lighting),
         value = entity.care.lighting ?: "",
         editable = editable,
@@ -113,7 +115,7 @@ fun ShowCareInfo(
     )
 
     // Температура
-    CardTextAndField(
+    NamedTextField(
         label = stringResource(R.string.plant_temperature),
         value = entity.care.temperature ?: "",
         editable = editable,
@@ -123,7 +125,7 @@ fun ShowCareInfo(
     )
 
     // Влажность воздуха
-    CardTextAndField(
+    NamedTextField(
         label = stringResource(R.string.plant_air_humidity),
         value = entity.care.airHumidity ?: "",
         editable = editable,
@@ -133,7 +135,7 @@ fun ShowCareInfo(
     )
 
     // Состав почвы
-    CardTextAndField(
+    NamedTextField(
         label = stringResource(R.string.plant_soil_composition),
         value = entity.care.soilComposition ?: "",
         editable = editable,
@@ -143,7 +145,7 @@ fun ShowCareInfo(
     )
 
     // Пересадка
-    CardTextAndField(
+    NamedTextField(
         label = stringResource(R.string.plant_transfer),
         value = entity.care.transfer ?: "",
         editable = editable,
@@ -155,7 +157,7 @@ fun ShowCareInfo(
     // Вложенные таблицы
 
     // Полив
-    CardTextAndField(
+    NamedTextField(
         label = stringResource(R.string.plant_watering),
         value = entity.care.watering.watering ?: "",
         editable = editable,
@@ -165,7 +167,7 @@ fun ShowCareInfo(
     )
 
     // Частота полива
-    CardNumberField(
+    NamedNumberField(
         label = stringResource(R.string.plant_watering_frequency),
         value = entity.care.watering.frequencyPerMonth?.toString() ?: "",
         editable = editable,
@@ -176,7 +178,7 @@ fun ShowCareInfo(
     )
 
     // Последний полив
-    CardTextAndField(
+    NamedTextField(
         label = stringResource(R.string.plant_last_watering_date),
         value = entity.care.watering.lastDate ?: "",
         editable = editable,
@@ -186,7 +188,7 @@ fun ShowCareInfo(
     )
 
     // Удобрения
-    CardTextAndField(
+    NamedTextField(
         label = stringResource(R.string.plant_fertilizer),
         value = entity.care.fertilizer.fertilizer ?: "",
         editable = editable,
@@ -196,7 +198,7 @@ fun ShowCareInfo(
     )
 
     // Частота удобрений
-    CardNumberField(
+    NamedNumberField(
         label = stringResource(R.string.plant_fertilization_frequency),
         value = entity.care.fertilizer.frequencyPerMonth?.toString() ?: "",
         editable = editable,
@@ -207,7 +209,7 @@ fun ShowCareInfo(
     )
 
     // Последнее удобрение
-    CardTextAndField(
+    NamedTextField(
         label = stringResource(R.string.plant_fertilizer_last_date),
         value = entity.care.fertilizer.lastDate ?: "",
         editable = editable,
@@ -224,7 +226,7 @@ fun ShowLifecycleInfo(
     onValueChange: (PlantEntityInterface) -> Unit
 ) {
     // Цикл жизни
-    CardTextAndField(
+    NamedTextField(
         label = stringResource(R.string.plant_life_cycle),
         value = entity.lifecycle.lifecycle ?: "",
         editable = editable,
@@ -234,7 +236,7 @@ fun ShowLifecycleInfo(
     )
 
     // Цветение
-    CardTextAndField(
+    NamedTextField(
         label = stringResource(R.string.plant_bloom),
         value = entity.lifecycle.bloom ?: "",
         editable = editable,
@@ -244,7 +246,7 @@ fun ShowLifecycleInfo(
     )
 
     // Размножение
-    CardTextAndField(
+    NamedTextField(
         label = stringResource(R.string.plant_reproduction),
         value = entity.lifecycle.reproduction ?: "",
         editable = editable,
@@ -254,7 +256,7 @@ fun ShowLifecycleInfo(
     )
 
     // Дата первого посадки
-    CardTextAndField(
+    NamedTextField(
         label = stringResource(R.string.plant_first_landing),
         value = entity.lifecycle.firstLanding ?: "",
         editable = editable,
@@ -274,7 +276,7 @@ fun ShowLifecycleInfo(
     )
 
     // Описание растения
-    CardTextAndField(
+    NamedTextField(
         label = stringResource(R.string.plant_about),
         value = entity.lifecycle.aboutThePlant ?: "",
         editable = editable,
@@ -291,7 +293,7 @@ fun ShowHealthInfo(
     onValueChange: (PlantEntityInterface) -> Unit
 ) {
     // Вредители
-    CardTextAndField(
+    NamedTextField(
         label = stringResource(R.string.plant_pests),
         value = entity.health.pests ?: "",
         editable = editable,
@@ -301,7 +303,7 @@ fun ShowHealthInfo(
     )
 
     // Болезни
-    CardTextAndField(
+    NamedTextField(
         label = stringResource(R.string.plant_diseases),
         value = entity.health.diseases ?: "",
         editable = editable,

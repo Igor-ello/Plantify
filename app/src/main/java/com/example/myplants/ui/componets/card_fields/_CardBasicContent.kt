@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.example.myplants.R
 import com.example.myplants.models.PlantEntityInterface
+import com.example.myplants.ui.componets.base.NamedTextField
 
 
 @Composable
@@ -13,7 +14,7 @@ fun CardBasicContent(
     onValueChange: (PlantEntityInterface) -> Unit,
     showSpecies: Boolean = true
 ) {
-    CardTextAndField(
+    NamedTextField(
         label = stringResource(R.string.plant_genus),
         value = entity.main.genus,
         editable = editable,
@@ -25,7 +26,7 @@ fun CardBasicContent(
     )
 
     if (showSpecies) {
-        CardTextAndField(
+        NamedTextField(
             label = stringResource(R.string.plant_species),
             value = entity.main.species,
             editable = editable,
@@ -38,7 +39,7 @@ fun CardBasicContent(
     }
 
     if (!entity.main.fullName.isNullOrBlank()) {
-        CardTextAndField(
+        NamedTextField(
             label = stringResource(R.string.plant_full_name),
             value = entity.main.fullName!!,
             editable = editable,

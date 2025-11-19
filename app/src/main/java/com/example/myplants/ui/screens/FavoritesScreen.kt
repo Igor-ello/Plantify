@@ -9,8 +9,8 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.myplants.models.Plant
+import com.example.myplants.ui.componets.common.cards.PlantCardMain
 import com.example.myplants.ui.viewmodels.MainViewModel
-import com.example.myplants.ui.componets.cards.PlantCardMain
 
 @Composable
 fun FavoritesScreen(

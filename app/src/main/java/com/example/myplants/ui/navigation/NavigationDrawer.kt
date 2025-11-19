@@ -1,10 +1,7 @@
 package com.example.myplants.ui.navigation
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -12,30 +9,24 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.DrawerState
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalDrawerSheet
-import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.myplants.R
 import com.example.myplants.core.utils.Routes
+import com.example.myplants.ui.componets.base.BodyLarge
+import com.example.myplants.ui.componets.base.BodyMedium
+import com.example.myplants.ui.componets.base.TitleLarge
+import com.example.myplants.ui.theme.MyPlantsTheme
+import com.example.myplants.ui.theme.OnPrimaryWhite
+import com.example.myplants.ui.theme.PrimaryGreen
 import com.example.myplants.ui.viewmodels.UiStateViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -49,11 +40,9 @@ fun NavigationDrawer(
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route ?: ""
 
-    // Список элементов навигации
     val drawerItems = listOf(
         DrawerItemData(
             labelRes = R.string.screen_all_plants,
@@ -82,50 +71,68 @@ fun NavigationDrawer(
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet {
-                Column(modifier = Modifier.padding(vertical = 12.dp)) {
-                    Text(
+            ModalDrawerSheet(
+                modifier = Modifier.fillMaxHeight(),
+                drawerContainerColor = PrimaryGreen,
+                drawerContentColor = OnPrimaryWhite
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(vertical = 12.dp)
+                ) {
+                    TitleLarge(
                         text = stringResource(R.string.app_name),
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                        style = MaterialTheme.typography.titleLarge
+                        color = OnPrimaryWhite
                     )
-                    HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+
+                    HorizontalDivider(
+                        modifier = Modifier.padding(vertical = 4.dp),
+                        color = OnPrimaryWhite.copy(alpha = 0.3f),
+                        thickness = 1.dp
+                    )
 
                     LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                        // Plants Section
                         item {
-                            Text(
+                            TitleLarge(
                                 text = stringResource(R.string.plants_section),
                                 modifier = Modifier.padding(16.dp),
-                                style = MaterialTheme.typography.titleMedium
+                                color = OnPrimaryWhite
                             )
                         }
-                        items(drawerItems.filter { it.route in listOf(
-                            Routes.AllPlants.route,
-                            Routes.Favorites.route,
-                            Routes.Wishlist.route
-                        ) }) { item ->
-                            DrawerItem(item, currentRoute, navController, drawerState, scope)
-                        }
-
-                        item { HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp)) }
-
-                        // App Section
-                        item {
-                            Text(
-                                text = stringResource(R.string.app_section),
-                                modifier = Modifier.padding(16.dp),
-                                style = MaterialTheme.typography.titleMedium
+                        items(drawerItems.filter {
+                            it.route in listOf(
+                                Routes.AllPlants.route,
+                                Routes.Favorites.route,
+                                Routes.Wishlist.route
                             )
-                        }
-                        items(drawerItems.filter { it.route in listOf(
-                            Routes.Settings.route,
-                            Routes.Help.route
-                        ) }) { item ->
-                            DrawerItem(item, currentRoute, navController, drawerState, scope)
+                        }) {
+                            DrawerItem(it, currentRoute, navController, drawerState, scope)
                         }
                     }
-
+                    HorizontalDivider(
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        color = OnPrimaryWhite.copy(alpha = 0.3f),
+                        thickness = 1.dp
+                    )
+                    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                        item {
+                            TitleLarge(
+                                text = stringResource(R.string.app_section),
+                                modifier = Modifier.padding(16.dp),
+                                color = OnPrimaryWhite
+                            )
+                        }
+                        items(drawerItems.filter {
+                            it.route in listOf(
+                                Routes.Settings.route,
+                                Routes.Help.route
+                            )
+                        }) {
+                            DrawerItem(it, currentRoute, navController, drawerState, scope)
+                        }
+                    }
                 }
             }
         }
@@ -133,24 +140,23 @@ fun NavigationDrawer(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(uiStateViewModel.drawerTitle) },
+                    title = { TitleLarge(uiStateViewModel.drawerTitle, color = OnPrimaryWhite) },
                     navigationIcon = {
-                        if (uiStateViewModel.showBackButton) {
-                            IconButton(onClick = { navController.popBackStack() }) {
-                                // TODO
-                                Icon(Icons.Default.Close, contentDescription = "Back")
+                        IconButton(onClick = {
+                            scope.launch {
+                                if (drawerState.isClosed) drawerState.open() else drawerState.close()
                             }
-                        } else {
-                            IconButton(onClick = {
-                                scope.launch {
-                                    if (drawerState.isClosed) drawerState.open() else drawerState.close()
-                                }
-                            }) {
-                                Icon(Icons.Default.Menu, contentDescription = "Menu")
-                            }
+                        }) {
+                            Icon(Icons.Default.Menu, contentDescription = "Menu", tint = OnPrimaryWhite)
                         }
                     },
-                    actions = uiStateViewModel.topBarActions ?: {}
+                    actions = uiStateViewModel.topBarActions ?: {},
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = PrimaryGreen,
+                        titleContentColor = OnPrimaryWhite,
+                        navigationIconContentColor = OnPrimaryWhite,
+                        actionIconContentColor = OnPrimaryWhite
+                    )
                 )
             }
         ) { innerPadding ->
@@ -159,7 +165,7 @@ fun NavigationDrawer(
     }
 }
 
-// -------------------- HELPER --------------------
+// -------------------- HELPERS --------------------
 
 data class DrawerItemData(
     @StringRes val labelRes: Int,
@@ -177,13 +183,26 @@ fun DrawerItem(
 ) {
     val selected = currentRoute.startsWith(item.route)
     NavigationDrawerItem(
-        label = { Text(stringResource(item.labelRes)) },
+        label = {
+            BodyLarge(
+                text = stringResource(item.labelRes),
+                color = OnPrimaryWhite
+            )
+        },
         icon = item.icon,
         selected = selected,
         onClick = {
             scope.launch { drawerState.close() }
             navController.navigateSingleTop(item.route, Routes.AllPlants.route)
-        }
+        },
+        colors = NavigationDrawerItemDefaults.colors(
+            unselectedContainerColor = PrimaryGreen,
+            selectedContainerColor = OnPrimaryWhite.copy(alpha = 0.2f),
+            unselectedIconColor = OnPrimaryWhite,
+            selectedIconColor = OnPrimaryWhite,
+            unselectedTextColor = OnPrimaryWhite,
+            selectedTextColor = OnPrimaryWhite
+        )
     )
 }
 
@@ -194,3 +213,28 @@ fun NavController.navigateSingleTop(route: String, popUpToRoute: String) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Composable
+fun NavigationDrawerPreview() {
+    MyPlantsTheme {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { TitleLarge("MyPlants", color = OnPrimaryWhite) },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = PrimaryGreen,
+                        titleContentColor = OnPrimaryWhite
+                    )
+                )
+            }
+        ) { padding ->
+            Column(modifier = Modifier.padding(padding)) {
+                BodyMedium(
+                    text = "Контент страницы...",
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
+    }
+}
