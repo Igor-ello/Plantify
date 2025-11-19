@@ -2,7 +2,6 @@ package com.example.myplants.ui.componets.base
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -14,12 +13,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myplants.ui.theme.MyPlantsTheme
+import com.example.myplants.ui.theme.OnSecondaryDark
 
 @Composable
 private fun AppText(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colorScheme.onSurface,
+    color: Color = OnSecondaryDark,
     style: TextStyle = MaterialTheme.typography.bodyMedium,
     maxLines: Int = Int.MAX_VALUE,
     textAlign: TextAlign = TextAlign.Start
@@ -38,7 +38,7 @@ private fun AppText(
 fun BodyLarge(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colorScheme.onSurface,
+    color: Color = OnSecondaryDark,
     maxLines: Int = Int.MAX_VALUE,
     textAlign: TextAlign = TextAlign.Start
 ) {
@@ -74,7 +74,7 @@ fun BodyMedium(
 fun TitleLarge(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colorScheme.onBackground,
+    color: Color = OnSecondaryDark,
     maxLines: Int = Int.MAX_VALUE,
     textAlign: TextAlign = TextAlign.Start
 ) {
@@ -92,7 +92,7 @@ fun TitleLarge(
 fun LabelLarge(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colorScheme.onSurface,
+    color: Color = OnSecondaryDark,
     maxLines: Int = Int.MAX_VALUE,
     textAlign: TextAlign = TextAlign.Center
 ) {
@@ -110,7 +110,7 @@ fun LabelLarge(
 fun LabelSmall(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colorScheme.onSurface,
+    color: Color = OnSecondaryDark,
     maxLines: Int = Int.MAX_VALUE,
     textAlign: TextAlign = TextAlign.Start
 ) {
