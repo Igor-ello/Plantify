@@ -1,6 +1,7 @@
 package com.example.myplants.ui.theme
 
 import androidx.compose.ui.graphics.Color
+import com.example.myplants.models.Genus
 
 /* ---------------- Брендовые цвета ---------------- */
 val PrimaryGreen = Color(0xFF0C9064)    // Основной зелёный (брендовый)
@@ -38,3 +39,4 @@ val CardColor4 = Color(0xFFE8FBE8)
 val CardColor5 = Color(0xFFC1E8A4)
 val CardColor6 = Color(0xFFE5F0A1)
 val CardColor7 = Color(0xFFF5EDA8)
+val GenusCardColor = Color(0xFFB0EAD5)

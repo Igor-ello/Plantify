@@ -54,7 +54,7 @@ fun PlantCardMain(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(start = 10.dp, end = 10.dp, bottom = 20.dp)
             .clickable { onClick(plant) },
         shape = CardDefaults.shape,
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
@@ -68,7 +68,7 @@ fun PlantCardMain(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .sizeIn(maxHeight = 300.dp)
+                    .sizeIn(maxHeight = 250.dp)
                     .clip(RoundedCornerShape(8.dp))
             ) {
                 if (mainPhotoUri != null) {
@@ -149,7 +149,7 @@ private fun PlantCardMainPreview() {
             )
         )
 
-        Column(modifier = Modifier.padding(16.dp)) {
+        Row(modifier = Modifier.padding(16.dp)) {
             plantWithPhotosList.forEach { plantWithPhotos ->
                 var editable by remember { mutableStateOf(true) }
 
