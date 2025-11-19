@@ -3,6 +3,8 @@ package com.example.myplants.ui.screens
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -55,14 +57,12 @@ fun MainScreen(
     val groupedPlants = plantsWithPhotos.groupBy { it.plant.main.genus }
     LazyColumn(
         state = listState,
-        modifier = modifier.padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = modifier.padding(horizontal = 16.dp),
         contentPadding = PaddingValues(bottom = 64.dp)
     ) {
-        groupedPlants.forEach { (genusName, plants) ->
+        groupedPlants.entries.forEachIndexed {index, (genusName, plants) ->
             item(key = genusName) {
                 val genus = genusMap[genusName]
-
                 if (genus != null) {
                     GenusCardMain(
                         genus = genus,
@@ -72,7 +72,8 @@ fun MainScreen(
                         onToggleWishlist = { pw -> viewModel.toggleWishlist(pw.plant) },
                         onNavigateToGenusDetail = { genusId ->
                             navController.navigate(Routes.GenusDetail.createRoute(genusId))
-                        }
+                        },
+                        modifier = if (index > 0) Modifier.padding(top = 12.dp) else Modifier
                     )
                 }
             }
