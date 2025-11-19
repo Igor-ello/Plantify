@@ -1,13 +1,7 @@
 package com.example.myplants.ui.navigation
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -15,21 +9,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.DrawerState
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalDrawerSheet
-import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
-import androidx.compose.material3.NavigationDrawerItemDefaults
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -60,11 +40,9 @@ fun NavigationDrawer(
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route ?: ""
 
-    // Список элементов навигации
     val drawerItems = listOf(
         DrawerItemData(
             labelRes = R.string.screen_all_plants,
@@ -93,84 +71,66 @@ fun NavigationDrawer(
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            // Локальная тема ТОЛЬКО для Drawer
-            MaterialTheme(
-                colorScheme = MaterialTheme.colorScheme.copy(
-                    surface = PrimaryGreen,
-                    onSurface = OnPrimaryWhite
-                )
+            ModalDrawerSheet(
+                modifier = Modifier.fillMaxHeight(),
+                drawerContainerColor = PrimaryGreen,
+                drawerContentColor = OnPrimaryWhite
             ) {
-                ModalDrawerSheet(
+                Column(
                     modifier = Modifier
-                        .fillMaxHeight(),
-                    drawerContainerColor = PrimaryGreen,   // важный параметр!
-                    drawerContentColor = OnPrimaryWhite
+                        .fillMaxSize()
+                        .padding(vertical = 12.dp)
                 ) {
+                    TitleLarge(
+                        text = stringResource(R.string.app_name),
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                        color = OnPrimaryWhite
+                    )
 
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(PrimaryGreen)
-                            .padding(vertical = 12.dp)
-                    ) {
-                        TitleLarge(
-                            text = stringResource(R.string.app_name),
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                            color = OnPrimaryWhite
-                        )
+                    HorizontalDivider(
+                        modifier = Modifier.padding(vertical = 4.dp),
+                        color = OnPrimaryWhite.copy(alpha = 0.3f),
+                        thickness = 1.dp
+                    )
 
-                        HorizontalDivider(
-                            modifier = Modifier.padding(vertical = 4.dp),
-                            color = OnPrimaryWhite.copy(alpha = 0.3f)
-                        )
-
-                        LazyColumn(modifier = Modifier.fillMaxWidth()) {
-
-                            item {
-                                TitleLarge(
-                                    text = stringResource(R.string.plants_section),
-                                    modifier = Modifier.padding(16.dp),
-                                    color = OnPrimaryWhite
-                                )
-                            }
-
-                            items(
-                                drawerItems.filter {
-                                    it.route in listOf(
-                                        Routes.AllPlants.route,
-                                        Routes.Favorites.route,
-                                        Routes.Wishlist.route
-                                    )
-                                }
-                            ) { item ->
-                                DrawerItem(item, currentRoute, navController, drawerState, scope)
-                            }
-
-                            item {
-                                HorizontalDivider(
-                                    modifier = Modifier.padding(vertical = 8.dp),
-                                    color = OnPrimaryWhite.copy(alpha = 0.3f)
-                                )
-                            }
-
-                            item {
-                                TitleLarge(
-                                    text = stringResource(R.string.app_section),
-                                    modifier = Modifier.padding(16.dp),
-                                    color = OnPrimaryWhite
-                                )
-                            }
-
-                            items(
-                                drawerItems.filter {
-                                    it.route in listOf(
-                                        Routes.Settings.route,
-                                        Routes.Help.route
-                                    )
-                                }
-                            ) { item ->
-                                DrawerItem(item, currentRoute, navController, drawerState, scope)
-                            }
+                    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                        item {
+                            TitleLarge(
+                                text = stringResource(R.string.plants_section),
+                                modifier = Modifier.padding(16.dp),
+                                color = OnPrimaryWhite
+                            )
+                        }
+                        items(drawerItems.filter {
+                            it.route in listOf(
+                                Routes.AllPlants.route,
+                                Routes.Favorites.route,
+                                Routes.Wishlist.route
+                            )
+                        }) {
+                            DrawerItem(it, currentRoute, navController, drawerState, scope)
+                        }
+                    }
+                    HorizontalDivider(
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        color = OnPrimaryWhite.copy(alpha = 0.3f),
+                        thickness = 1.dp
+                    )
+                    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                        item {
+                            TitleLarge(
+                                text = stringResource(R.string.app_section),
+                                modifier = Modifier.padding(16.dp),
+                                color = OnPrimaryWhite
+                            )
+                        }
+                        items(drawerItems.filter {
+                            it.route in listOf(
+                                Routes.Settings.route,
+                                Routes.Help.route
+                            )
+                        }) {
+                            DrawerItem(it, currentRoute, navController, drawerState, scope)
                         }
                     }
                 }
@@ -182,19 +142,12 @@ fun NavigationDrawer(
                 TopAppBar(
                     title = { TitleLarge(uiStateViewModel.drawerTitle, color = OnPrimaryWhite) },
                     navigationIcon = {
-                        val scope = rememberCoroutineScope()
-                        if (uiStateViewModel.showBackButton) {
-                            IconButton(onClick = { navController.popBackStack() }) {
-                                Icon(Icons.Default.Close, contentDescription = "Back", tint = OnPrimaryWhite)
+                        IconButton(onClick = {
+                            scope.launch {
+                                if (drawerState.isClosed) drawerState.open() else drawerState.close()
                             }
-                        } else {
-                            IconButton(onClick = {
-                                scope.launch {
-                                    if (drawerState.isClosed) drawerState.open() else drawerState.close()
-                                }
-                            }) {
-                                Icon(Icons.Default.Menu, contentDescription = "Menu", tint = OnPrimaryWhite)
-                            }
+                        }) {
+                            Icon(Icons.Default.Menu, contentDescription = "Menu", tint = OnPrimaryWhite)
                         }
                     },
                     actions = uiStateViewModel.topBarActions ?: {},
@@ -212,7 +165,7 @@ fun NavigationDrawer(
     }
 }
 
-// -------------------- HELPER --------------------
+// -------------------- HELPERS --------------------
 
 data class DrawerItemData(
     @StringRes val labelRes: Int,
@@ -229,7 +182,6 @@ fun DrawerItem(
     scope: CoroutineScope
 ) {
     val selected = currentRoute.startsWith(item.route)
-
     NavigationDrawerItem(
         label = {
             BodyLarge(
