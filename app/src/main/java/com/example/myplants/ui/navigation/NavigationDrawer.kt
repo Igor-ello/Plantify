@@ -21,6 +21,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
@@ -92,66 +93,84 @@ fun NavigationDrawer(
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .background(PrimaryGreen)
+            // Локальная тема ТОЛЬКО для Drawer
+            MaterialTheme(
+                colorScheme = MaterialTheme.colorScheme.copy(
+                    surface = PrimaryGreen,
+                    onSurface = OnPrimaryWhite
+                )
             ) {
-                Column(
+                ModalDrawerSheet(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .background(PrimaryGreen)
-                        .padding(vertical = 12.dp)
+                        .fillMaxHeight(),
+                    drawerContainerColor = PrimaryGreen,   // важный параметр!
+                    drawerContentColor = OnPrimaryWhite
                 ) {
-                    TitleLarge(
-                        text = stringResource(R.string.app_name),
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                        color = OnPrimaryWhite
-                    )
 
-                    HorizontalDivider(
-                        modifier = Modifier.padding(vertical = 4.dp),
-                        color = OnPrimaryWhite.copy(alpha = 0.3f)
-                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(PrimaryGreen)
+                            .padding(vertical = 12.dp)
+                    ) {
+                        TitleLarge(
+                            text = stringResource(R.string.app_name),
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                            color = OnPrimaryWhite
+                        )
 
-                    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                        HorizontalDivider(
+                            modifier = Modifier.padding(vertical = 4.dp),
+                            color = OnPrimaryWhite.copy(alpha = 0.3f)
+                        )
 
-                        item {
-                            TitleLarge(
-                                text = stringResource(R.string.plants_section),
-                                modifier = Modifier.padding(16.dp),
-                                color = OnPrimaryWhite
-                            )
-                        }
+                        LazyColumn(modifier = Modifier.fillMaxWidth()) {
 
-                        items(drawerItems.filter { it.route in listOf(
-                            Routes.AllPlants.route,
-                            Routes.Favorites.route,
-                            Routes.Wishlist.route
-                        ) }) { item ->
-                            DrawerItem(item, currentRoute, navController, drawerState, scope)
-                        }
+                            item {
+                                TitleLarge(
+                                    text = stringResource(R.string.plants_section),
+                                    modifier = Modifier.padding(16.dp),
+                                    color = OnPrimaryWhite
+                                )
+                            }
 
-                        item {
-                            HorizontalDivider(
-                                modifier = Modifier.padding(vertical = 8.dp),
-                                color = OnPrimaryWhite.copy(alpha = 0.3f)
-                            )
-                        }
+                            items(
+                                drawerItems.filter {
+                                    it.route in listOf(
+                                        Routes.AllPlants.route,
+                                        Routes.Favorites.route,
+                                        Routes.Wishlist.route
+                                    )
+                                }
+                            ) { item ->
+                                DrawerItem(item, currentRoute, navController, drawerState, scope)
+                            }
 
-                        item {
-                            TitleLarge(
-                                text = stringResource(R.string.app_section),
-                                modifier = Modifier.padding(16.dp),
-                                color = OnPrimaryWhite
-                            )
-                        }
+                            item {
+                                HorizontalDivider(
+                                    modifier = Modifier.padding(vertical = 8.dp),
+                                    color = OnPrimaryWhite.copy(alpha = 0.3f)
+                                )
+                            }
 
-                        items(drawerItems.filter { it.route in listOf(
-                            Routes.Settings.route,
-                            Routes.Help.route
-                        ) }) { item ->
-                            DrawerItem(item, currentRoute, navController, drawerState, scope)
+                            item {
+                                TitleLarge(
+                                    text = stringResource(R.string.app_section),
+                                    modifier = Modifier.padding(16.dp),
+                                    color = OnPrimaryWhite
+                                )
+                            }
+
+                            items(
+                                drawerItems.filter {
+                                    it.route in listOf(
+                                        Routes.Settings.route,
+                                        Routes.Help.route
+                                    )
+                                }
+                            ) { item ->
+                                DrawerItem(item, currentRoute, navController, drawerState, scope)
+                            }
                         }
                     }
                 }
