@@ -43,7 +43,6 @@ fun MainScreen(
         uiStateViewModel.showBackButton(false)
         uiStateViewModel.setTopBarActions {
             IconButton(onClick = onAddPlant) {
-                // TODO icon_add
                 Icon(Icons.Default.Add, contentDescription = "Add")
             }
         }
@@ -73,7 +72,7 @@ fun MainScreen(
                         onNavigateToGenusDetail = { genusId ->
                             navController.navigate(Routes.GenusDetail.createRoute(genusId))
                         },
-                        modifier = if (index > 0) Modifier.padding(top = 12.dp) else Modifier
+                        modifier = Modifier.padding(top = 12.dp)
                     )
                 }
             }

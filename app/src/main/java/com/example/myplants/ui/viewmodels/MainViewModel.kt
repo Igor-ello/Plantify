@@ -77,18 +77,18 @@ class MainViewModel @Inject constructor(
         genusNames.forEach { genusName ->
             var genus = facade.getGenusByName(genusName)
 
-//            if (genus == null) {
-//                val newGenus = Genus(
-//                    id = 0L,
-//                    main = MainInfo(genus = genusName, species = ""),
-//                    care = CareInfo(),
-//                    lifecycle = LifecycleInfo(),
-//                    health = HealthInfo(),
-//                    state = StateInfo()
-//                )
-//                val newId = facade.insertGenus(newGenus)
-//                genus = facade.getGenusById(newId)
-//            }
+            if (genus == null) {
+                val newGenus = Genus(
+                    id = 0L,
+                    main = MainInfo(genus = genusName, species = ""),
+                    care = CareInfo(),
+                    lifecycle = LifecycleInfo(),
+                    health = HealthInfo(),
+                    state = StateInfo()
+                )
+                val newId = facade.insertGenus(newGenus)
+                genus = facade.getGenusById(newId)
+            }
 
             if (genus != null) {
                 newGenusMap[genusName] = genus
