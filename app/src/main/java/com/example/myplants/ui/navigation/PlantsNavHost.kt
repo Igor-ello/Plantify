@@ -25,6 +25,7 @@ import com.example.myplants.ui.viewmodels.AddPlantViewModel
 import com.example.myplants.ui.viewmodels.GenusDetailViewModel
 import com.example.myplants.ui.viewmodels.MainViewModel
 import com.example.myplants.ui.viewmodels.PlantDetailViewModel
+import com.example.myplants.ui.viewmodels.SearchSortViewModel
 import com.example.myplants.ui.viewmodels.SettingsViewModel
 import com.example.myplants.ui.viewmodels.UiStateViewModel
 
@@ -43,6 +44,7 @@ fun PlantsNavHost(
         modifier = modifier
     ) {
         composable(Routes.AllPlants.route) {
+            val searchSortViewModel: SearchSortViewModel = hiltViewModel()
             MainScreen(
                 viewModel = mainViewModel,
                 onPlantClick = { plantWithPhotos ->
@@ -50,7 +52,8 @@ fun PlantsNavHost(
                 },
                 onAddPlant = { navController.navigate(Routes.AddPlant.route) },
                 navController = navController,
-                uiStateViewModel = uiStateViewModel
+                uiStateViewModel = uiStateViewModel,
+                searchSortViewModel = searchSortViewModel
             )
         }
 
