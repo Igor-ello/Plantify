@@ -11,23 +11,23 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.myplants.R
-import com.example.myplants.ui.componets.SetupTopBar
-import com.example.myplants.ui.screens.AddPlantScreen
-import com.example.myplants.ui.screens.GenusDetailScreen
-import com.example.myplants.ui.screens.HelpScreen
-import com.example.myplants.ui.screens.PlantDetailScreen
-import com.example.myplants.ui.screens.SettingsScreen
-import com.example.myplants.core.utils.Routes
-import com.example.myplants.ui.screens.MainScreen
-import com.example.myplants.ui.screens.PlantStateScreen
-import com.example.myplants.ui.viewmodels.AddPlantViewModel
-import com.example.myplants.ui.viewmodels.GenusDetailViewModel
-import com.example.myplants.ui.viewmodels.MainViewModel
-import com.example.myplants.ui.viewmodels.PlantDetailViewModel
-import com.example.myplants.ui.viewmodels.PlantStateType
-import com.example.myplants.ui.viewmodels.PlantStateViewModel
-import com.example.myplants.ui.viewmodels.SettingsViewModel
-import com.example.myplants.ui.viewmodels.UiStateViewModel
+import com.example.myplants.ui.screens.topbar.SetupTopBar
+import com.example.myplants.ui.screens.plant.add.AddPlantScreen
+import com.example.myplants.ui.screens.genus.GenusDetailScreen
+import com.example.myplants.ui.screens.help.HelpScreen
+import com.example.myplants.ui.screens.plant.detail.PlantDetailScreen
+import com.example.myplants.ui.screens.settings.SettingsScreen
+import com.example.myplants.core.domain.common.Routes
+import com.example.myplants.ui.screens.main.MainScreen
+import com.example.myplants.ui.screens.plant.state.PlantStateScreen
+import com.example.myplants.ui.screens.plant.add.AddPlantViewModel
+import com.example.myplants.ui.screens.genus.GenusDetailViewModel
+import com.example.myplants.ui.screens.main.MainViewModel
+import com.example.myplants.ui.screens.plant.detail.PlantDetailViewModel
+import com.example.myplants.ui.screens.plant.state.PlantStateType
+import com.example.myplants.ui.screens.plant.state.PlantStateViewModel
+import com.example.myplants.ui.screens.settings.SettingsViewModel
+import com.example.myplants.ui.screens.topbar.UiStateViewModel
 
 
 @Composable

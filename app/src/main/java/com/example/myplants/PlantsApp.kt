@@ -8,7 +8,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.myplants.ui.navigation.NavigationDrawer
 import com.example.myplants.ui.navigation.PlantsNavHost
-import com.example.myplants.ui.viewmodels.UiStateViewModel
+import com.example.myplants.ui.screens.topbar.UiStateViewModel
 
 @Composable
 fun PlantsApp() {

@@ -1,7 +1,7 @@
 package com.example.myplants.data.genus
 
 import androidx.lifecycle.LiveData
-import com.example.myplants.models.Genus
+import com.example.myplants.core.data.local.entity.Genus
 
 interface GenusRepositoryInterface {
 

@@ -7,7 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import com.example.myplants.ui.theme.MyPlantsTheme
+import com.example.myplants.core.ui.theme.MyPlantsTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

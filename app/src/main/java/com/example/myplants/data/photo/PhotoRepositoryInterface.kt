@@ -1,6 +1,6 @@
 package com.example.myplants.data.photo
 
-import com.example.myplants.models.PlantPhoto
+import com.example.myplants.core.data.local.entity.PlantPhoto
 
 interface PhotoRepositoryInterface {
 

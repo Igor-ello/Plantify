@@ -2,16 +2,13 @@ package com.example.myplants.data.backup
 
 import android.content.Context
 import androidx.room.withTransaction
-import com.example.myplants.data.genus.GenusRepository
-import com.example.myplants.data.photo.PhotoRepository
-import com.example.myplants.data.plant.PlantRepository
-import com.example.myplants.core.db.AppDatabase
+import com.example.myplants.core.data.local.db.AppDatabase
 import com.example.myplants.data.genus.GenusRepositoryInterface
 import com.example.myplants.data.photo.PhotoRepositoryInterface
 import com.example.myplants.data.plant.PlantRepositoryInterface
-import com.example.myplants.models.Genus
-import com.example.myplants.models.Plant
-import com.example.myplants.models.PlantPhoto
+import com.example.myplants.core.data.local.entity.Genus
+import com.example.myplants.core.data.local.entity.Plant
+import com.example.myplants.core.data.local.entity.PlantPhoto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json

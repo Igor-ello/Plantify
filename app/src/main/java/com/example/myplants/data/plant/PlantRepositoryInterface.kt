@@ -1,10 +1,7 @@
 package com.example.myplants.data.plant
 
 import androidx.lifecycle.LiveData
-import com.example.myplants.models.Genus
-import com.example.myplants.models.Plant
-import com.example.myplants.models.PlantPhoto
-import com.example.myplants.models.PlantWithPhotos
+import com.example.myplants.core.data.local.entity.Plant
 
 interface PlantRepositoryInterface {
 

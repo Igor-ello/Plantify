@@ -1,7 +1,7 @@
 package com.example.myplants.data.plant
 
-import com.example.myplants.dao.PlantDao
-import com.example.myplants.models.Plant
+import com.example.myplants.core.data.local.db.dao.PlantDao
+import com.example.myplants.core.data.local.entity.Plant
 
 class PlantRepository(
     private val plantDao: PlantDao

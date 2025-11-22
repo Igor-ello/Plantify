@@ -1,8 +1,8 @@
 package com.example.myplants.data.backup
 
-import com.example.myplants.models.Genus
-import com.example.myplants.models.Plant
-import com.example.myplants.models.PlantPhoto
+import com.example.myplants.core.data.local.entity.Genus
+import com.example.myplants.core.data.local.entity.Plant
+import com.example.myplants.core.data.local.entity.PlantPhoto
 import kotlinx.serialization.Serializable
 
 @Serializable

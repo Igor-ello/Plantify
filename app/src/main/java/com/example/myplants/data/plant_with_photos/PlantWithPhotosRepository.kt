@@ -1,8 +1,8 @@
 package com.example.myplants.data.plant_with_photos
 
 import androidx.lifecycle.LiveData
-import com.example.myplants.dao.PlantWithPhotosDao
-import com.example.myplants.models.PlantWithPhotos
+import com.example.myplants.core.data.local.db.dao.PlantWithPhotosDao
+import com.example.myplants.core.data.local.entity.PlantWithPhotos
 
 class PlantWithPhotosRepository(
     private val plantWithPhotosDao: PlantWithPhotosDao

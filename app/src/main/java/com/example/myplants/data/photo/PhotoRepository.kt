@@ -1,7 +1,7 @@
 package com.example.myplants.data.photo
 
-import com.example.myplants.dao.PlantPhotoDao
-import com.example.myplants.models.PlantPhoto
+import com.example.myplants.core.data.local.db.dao.PlantPhotoDao
+import com.example.myplants.core.data.local.entity.PlantPhoto
 
 class PhotoRepository(
     private val photoDao: PlantPhotoDao

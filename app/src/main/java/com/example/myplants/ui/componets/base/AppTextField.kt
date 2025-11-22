@@ -10,8 +10,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation.Companion.None
 import androidx.compose.ui.unit.sp
-import com.example.myplants.ui.theme.ButtonColors
-import com.example.myplants.ui.theme.MyPlantsTheme
+import com.example.myplants.core.ui.theme.ButtonColors
+import com.example.myplants.core.ui.theme.MyPlantsTheme
 
 @Composable
 fun AppTextField(

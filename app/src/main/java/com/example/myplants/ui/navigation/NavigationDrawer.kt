@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Settings
@@ -20,14 +19,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.myplants.R
-import com.example.myplants.core.utils.Routes
+import com.example.myplants.core.domain.common.Routes
 import com.example.myplants.ui.componets.base.BodyLarge
 import com.example.myplants.ui.componets.base.BodyMedium
 import com.example.myplants.ui.componets.base.TitleLarge
-import com.example.myplants.ui.theme.MyPlantsTheme
-import com.example.myplants.ui.theme.OnPrimaryWhite
-import com.example.myplants.ui.theme.PrimaryGreen
-import com.example.myplants.ui.viewmodels.UiStateViewModel
+import com.example.myplants.core.ui.theme.MyPlantsTheme
+import com.example.myplants.core.ui.theme.OnPrimaryWhite
+import com.example.myplants.core.ui.theme.PrimaryGreen
+import com.example.myplants.ui.screens.topbar.UiStateViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

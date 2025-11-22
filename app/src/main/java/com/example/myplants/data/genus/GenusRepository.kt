@@ -1,7 +1,7 @@
 package com.example.myplants.data.genus
 
-import com.example.myplants.dao.GenusDao
-import com.example.myplants.models.Genus
+import com.example.myplants.core.data.local.db.dao.GenusDao
+import com.example.myplants.core.data.local.entity.Genus
 
 class GenusRepository(
     private val genusDao: GenusDao

@@ -1,0 +1,11 @@
+package com.example.myplants.ui.componets.cards.plants
+
+import com.example.myplants.core.data.local.entity.PlantWithPhotos
+
+data class PlantCardState(
+    val plantWithPhotos: PlantWithPhotos,
+    val editable: Boolean = false
+) {
+    val plant get() = plantWithPhotos.plant
+    val mainPhotoUri get() = plantWithPhotos.photos.firstOrNull { it.isPrimary }?.uri
+}

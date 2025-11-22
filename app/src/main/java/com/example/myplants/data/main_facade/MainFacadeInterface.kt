@@ -1,9 +1,9 @@
 package com.example.myplants.data.main_facade
 
 import androidx.lifecycle.LiveData
-import com.example.myplants.models.Genus
-import com.example.myplants.models.Plant
-import com.example.myplants.models.PlantWithPhotos
+import com.example.myplants.core.data.local.entity.Genus
+import com.example.myplants.core.data.local.entity.Plant
+import com.example.myplants.core.data.local.entity.PlantWithPhotos
 import kotlinx.coroutines.flow.Flow
 
 interface MainFacadeInterface {

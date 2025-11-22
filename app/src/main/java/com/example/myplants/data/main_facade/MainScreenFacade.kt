@@ -5,9 +5,9 @@ import com.example.myplants.data.genus.GenusRepositoryInterface
 import com.example.myplants.data.plant.PlantRepositoryInterface
 import com.example.myplants.data.state.PlantStateRepositoryInterface
 import com.example.myplants.data.plant_with_photos.PlantWithPhotosRepositoryInterface
-import com.example.myplants.models.Genus
-import com.example.myplants.models.Plant
-import com.example.myplants.models.PlantWithPhotos
+import com.example.myplants.core.data.local.entity.Genus
+import com.example.myplants.core.data.local.entity.Plant
+import com.example.myplants.core.data.local.entity.PlantWithPhotos
 
 class MainFacade (
     private val plantRepository: PlantRepositoryInterface,

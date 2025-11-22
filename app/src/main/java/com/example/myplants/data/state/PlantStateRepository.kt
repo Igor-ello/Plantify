@@ -1,6 +1,6 @@
 package com.example.myplants.data.state
 
-import com.example.myplants.dao.PlantStateDao
+import com.example.myplants.core.data.local.db.dao.PlantStateDao
 
 class PlantStateRepository(
     private val plantStateDao: PlantStateDao

@@ -12,8 +12,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.myplants.ui.theme.MyPlantsTheme
-import com.example.myplants.ui.theme.OnSecondaryDark
+import com.example.myplants.core.ui.theme.MyPlantsTheme
+import com.example.myplants.core.ui.theme.OnSecondaryDark
 
 @Composable
 private fun AppText(
