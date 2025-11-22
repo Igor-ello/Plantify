@@ -36,7 +36,7 @@ import com.example.myplants.R
 import com.example.myplants.models.Genus
 import com.example.myplants.ui.componets.base.AppButton
 import com.example.myplants.ui.componets.card_fields.CardDeleteButton
-import com.example.myplants.ui.componets.common.cards.GenusCardFull
+import com.example.myplants.ui.componets.common.cards.genus.GenusCardFull
 import com.example.myplants.ui.viewmodels.GenusDetailViewModel
 import com.example.myplants.ui.viewmodels.UiStateViewModel
 
