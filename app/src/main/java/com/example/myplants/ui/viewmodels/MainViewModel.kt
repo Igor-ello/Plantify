@@ -17,6 +17,7 @@ import com.example.myplants.models.sections.LifecycleInfo
 import com.example.myplants.models.sections.MainInfo
 import com.example.myplants.models.sections.StateInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,7 +38,7 @@ class MainViewModel @Inject constructor(
     }
 
     // Favourite
-    val favorites: LiveData<List<PlantWithPhotos>> = facade.getFavorites()
+    val favorites: Flow<List<PlantWithPhotos>> = facade.getFavorites()
 
     fun toggleFavorite(plant: Plant) {
         viewModelScope.launch {
@@ -46,7 +47,7 @@ class MainViewModel @Inject constructor(
     }
 
     // Wishlist
-    val wishlist: LiveData<List<PlantWithPhotos>> = facade.getWishlist()
+    val wishlist: Flow<List<PlantWithPhotos>> = facade.getWishlist()
 
     fun toggleWishlist(plant: Plant) {
         viewModelScope.launch {

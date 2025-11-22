@@ -19,7 +19,7 @@ import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantWithPhotos
 import com.example.myplants.models.sections.MainInfo
 import com.example.myplants.ui.componets.base.AppButton
-import com.example.myplants.ui.componets.common.cards.PlantCardFull
+import com.example.myplants.ui.componets.common.cards.plants.PlantCardFull
 import com.example.myplants.ui.viewmodels.AddPlantViewModel
 
 

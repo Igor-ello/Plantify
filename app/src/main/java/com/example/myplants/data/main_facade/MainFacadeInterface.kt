@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.example.myplants.models.Genus
 import com.example.myplants.models.Plant
 import com.example.myplants.models.PlantWithPhotos
+import kotlinx.coroutines.flow.Flow
 
 interface MainFacadeInterface {
 
@@ -17,11 +18,11 @@ interface MainFacadeInterface {
 
     // State
 
-    fun getFavorites(): LiveData<List<PlantWithPhotos>>
+    fun getFavorites(): Flow<List<PlantWithPhotos>>
 
     suspend fun setFavorite(plantId: Long, isFavorite: Boolean)
 
-    fun getWishlist(): LiveData<List<PlantWithPhotos>>
+    fun getWishlist(): Flow<List<PlantWithPhotos>>
 
     suspend fun setWishlist(plantId: Long, isWishlist: Boolean)
 

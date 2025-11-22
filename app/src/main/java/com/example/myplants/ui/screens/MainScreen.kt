@@ -1,10 +1,7 @@
 package com.example.myplants.ui.screens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -22,7 +19,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.myplants.core.utils.Routes
 import com.example.myplants.models.PlantWithPhotos
-import com.example.myplants.ui.componets.common.cards.GenusCardMain
+import com.example.myplants.ui.componets.common.cards.genus.GenusCardEventHandler
+import com.example.myplants.ui.componets.common.cards.genus.GenusCardMain
+import com.example.myplants.ui.componets.common.cards.genus.GenusCardState
 import com.example.myplants.ui.viewmodels.MainViewModel
 import com.example.myplants.ui.viewmodels.UiStateViewModel
 
@@ -59,19 +58,27 @@ fun MainScreen(
         modifier = modifier.padding(horizontal = 16.dp),
         contentPadding = PaddingValues(bottom = 64.dp)
     ) {
-        groupedPlants.entries.forEachIndexed {index, (genusName, plants) ->
+        groupedPlants.entries.forEachIndexed {index, (genusName, plantWithPhotos) ->
             item(key = genusName) {
                 val genus = genusMap[genusName]
                 if (genus != null) {
-                    GenusCardMain(
+                    val genusState = GenusCardState(
                         genus = genus,
-                        plants = plants,
+                        plantWithPhotos = plantWithPhotos
+                    )
+
+                    val genusEventHandler = GenusCardEventHandler(
                         onPlantClick = onPlantClick,
-                        onToggleFavorite = { pw -> viewModel.toggleFavorite(pw.plant) },
-                        onToggleWishlist = { pw -> viewModel.toggleWishlist(pw.plant) },
+                        onToggleFavorite = { viewModel.toggleFavorite(it.plant) },
+                        onToggleWishlist = { viewModel.toggleWishlist(it.plant) },
                         onNavigateToGenusDetail = { genusId ->
                             navController.navigate(Routes.GenusDetail.createRoute(genusId))
                         },
+                    )
+
+                    GenusCardMain(
+                        state = genusState,
+                        eventHandler = genusEventHandler,
                         modifier = Modifier.padding(top = 12.dp)
                     )
                 }
