@@ -107,20 +107,12 @@ private fun PlantCardActions(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // ОПТИМИЗАЦИЯ: стабильные ссылки на колбэки
-            val onToggleFavorite = remember(plantWithPhotos.plant.id) {
-                { eventHandler.onToggleFavorite(plantWithPhotos) }
-            }
-            val onToggleWishlist = remember(plantWithPhotos.plant.id) {
-                { eventHandler.onToggleWishlist(plantWithPhotos) }
-            }
-
             CardIconFavourite(
-                onToggleFavorite = onToggleFavorite,
+                onToggleFavorite = { eventHandler.onToggleFavorite(plantWithPhotos) },
                 plantWithPhotos = plantWithPhotos
             )
             CardIconWishlist(
-                onToggleWishlist = onToggleWishlist,
+                onToggleWishlist = { eventHandler.onToggleWishlist(plantWithPhotos) },
                 plantWithPhotos = plantWithPhotos
             )
         }
