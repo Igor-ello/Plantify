@@ -11,12 +11,12 @@ import com.example.myplants.core.data.local.entity.PlantWithPhotos
 
 @Composable
 fun CardIconFavourite(
-    onToggleFavorite: (PlantWithPhotos) -> Unit,
+    onToggleFavorite: () -> Unit,
     plantWithPhotos: PlantWithPhotos,
     modifier: Modifier = Modifier
 ) {
     IconButton(
-        onClick = { onToggleFavorite(plantWithPhotos) },
+        onClick = { onToggleFavorite },
         modifier = modifier
     ) {
         Icon(

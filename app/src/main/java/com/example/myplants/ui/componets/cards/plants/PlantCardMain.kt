@@ -2,6 +2,7 @@ package com.example.myplants.ui.componets.cards.plants
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
@@ -31,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import coil.size.Size
 import com.example.myplants.R
 import com.example.myplants.core.data.local.entity.Plant
 import com.example.myplants.core.data.local.entity.PlantWithPhotos
@@ -47,59 +50,90 @@ fun PlantCardMain(
     eventHandler: PlantCardEventHandler,
     modifier: Modifier = Modifier
 ) {
-    val backgroundColor by remember(state.plantWithPhotos.plant.id) {
-        derivedStateOf { CardColors.colors.random() }
-    }
-
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable { eventHandler.onClick(state.plantWithPhotos) },
-        shape = CardDefaults.shape,
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = backgroundColor)
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            // Photo section
-            PlantCardImage(state.mainPhotoUri)
-
-            // Actions row
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    CardIconFavourite(
-                        plantWithPhotos = state.plantWithPhotos,
-                        onToggleFavorite = remember(state.plantWithPhotos.plant.id) {
-                            { eventHandler.onToggleFavorite(state.plantWithPhotos) }
-                        }
-                    )
-                    CardIconWishlist(
-                        plantWithPhotos = state.plantWithPhotos,
-                        onToggleWishlist = remember(state.plantWithPhotos.plant.id) {
-                            { eventHandler.onToggleWishlist(state.plantWithPhotos) }
-                        }
-                    )
+    val cardContent by remember(state, eventHandler) {
+        derivedStateOf {
+            @Composable {
+                val backgroundColor by remember(state.plantWithPhotos.plant.id) {
+                    derivedStateOf { CardColors.colors.random() }
                 }
 
-                IconButton(onClick = { /* пока пусто */ }) {
-                    Icon(
-                        imageVector = Icons.Default.CheckCircle,
-                        contentDescription = "Timer"
-                    )
+                Card(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null // Отключаем анимацию ripple для производительности
+                        ) { eventHandler.onClick(state.plantWithPhotos) },
+                    shape = CardDefaults.shape,
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                    colors = CardDefaults.cardColors(containerColor = backgroundColor)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        // Photo section - фиксированная высота
+                        PlantCardImage(state.mainPhotoUri)
+
+                        // Actions row
+                        PlantCardActions(
+                            plantWithPhotos = state.plantWithPhotos,
+                            eventHandler = eventHandler
+                        )
+
+                        // Basic content
+                        CardBasicContent(state.plant, state.editable, eventHandler.onValueChange)
+                    }
                 }
             }
+        }
+    }
 
-            // Basic content
-            CardBasicContent(state.plant, state.editable, eventHandler.onValueChange)
+    cardContent()
+}
+
+@Composable
+private fun PlantCardActions(
+    plantWithPhotos: PlantWithPhotos,
+    eventHandler: PlantCardEventHandler,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // ОПТИМИЗАЦИЯ: стабильные ссылки на колбэки
+            val onToggleFavorite = remember(plantWithPhotos.plant.id) {
+                { eventHandler.onToggleFavorite(plantWithPhotos) }
+            }
+            val onToggleWishlist = remember(plantWithPhotos.plant.id) {
+                { eventHandler.onToggleWishlist(plantWithPhotos) }
+            }
+
+            CardIconFavourite(
+                onToggleFavorite = onToggleFavorite,
+                plantWithPhotos = plantWithPhotos
+            )
+            CardIconWishlist(
+                onToggleWishlist = onToggleWishlist,
+                plantWithPhotos = plantWithPhotos
+            )
+        }
+
+        IconButton(
+            onClick = { /* пока пусто */ },
+            modifier = Modifier.size(24.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.CheckCircle,
+                contentDescription = "Timer",
+                modifier = Modifier.size(20.dp)
+            )
         }
     }
 }
@@ -109,14 +143,15 @@ private fun PlantCardImage(mainPhotoUri: String?) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp)
+            .height(150.dp) // Уменьшаем высоту для производительности
             .clip(RoundedCornerShape(8.dp))
     ) {
         if (mainPhotoUri != null) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(mainPhotoUri)
-                    .crossfade(true)
+                    .crossfade(false) // Отключаем crossfade для производительности
+                    .size(Size(300, 150)) // Фиксированный размер для кэширования
                     .build(),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),

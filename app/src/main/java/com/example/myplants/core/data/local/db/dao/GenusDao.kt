@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.myplants.core.data.local.entity.Genus
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GenusDao {
@@ -23,7 +24,7 @@ interface GenusDao {
     fun getAllGenusLive(): LiveData<List<Genus>>
 
     @Query("SELECT * FROM genus_table ORDER BY id DESC")
-    suspend fun getAllGenus(): List<Genus>
+    fun getAllGenus(): Flow<List<Genus>>
 
     @Query("SELECT * FROM genus_table WHERE id = :id")
     fun getGenusByIdLive(id: Long): LiveData<Genus>

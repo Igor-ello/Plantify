@@ -5,6 +5,6 @@ import com.example.myplants.core.data.local.entity.PlantWithPhotos
 
 data class GenusCardState(
     val genus: Genus,
-    val plantWithPhotos: List<PlantWithPhotos>,
+    val plants: List<PlantWithPhotos>,
     val isExpanded: Boolean = false
 )

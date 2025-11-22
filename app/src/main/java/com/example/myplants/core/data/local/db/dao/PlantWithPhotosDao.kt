@@ -5,13 +5,14 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import com.example.myplants.core.data.local.entity.PlantWithPhotos
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PlantWithPhotosDao {
 
     @Transaction
     @Query("SELECT * FROM plant_table ORDER BY id DESC")
-    fun getAllPlantsWithPhotos(): LiveData<List<PlantWithPhotos>>
+    fun getAllPlantsWithPhotos(): Flow<List<PlantWithPhotos>>
 
     @Transaction
     @Query("SELECT * FROM plant_table WHERE id = :plantId")

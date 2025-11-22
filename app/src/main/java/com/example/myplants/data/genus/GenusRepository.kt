@@ -34,6 +34,6 @@ class GenusRepository(
     override suspend fun deleteAllGenus() =
         genusDao.deleteAllGenus()
 
-    override suspend fun getAllGenus() =
+    override fun getAllGenus() =
         genusDao.getAllGenus()
 }

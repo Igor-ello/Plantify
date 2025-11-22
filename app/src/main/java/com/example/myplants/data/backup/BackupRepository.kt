@@ -34,7 +34,7 @@ class BackupRepository(
     override suspend fun createBackup(): File = withContext(Dispatchers.IO) {
         val plants: List<Plant> = plantRepository.getAllPlants()
         val photos: List<PlantPhoto> = photoRepository.getAllPhoto()
-        val genera: List<Genus> = genusRepository.getAllGenus()
+        val genera: List<Genus> = genusRepository.getAllGenus() as List<Genus>
         val backup = BackupData(plants = plants, photos = photos, genera = genera)
         val json = Json { prettyPrint = true }.encodeToString(backup)
         val file = generateBackupFile()

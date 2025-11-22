@@ -11,22 +11,22 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.myplants.R
-import com.example.myplants.ui.screens.topbar.SetupTopBar
-import com.example.myplants.ui.screens.plant.add.AddPlantScreen
-import com.example.myplants.ui.screens.genus.GenusDetailScreen
-import com.example.myplants.ui.screens.help.HelpScreen
-import com.example.myplants.ui.screens.plant.detail.PlantDetailScreen
-import com.example.myplants.ui.screens.settings.SettingsScreen
 import com.example.myplants.core.domain.common.Routes
-import com.example.myplants.ui.screens.main.MainScreen
-import com.example.myplants.ui.screens.plant.state.PlantStateScreen
-import com.example.myplants.ui.screens.plant.add.AddPlantViewModel
+import com.example.myplants.ui.screens.genus.GenusDetailScreen
 import com.example.myplants.ui.screens.genus.GenusDetailViewModel
-import com.example.myplants.ui.screens.main.MainViewModel
+import com.example.myplants.ui.screens.help.HelpScreen
+import com.example.myplants.ui.screens.main.MainScreen
+import com.example.myplants.ui.screens.main.MainScreenStateHolder
+import com.example.myplants.ui.screens.plant.add.AddPlantScreen
+import com.example.myplants.ui.screens.plant.add.AddPlantViewModel
+import com.example.myplants.ui.screens.plant.detail.PlantDetailScreen
 import com.example.myplants.ui.screens.plant.detail.PlantDetailViewModel
+import com.example.myplants.ui.screens.plant.state.PlantStateScreen
 import com.example.myplants.ui.screens.plant.state.PlantStateType
 import com.example.myplants.ui.screens.plant.state.PlantStateViewModel
+import com.example.myplants.ui.screens.settings.SettingsScreen
 import com.example.myplants.ui.screens.settings.SettingsViewModel
+import com.example.myplants.ui.screens.topbar.SetupTopBar
 import com.example.myplants.ui.screens.topbar.UiStateViewModel
 
 
@@ -36,21 +36,22 @@ fun PlantsNavHost(
     uiStateViewModel: UiStateViewModel,
     modifier: Modifier = Modifier
 ) {
-    val mainViewModel: MainViewModel = hiltViewModel()
-
     NavHost(
         navController = navController,
         startDestination = Routes.AllPlants.route,
         modifier = modifier
     ) {
         composable(Routes.AllPlants.route) {
+            val stateHolder: MainScreenStateHolder = hiltViewModel()
             MainScreen(
-                viewModel = mainViewModel,
+                stateHolder = stateHolder,
                 onPlantClick = { plantWithPhotos ->
                     navController.navigate(Routes.PlantDetail.createRoute(plantWithPhotos.plant.id))
                 },
                 onAddPlant = { navController.navigate(Routes.AddPlant.route) },
-                navController = navController,
+                onNavigateToGenusDetail = { genusId ->
+                    navController.navigate(Routes.GenusDetail.createRoute(genusId))
+                },
                 uiStateViewModel = uiStateViewModel
             )
         }

@@ -8,6 +8,7 @@ import com.example.myplants.data.plant_with_photos.PlantWithPhotosRepositoryInte
 import com.example.myplants.core.data.local.entity.Genus
 import com.example.myplants.core.data.local.entity.Plant
 import com.example.myplants.core.data.local.entity.PlantWithPhotos
+import kotlinx.coroutines.flow.Flow
 
 class MainFacade (
     private val plantRepository: PlantRepositoryInterface,
@@ -43,13 +44,16 @@ class MainFacade (
 
     // Plant with photos
 
-    override fun getAllPlantsWithPhotos(): LiveData<List<PlantWithPhotos>> =
+    override fun getAllPlantsWithPhotos(): Flow<List<PlantWithPhotos>> =
         plantWithPhotosRepository.getAllPlantsWithPhotos()
 
     override fun getPlantWithPhotosById(plantId: Long): LiveData<PlantWithPhotos?> =
         plantWithPhotosRepository.getPlantWithPhotosById(plantId)
 
     // Genus
+
+    override fun getAllGenus(): Flow<List<Genus>> =
+        genusRepository.getAllGenus()
 
     override suspend fun getGenusById(genusId: Long): Genus =
         genusRepository.getGenusById(genusId)

@@ -2,6 +2,7 @@ package com.example.myplants.data.genus
 
 import androidx.lifecycle.LiveData
 import com.example.myplants.core.data.local.entity.Genus
+import kotlinx.coroutines.flow.Flow
 
 interface GenusRepositoryInterface {
 
@@ -23,5 +24,5 @@ interface GenusRepositoryInterface {
 
     suspend fun deleteAllGenus()
 
-    suspend fun getAllGenus(): List<Genus>
+    fun getAllGenus(): Flow<List<Genus>>
 }

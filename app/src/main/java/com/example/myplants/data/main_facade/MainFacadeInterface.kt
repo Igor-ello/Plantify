@@ -28,11 +28,13 @@ interface MainFacadeInterface {
 
     // PlantWithPhotos
 
-    fun getAllPlantsWithPhotos(): LiveData<List<PlantWithPhotos>>
+    fun getAllPlantsWithPhotos(): Flow<List<PlantWithPhotos>>
 
     fun getPlantWithPhotosById(plantId: Long): LiveData<PlantWithPhotos?>
 
     // Genus
+
+    fun getAllGenus(): Flow<List<Genus>>
 
     suspend fun getGenusById(genusId: Long): Genus
 
