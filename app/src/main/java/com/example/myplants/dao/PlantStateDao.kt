@@ -1,24 +1,24 @@
 package com.example.myplants.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import com.example.myplants.models.PlantWithPhotos
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PlantStateDao {
 
     @Transaction
     @Query("SELECT * FROM plant_table WHERE state_is_favorite = 1 ORDER BY id DESC")
-    fun getFavorites(): LiveData<List<PlantWithPhotos>>
+    fun getFavorites(): Flow<List<PlantWithPhotos>>
 
     @Query("UPDATE plant_table SET state_is_favorite = :isFavorite WHERE id = :plantId")
     suspend fun setFavorite(plantId: Long, isFavorite: Boolean)
 
     @Transaction
     @Query("SELECT * FROM plant_table WHERE state_is_wishlist = 1 ORDER BY id DESC")
-    fun getWishlist(): LiveData<List<PlantWithPhotos>>
+    fun getWishlist(): Flow<List<PlantWithPhotos>>
 
     @Query("UPDATE plant_table SET state_is_wishlist = :isWishlist WHERE id = :plantId")
     suspend fun setWishlist(plantId: Long, isWishlist: Boolean)

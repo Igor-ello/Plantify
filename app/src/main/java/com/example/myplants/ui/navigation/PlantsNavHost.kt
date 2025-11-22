@@ -13,18 +13,19 @@ import androidx.navigation.navArgument
 import com.example.myplants.R
 import com.example.myplants.ui.componets.SetupTopBar
 import com.example.myplants.ui.screens.AddPlantScreen
-import com.example.myplants.ui.screens.FavoritesScreen
 import com.example.myplants.ui.screens.GenusDetailScreen
 import com.example.myplants.ui.screens.HelpScreen
 import com.example.myplants.ui.screens.PlantDetailScreen
 import com.example.myplants.ui.screens.SettingsScreen
-import com.example.myplants.ui.screens.WishlistScreen
 import com.example.myplants.core.utils.Routes
 import com.example.myplants.ui.screens.MainScreen
+import com.example.myplants.ui.screens.PlantStateScreen
 import com.example.myplants.ui.viewmodels.AddPlantViewModel
 import com.example.myplants.ui.viewmodels.GenusDetailViewModel
 import com.example.myplants.ui.viewmodels.MainViewModel
 import com.example.myplants.ui.viewmodels.PlantDetailViewModel
+import com.example.myplants.ui.viewmodels.PlantStateType
+import com.example.myplants.ui.viewmodels.PlantStateViewModel
 import com.example.myplants.ui.viewmodels.SettingsViewModel
 import com.example.myplants.ui.viewmodels.UiStateViewModel
 
@@ -107,20 +108,28 @@ fun PlantsNavHost(
 
         composable(Routes.Favorites.route) {
             SetupTopBar(uiStateViewModel, R.string.screen_favorites)
-            FavoritesScreen(
-                viewModel = mainViewModel,
-                onPlantClick = { plant ->
-                    navController.navigate(Routes.PlantDetail.createRoute(plant.id))
+            val plantListViewModel: PlantStateViewModel = hiltViewModel()
+            PlantStateScreen(
+                viewModel = plantListViewModel,
+                listType = PlantStateType.FAVORITES,
+                onPlantClick = { plantWithPhotos ->
+                    navController.navigate(
+                        Routes.PlantDetail.createRoute(plantWithPhotos.plant.id)
+                    )
                 }
             )
         }
 
         composable(Routes.Wishlist.route) {
             SetupTopBar(uiStateViewModel, R.string.screen_wishlist)
-            WishlistScreen(
-                viewModel = mainViewModel,
-                onPlantClick = { plant ->
-                    navController.navigate(Routes.PlantDetail.createRoute(plant.id))
+            val plantListViewModel: PlantStateViewModel = hiltViewModel()
+            PlantStateScreen(
+                viewModel = plantListViewModel,
+                listType = PlantStateType.WISHLIST,
+                onPlantClick = { plantWithPhotos ->
+                    navController.navigate(
+                        Routes.PlantDetail.createRoute(plantWithPhotos.plant.id)
+                    )
                 }
             )
         }
