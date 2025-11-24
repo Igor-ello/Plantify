@@ -4,7 +4,7 @@ package com.example.myplants.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -27,13 +27,13 @@ import com.example.myplants.ui.screens.plant.state.PlantStateViewModel
 import com.example.myplants.ui.screens.settings.SettingsScreen
 import com.example.myplants.ui.screens.settings.SettingsViewModel
 import com.example.myplants.ui.screens.topbar.SetupTopBar
-import com.example.myplants.ui.screens.topbar.UiStateViewModel
+import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
 
 
 @Composable
-fun PlantsNavHost(
+fun AppNavHost(
     navController: NavHostController,
-    uiStateViewModel: UiStateViewModel,
+    topBarState: TopBarStateViewModel,
     modifier: Modifier = Modifier
 ) {
     NavHost(
@@ -52,7 +52,7 @@ fun PlantsNavHost(
                 onNavigateToGenusDetail = { genusId ->
                     navController.navigate(Routes.GenusDetail.createRoute(genusId))
                 },
-                uiStateViewModel = uiStateViewModel
+                uiStateViewModel = topBarState
             )
         }
 
@@ -71,12 +71,12 @@ fun PlantsNavHost(
             PlantDetailScreen(
                 viewModel = plantDetailViewModel,
                 navController = navController,
-                uiStateViewModel = uiStateViewModel
+                uiStateViewModel = topBarState
             )
         }
 
         composable(Routes.AddPlant.route) {
-            SetupTopBar(uiStateViewModel, R.string.screen_add_plant, true)
+            SetupTopBar(topBarState, R.string.screen_add_plant, true)
             val addPlantViewModel: AddPlantViewModel = hiltViewModel()
 
             AddPlantScreen(
@@ -103,12 +103,12 @@ fun PlantsNavHost(
             GenusDetailScreen(
                 viewModel = genusDetailViewModel,
                 navController = navController,
-                uiStateViewModel = uiStateViewModel
+                uiStateViewModel = topBarState
             )
         }
 
         composable(Routes.Favorites.route) {
-            SetupTopBar(uiStateViewModel, R.string.screen_favorites)
+            SetupTopBar(topBarState, R.string.screen_favorites)
             val plantListViewModel: PlantStateViewModel = hiltViewModel()
             PlantStateScreen(
                 viewModel = plantListViewModel,
@@ -122,7 +122,7 @@ fun PlantsNavHost(
         }
 
         composable(Routes.Wishlist.route) {
-            SetupTopBar(uiStateViewModel, R.string.screen_wishlist)
+            SetupTopBar(topBarState, R.string.screen_wishlist)
             val plantListViewModel: PlantStateViewModel = hiltViewModel()
             PlantStateScreen(
                 viewModel = plantListViewModel,
@@ -136,7 +136,7 @@ fun PlantsNavHost(
         }
 
         composable(Routes.Settings.route) {
-            SetupTopBar(uiStateViewModel, R.string.screen_settings)
+            SetupTopBar(topBarState, R.string.screen_settings)
 
             val settingsViewModel: SettingsViewModel = hiltViewModel()
 
@@ -146,7 +146,7 @@ fun PlantsNavHost(
         }
 
         composable(Routes.Help.route) {
-            SetupTopBar(uiStateViewModel, R.string.screen_help_feedback)
+            SetupTopBar(topBarState, R.string.screen_help_feedback)
             HelpScreen(
                 onBack = { navController.popBackStack() }
             )

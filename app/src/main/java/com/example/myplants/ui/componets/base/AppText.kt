@@ -35,6 +35,42 @@ private fun AppText(
 }
 
 @Composable
+fun TitleLarge(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = OnSecondaryDark,
+    maxLines: Int = Int.MAX_VALUE,
+    textAlign: TextAlign = TextAlign.Start
+) {
+    AppText(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.titleLarge,
+        color = color,
+        maxLines = maxLines,
+        textAlign = textAlign
+    )
+}
+
+@Composable
+fun TitleMedium(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = OnSecondaryDark,
+    maxLines: Int = Int.MAX_VALUE,
+    textAlign: TextAlign = TextAlign.Start
+) {
+    AppText(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.titleMedium,
+        color = color,
+        maxLines = maxLines,
+        textAlign = textAlign
+    )
+}
+
+@Composable
 fun BodyLarge(
     text: String,
     modifier: Modifier = Modifier,
@@ -70,23 +106,7 @@ fun BodyMedium(
     )
 }
 
-@Composable
-fun TitleLarge(
-    text: String,
-    modifier: Modifier = Modifier,
-    color: Color = OnSecondaryDark,
-    maxLines: Int = Int.MAX_VALUE,
-    textAlign: TextAlign = TextAlign.Start
-) {
-    AppText(
-        text = text,
-        modifier = modifier,
-        style = MaterialTheme.typography.titleLarge,
-        color = color,
-        maxLines = maxLines,
-        textAlign = textAlign
-    )
-}
+
 
 @Composable
 fun LabelLarge(

@@ -15,6 +15,7 @@
     <string name="plant_sunlight_shade">Тенелюбивое</string>
     <string name="app_section">Приложение</string>
     <string name="plants_section">Растения</string>
+    <string name="other_section">Прочее</string>
     <string name="screen_all_plants">Все растения</string>
     <string name="screen_favorites">Любимые</string>
     <string name="screen_wishlist">Пожелания</string>

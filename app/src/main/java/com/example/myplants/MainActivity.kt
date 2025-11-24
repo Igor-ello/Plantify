@@ -2,12 +2,10 @@ package com.example.myplants
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
+import com.example.myplants.core.ui.system.configureSystemBars
 import com.example.myplants.core.ui.theme.MyPlantsTheme
+import com.example.myplants.ui.app.App
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -15,15 +13,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        configureSystemBars()
 
-        enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.dark(
-                scrim = Color.White.toArgb()
-            )
-        )
         setContent {
             MyPlantsTheme {
-                PlantsApp()
+                App()
             }
         }
     }

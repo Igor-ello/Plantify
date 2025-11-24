@@ -38,7 +38,7 @@ import com.example.myplants.core.data.local.entity.PlantWithPhotos
 import com.example.myplants.ui.componets.base.AppButton
 import com.example.myplants.ui.componets.cards.common.CardDeleteButton
 import com.example.myplants.ui.componets.cards.plants.PlantCardFull
-import com.example.myplants.ui.screens.topbar.UiStateViewModel
+import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
 
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -46,10 +46,10 @@ import com.example.myplants.ui.screens.topbar.UiStateViewModel
 fun PlantDetailScreen(
     viewModel: PlantDetailViewModel,
     navController: NavHostController,
-    uiStateViewModel: UiStateViewModel? = null,
+    uiStateViewModel: TopBarStateViewModel? = null,
     modifier: Modifier = Modifier
 ) {
-    val uiStateViewModel: UiStateViewModel = uiStateViewModel ?: viewModel<UiStateViewModel>()
+    val uiStateViewModel: TopBarStateViewModel = uiStateViewModel ?: viewModel<TopBarStateViewModel>()
 
     val plantWithPhotos by viewModel.plantWithPhotos.observeAsState()
     val editedPlant by viewModel.editedPlant.observeAsState()

@@ -142,8 +142,7 @@ private fun PlantCardImage(mainPhotoUri: String?) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(mainPhotoUri)
-                    .crossfade(false) // Отключаем crossfade для производительности
-                    .size(Size(300, 150)) // Фиксированный размер для кэширования
+                    .size(Size(300, 150))
                     .build(),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),

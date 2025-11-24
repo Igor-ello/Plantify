@@ -16,17 +16,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.myplants.core.data.local.entity.Genus
 import com.example.myplants.core.data.local.entity.PlantWithPhotos
 import com.example.myplants.ui.componets.cards.genus.GenusCardEventHandler
 import com.example.myplants.ui.componets.cards.genus.GenusCardMain
 import com.example.myplants.ui.componets.cards.genus.GenusCardState
 import com.example.myplants.ui.screens.plant.state.common.ErrorState
 import com.example.myplants.ui.screens.plant.state.common.LoadingState
-import com.example.myplants.ui.screens.topbar.UiStateViewModel
+import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -35,7 +33,7 @@ fun MainScreen(
     onPlantClick: (PlantWithPhotos) -> Unit,
     onAddPlant: () -> Unit,
     onNavigateToGenusDetail: (Long) -> Unit,
-    uiStateViewModel: UiStateViewModel,
+    uiStateViewModel: TopBarStateViewModel,
     modifier: Modifier = Modifier
 ) {
     val uiState by stateHolder.uiState.collectAsState()
@@ -63,7 +61,7 @@ fun MainScreen(
 
 @Composable
 private fun TopBarSetup(
-    uiStateViewModel: UiStateViewModel,
+    uiStateViewModel: TopBarStateViewModel,
     onAddPlant: () -> Unit
 ) {
     LaunchedEffect(Unit) {

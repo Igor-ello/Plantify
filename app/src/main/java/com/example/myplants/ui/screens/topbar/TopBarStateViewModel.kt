@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
-class UiStateViewModel : ViewModel() {
+class TopBarStateViewModel : ViewModel() {
     private var _drawerTitle by mutableStateOf("MyPlants")
     val drawerTitle: String get() = _drawerTitle
 

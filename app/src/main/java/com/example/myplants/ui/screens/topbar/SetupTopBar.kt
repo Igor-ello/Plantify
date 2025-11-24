@@ -7,7 +7,7 @@ import androidx.compose.ui.res.stringResource
 
 @Composable
 fun SetupTopBar(
-    uiStateViewModel: UiStateViewModel,
+    uiStateViewModel: TopBarStateViewModel,
     titleRes: Int,
     showBack: Boolean = false,
     actions: (@Composable RowScope.() -> Unit)? = null
