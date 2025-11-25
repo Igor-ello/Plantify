@@ -1,29 +1,51 @@
 package com.example.myplants.ui.screens.topbar
 
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.myplants.ui.componets.topbar.TopBarAction
+import com.example.myplants.ui.componets.topbar.TopBarEvent
+import com.example.myplants.ui.componets.topbar.TopBarUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import jakarta.inject.Inject
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 
-class TopBarStateViewModel : ViewModel() {
-    private var _drawerTitle by mutableStateOf("MyPlants")
-    val drawerTitle: String get() = _drawerTitle
+@HiltViewModel
+class TopBarStateViewModel @Inject constructor() : ViewModel() {
 
-    private var _topBarActions by mutableStateOf<(@Composable (RowScope.() -> Unit))?>(null)
-    val topBarActions: (@Composable (RowScope.() -> Unit))? get() = _topBarActions
+    private val _uiState = mutableStateOf(TopBarUiState())
+    val uiState: State<TopBarUiState> = _uiState
 
-    private var _showBackButton by mutableStateOf(false)
-    val showBackButton: Boolean get() = _showBackButton
+    private val _events = Channel<TopBarEvent>(Channel.BUFFERED)
+    val events = _events.receiveAsFlow()
 
-    fun setDrawerTitle(title: String) { _drawerTitle = title }
-    fun resetDrawerTitle() { _drawerTitle = "MyPlants" }
+    // --- Методы для обновления отдельных полей ---
 
-    fun setTopBarActions(actions: (@Composable (RowScope.() -> Unit))?) {
-        _topBarActions = actions
+    fun setTitle(title: String) {
+        _uiState.value = _uiState.value.copy(title)
     }
-    fun clearTopBarActions() { _topBarActions = null }
 
-    fun showBackButton(show: Boolean) { _showBackButton = show }
+    fun showMenuButton(show: Boolean) {
+        _uiState.value = _uiState.value.copy(showMenu = show)
+    }
+
+    fun showSearchField(show: Boolean) {
+        _uiState.value = _uiState.value.copy(showSearch = show)
+    }
+
+    fun setActions(actions: List<TopBarAction>) {
+        _uiState.value = _uiState.value.copy(actions = actions)
+    }
+
+    fun updateSearchQuery(query: String) {
+        _uiState.value = _uiState.value.copy(searchQuery = query)
+    }
+
+    // --- События TopBar ---
+    fun sendEvent(event: TopBarEvent) {
+        viewModelScope.launch { _events.send(event) }
+    }
 }

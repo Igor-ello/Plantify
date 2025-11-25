@@ -17,7 +17,6 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -30,13 +29,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.myplants.R
 import com.example.myplants.core.data.local.entity.Genus
 import com.example.myplants.ui.componets.base.AppButton
 import com.example.myplants.ui.componets.cards.common.CardDeleteButton
 import com.example.myplants.ui.componets.cards.genus.GenusCardFull
+import com.example.myplants.ui.componets.topbar.TopBarAction
 import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -44,59 +44,62 @@ import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
 fun GenusDetailScreen(
     viewModel: GenusDetailViewModel,
     navController: NavHostController,
-    uiStateViewModel: TopBarStateViewModel? = null,
     modifier: Modifier = Modifier
 ) {
-    val uiStateViewModel: TopBarStateViewModel = uiStateViewModel ?: viewModel<TopBarStateViewModel>()
-
+    val topBarState: TopBarStateViewModel = hiltViewModel()
     val editedGenus by viewModel.editedGenus.observeAsState()
+    var isEditing by remember { mutableStateOf(false) }
 
     if (editedGenus == null) {
         Text("Genus not found", modifier = modifier.padding(16.dp))
         return
     }
 
-    var isEditing by remember { mutableStateOf(false) }
-
+    // --- Настройка TopBar ---
     LaunchedEffect(isEditing, editedGenus) {
-        val title =
-            if (isEditing) "Edit: ${editedGenus?.main?.genus}"
-            // TODO
-            else editedGenus?.main?.genus!!.ifBlank { "Genus" }
-        uiStateViewModel.setDrawerTitle(title)
-        uiStateViewModel.showBackButton(true)
+        val title = if (isEditing) "Edit: ${editedGenus?.main?.genus}"
+        else editedGenus?.main?.genus!!.ifBlank { "Genus" }
 
-        uiStateViewModel.setTopBarActions {
-            if (isEditing) {
-                IconButton(onClick = {
-                    viewModel.resetChanges()
-                    isEditing = false
-                }) {
-                    Icon(Icons.Default.Close, contentDescription = "Cancel")
-                }
-                IconButton(
+        topBarState.setTitle(title)
+
+        val actions = if (isEditing) {
+            listOf(
+                TopBarAction(
+                    id = "cancel",
+                    icon = { Icon(Icons.Default.Close, contentDescription = "Cancel") },
+                    onClick = {
+                        viewModel.resetChanges()
+                        isEditing = false
+                    }
+                ),
+                TopBarAction(
+                    id = "save",
+                    icon = { Icon(Icons.Default.Check, contentDescription = "Save") },
                     onClick = {
                         viewModel.saveChanges()
                         isEditing = false
-                        uiStateViewModel.setDrawerTitle(editedGenus?.main?.genus!!.ifBlank { "Genus" })
-                    },
-                    enabled = editedGenus?.main?.genus?.isNotBlank() == true
-                ) {
-                    Icon(Icons.Default.Check, contentDescription = "Save")
-                }
-            } else {
-                IconButton(onClick = { isEditing = true }) {
-                    // TODO
-                    Icon(Icons.Default.Edit, contentDescription = "Edit")
-                }
-            }
+                        topBarState.setTitle(editedGenus!!.main.genus.ifBlank { "Genus" })
+                    }
+                )
+            )
+        } else {
+            listOf(
+                TopBarAction(
+                    id = "edit",
+                    icon = { Icon(Icons.Default.Edit, contentDescription = "Edit") },
+                    onClick = { isEditing = true }
+                )
+            )
         }
+
+        topBarState.setActions(actions)
     }
 
     DisposableEffect(Unit) {
-        onDispose { uiStateViewModel.showBackButton(false) }
+        onDispose { topBarState.showMenuButton(false) }
     }
 
+    // --- UI экрана ---
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -123,8 +126,7 @@ fun GenusDetailScreen(
                         onClick = {
                             viewModel.saveChanges()
                             isEditing = false
-                            uiStateViewModel
-                                .setDrawerTitle(editedGenus!!.main.genus.ifBlank { "Genus" })
+                            topBarState.setTitle(editedGenus!!.main.genus.ifBlank { "Genus" })
                         },
                         enabled = editedGenus?.main?.genus?.isNotBlank() == true,
                         text = stringResource(R.string.button_save)
@@ -135,9 +137,7 @@ fun GenusDetailScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             CardDeleteButton(
-                onDeleteConfirmed = {
-                    viewModel.deleteGenus { navController.popBackStack() }
-                },
+                onDeleteConfirmed = { viewModel.deleteGenus { navController.popBackStack() } },
                 modifier = Modifier.padding(top = 16.dp)
             )
         }

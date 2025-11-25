@@ -35,14 +35,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.myplants.R
 import com.example.myplants.ui.componets.base.AppButton
 import com.example.myplants.ui.componets.settings.BackupItemRow
+import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
 import kotlinx.coroutines.launch
 import java.io.File
 
 @Composable
 fun SettingsScreen(viewModel: SettingsViewModel) {
+    SetupTopBar()
 
     val backups by viewModel.backups.observeAsState(emptyList())
     val context = LocalContext.current
@@ -241,5 +244,15 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
                 { Text(stringResource(R.string.button_close)) }
             }
         )
+    }
+}
+
+@Composable
+private fun SetupTopBar() {
+    val topBarState: TopBarStateViewModel = hiltViewModel()
+    val title = stringResource(R.string.screen_settings)
+
+    LaunchedEffect(Unit) {
+        topBarState.setTitle(title)
     }
 }

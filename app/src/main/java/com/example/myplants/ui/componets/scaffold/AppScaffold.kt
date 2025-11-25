@@ -8,8 +8,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.myplants.ui.app.TopBar
+import com.example.myplants.ui.componets.topbar.TopBar
 import com.example.myplants.ui.componets.drawer.NavigationDrawerContent
 import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
 
@@ -17,11 +18,11 @@ import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
 @Composable
 fun AppScaffold(
     navController: NavHostController,
-    topBarState: TopBarStateViewModel,
     content: @Composable (PaddingValues) -> Unit
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val topBarState: TopBarStateViewModel = hiltViewModel()
 
     ModalNavigationDrawer(
         drawerState = drawerState,

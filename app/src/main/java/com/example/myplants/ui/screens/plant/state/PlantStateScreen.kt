@@ -19,9 +19,13 @@ import com.example.myplants.ui.componets.cards.plants.PlantCardState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.res.stringResource
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.example.myplants.R
 import com.example.myplants.ui.screens.plant.state.common.ErrorState
 import com.example.myplants.ui.screens.plant.state.common.LoadingState
 import com.example.myplants.ui.screens.plant.state.common.PlantListEmptyState
+import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
 
 @Composable
 fun PlantStateScreen(
@@ -30,13 +34,22 @@ fun PlantStateScreen(
     onPlantClick: (PlantWithPhotos) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val uiState by viewModel.uiState.collectAsState()
-
+    val topBarState: TopBarStateViewModel = hiltViewModel()
     val currentListType by rememberUpdatedState(listType)
 
+    // Устанавливаем заголовок и кнопки в TopBar
+    val titleRes = when (currentListType) {
+        PlantStateType.FAVORITES -> R.string.screen_favorites
+        PlantStateType.WISHLIST -> R.string.screen_wishlist
+        else -> R.string.app_name
+    }
+    val title = stringResource(titleRes)
     LaunchedEffect(currentListType) {
         viewModel.setListType(currentListType)
+        topBarState.setTitle(title)
     }
+
+    val uiState by viewModel.uiState.collectAsState()
 
     // ОПТИМИЗАЦИЯ: выносим обработчики в remember для стабильности
     val onToggleFavorite = remember(viewModel) {

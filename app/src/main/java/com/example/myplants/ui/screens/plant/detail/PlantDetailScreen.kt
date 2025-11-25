@@ -17,7 +17,6 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -30,7 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.myplants.R
 import com.example.myplants.core.data.local.entity.Plant
@@ -38,6 +37,7 @@ import com.example.myplants.core.data.local.entity.PlantWithPhotos
 import com.example.myplants.ui.componets.base.AppButton
 import com.example.myplants.ui.componets.cards.common.CardDeleteButton
 import com.example.myplants.ui.componets.cards.plants.PlantCardFull
+import com.example.myplants.ui.componets.topbar.TopBarAction
 import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
 
 
@@ -46,10 +46,9 @@ import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
 fun PlantDetailScreen(
     viewModel: PlantDetailViewModel,
     navController: NavHostController,
-    uiStateViewModel: TopBarStateViewModel? = null,
     modifier: Modifier = Modifier
 ) {
-    val uiStateViewModel: TopBarStateViewModel = uiStateViewModel ?: viewModel<TopBarStateViewModel>()
+    val topBarState: TopBarStateViewModel = hiltViewModel()
 
     val plantWithPhotos by viewModel.plantWithPhotos.observeAsState()
     val editedPlant by viewModel.editedPlant.observeAsState()
@@ -62,44 +61,51 @@ fun PlantDetailScreen(
 
     var isEditing by remember { mutableStateOf(false) }
 
+    // --- Настройка TopBar ---
     LaunchedEffect(isEditing, editedPlant) {
-        val title =
-            if (isEditing) "Edit: ${editedPlant?.main?.species}"
-            else editedPlant?.main?.species!!.ifBlank { "Plant" }
-        uiStateViewModel.setDrawerTitle(title)
-        uiStateViewModel.showBackButton(true)
+        val title = if (isEditing) "Edit: ${editedPlant?.main?.species}"
+        else editedPlant?.main?.species!!.ifBlank { "Plant" }
 
-        uiStateViewModel.setTopBarActions {
-            if (isEditing) {
-                IconButton(onClick = {
-                    viewModel.resetChanges()
-                    isEditing = false
-                }) {
-                    // TODO
-                    Icon(Icons.Default.Close, contentDescription = "Cancel")
-                }
-                IconButton(
+        topBarState.setTitle(title)
+
+        val actions = if (isEditing) {
+            listOf(
+                TopBarAction(
+                    id = "cancel",
+                    icon = { Icon(Icons.Default.Close, contentDescription = "Cancel") },
+                    onClick = {
+                        viewModel.resetChanges()
+                        isEditing = false
+                    }
+                ),
+                TopBarAction(
+                    id = "save",
+                    icon = { Icon(Icons.Default.Check, contentDescription = "Save") },
                     onClick = {
                         viewModel.saveChanges()
                         isEditing = false
-                        uiStateViewModel.setDrawerTitle(editedPlant?.main?.species!!.ifBlank { "Plant" })
-                    },
-                    enabled = editedPlant?.main?.species?.isNotBlank() == true
-                ) {
-                    Icon(Icons.Default.Check, contentDescription = "Save")
-                }
-            } else {
-                IconButton(onClick = { isEditing = true }) {
-                    Icon(Icons.Default.Edit, contentDescription = "Edit")
-                }
-            }
+                        topBarState.setTitle(editedPlant!!.main.species.ifBlank { "Plant" })
+                    }
+                )
+            )
+        } else {
+            listOf(
+                TopBarAction(
+                    id = "edit",
+                    icon = { Icon(Icons.Default.Edit, contentDescription = "Edit") },
+                    onClick = { isEditing = true }
+                )
+            )
         }
+
+        topBarState.setActions(actions)
     }
 
     DisposableEffect(Unit) {
-        onDispose { uiStateViewModel.showBackButton(false) }
+        onDispose { topBarState.showMenuButton(false) }
     }
 
+    // --- UI экрана ---
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -124,8 +130,7 @@ fun PlantDetailScreen(
                         onClick = {
                             viewModel.resetChanges()
                             isEditing = false
-                            uiStateViewModel
-                                .setDrawerTitle(plantWithPhotos!!.plant.main.species.ifBlank { "Plant" })
+                            topBarState.setTitle(plantWithPhotos!!.plant.main.species.ifBlank { "Plant" })
                         },
                         text = stringResource(R.string.button_cancel)
                     )
@@ -133,7 +138,7 @@ fun PlantDetailScreen(
                         onClick = {
                             viewModel.saveChanges()
                             isEditing = false
-                            uiStateViewModel.setDrawerTitle(editedPlant?.main?.species!!.ifBlank { "Plant" })
+                            topBarState.setTitle(editedPlant!!.main.species.ifBlank { "Plant" })
                         },
                         enabled = editedPlant?.main?.species?.isNotBlank() == true,
                         text = stringResource(R.string.button_save)
@@ -144,9 +149,7 @@ fun PlantDetailScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             CardDeleteButton(
-                onDeleteConfirmed = {
-                    viewModel.deletePlant { navController.popBackStack() }
-                },
+                onDeleteConfirmed = { viewModel.deletePlant { navController.popBackStack() } },
                 modifier = Modifier.padding(top = 16.dp)
             )
         }

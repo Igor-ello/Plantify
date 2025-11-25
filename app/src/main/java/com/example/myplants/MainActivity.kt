@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.example.myplants.core.ui.system.configureSystemBars
 import com.example.myplants.core.ui.theme.MyPlantsTheme
+import com.example.myplants.ui.app.App
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -16,7 +17,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MyPlantsTheme {
-                AppRoot()
+                App()
             }
         }
     }

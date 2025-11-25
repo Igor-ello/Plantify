@@ -30,7 +30,7 @@ fun DrawerItem(
     drawerState: DrawerState,
     scope: CoroutineScope
 ) {
-    val selected = currentRoute.startsWith(item.route)
+    val selected = currentRoute.equals(item.route)
     NavigationDrawerItem(
         label = { BodyLarge(text = stringResource(item.labelRes), color = OnPrimaryWhite) },
         icon = item.icon,

@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -17,11 +16,15 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.example.myplants.R
 import com.example.myplants.core.data.local.entity.PlantWithPhotos
 import com.example.myplants.ui.componets.cards.genus.GenusCardEventHandler
 import com.example.myplants.ui.componets.cards.genus.GenusCardMain
 import com.example.myplants.ui.componets.cards.genus.GenusCardState
+import com.example.myplants.ui.componets.topbar.TopBarAction
 import com.example.myplants.ui.screens.plant.state.common.ErrorState
 import com.example.myplants.ui.screens.plant.state.common.LoadingState
 import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
@@ -33,13 +36,9 @@ fun MainScreen(
     onPlantClick: (PlantWithPhotos) -> Unit,
     onAddPlant: () -> Unit,
     onNavigateToGenusDetail: (Long) -> Unit,
-    uiStateViewModel: TopBarStateViewModel,
     modifier: Modifier = Modifier
 ) {
-    val uiState by stateHolder.uiState.collectAsState()
-
-    // Состояние TopBar
-    TopBarSetup(uiStateViewModel, onAddPlant)
+    SetTopBar(onAddPlant)
 
     val eventHandler = remember(stateHolder, onPlantClick, onNavigateToGenusDetail) {
         MainScreenEventHandler(
@@ -52,6 +51,7 @@ fun MainScreen(
         )
     }
 
+    val uiState by stateHolder.uiState.collectAsState()
     MainContent(
         state = uiState,
         eventHandler = eventHandler,
@@ -60,18 +60,23 @@ fun MainScreen(
 }
 
 @Composable
-private fun TopBarSetup(
-    uiStateViewModel: TopBarStateViewModel,
+private fun SetTopBar(
     onAddPlant: () -> Unit
 ) {
+    val topBarState: TopBarStateViewModel = hiltViewModel()
+    val title = stringResource(R.string.screen_all_plants)
+
     LaunchedEffect(Unit) {
-        uiStateViewModel.setDrawerTitle("All Plants")
-        uiStateViewModel.showBackButton(false)
-        uiStateViewModel.setTopBarActions {
-            IconButton(onClick = onAddPlant) {
-                Icon(Icons.Default.Add, contentDescription = "Add")
-            }
-        }
+        topBarState.setTitle(title)
+        topBarState.setActions(
+            listOf(
+                TopBarAction(
+                    id = "add",
+                    icon = { Icon(Icons.Default.Add, contentDescription = "Add") },
+                    onClick = onAddPlant
+                )
+            )
+        )
     }
 }
 
