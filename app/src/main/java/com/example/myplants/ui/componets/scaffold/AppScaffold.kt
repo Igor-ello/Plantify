@@ -12,7 +12,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.myplants.ui.componets.topbar.TopBar
 import com.example.myplants.ui.componets.drawer.NavigationDrawerContent
-import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
+import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -38,7 +38,7 @@ import com.example.myplants.ui.componets.base.AppButton
 import com.example.myplants.ui.componets.cards.common.CardDeleteButton
 import com.example.myplants.ui.componets.cards.plants.PlantCardFull
 import com.example.myplants.ui.componets.topbar.TopBarAction
-import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
+import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
 
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -67,12 +67,13 @@ fun PlantDetailScreen(
         else editedPlant?.main?.species!!.ifBlank { "Plant" }
 
         topBarState.setTitle(title)
+        topBarState.showMenuButton(false)
 
-        val actions = if (isEditing) {
-            listOf(
+        if (isEditing) {
+            topBarState.actionsManager.set(
                 TopBarAction(
                     id = "cancel",
-                    icon = { Icon(Icons.Default.Close, contentDescription = "Cancel") },
+                    icon = { Icon(Icons.Default.Close, "Cancel") },
                     onClick = {
                         viewModel.resetChanges()
                         isEditing = false
@@ -80,29 +81,26 @@ fun PlantDetailScreen(
                 ),
                 TopBarAction(
                     id = "save",
-                    icon = { Icon(Icons.Default.Check, contentDescription = "Save") },
+                    icon = { Icon(Icons.Default.Check, "Save") },
                     onClick = {
                         viewModel.saveChanges()
                         isEditing = false
-                        topBarState.setTitle(editedPlant!!.main.species.ifBlank { "Plant" })
                     }
                 )
             )
         } else {
-            listOf(
+            topBarState.actionsManager.set(
                 TopBarAction(
                     id = "edit",
-                    icon = { Icon(Icons.Default.Edit, contentDescription = "Edit") },
+                    icon = { Icon(Icons.Default.Edit, "Edit") },
                     onClick = { isEditing = true }
                 )
             )
         }
-
-        topBarState.setActions(actions)
     }
 
     DisposableEffect(Unit) {
-        onDispose { topBarState.showMenuButton(false) }
+        onDispose { topBarState.showMenuButton(true) }
     }
 
     // --- UI экрана ---

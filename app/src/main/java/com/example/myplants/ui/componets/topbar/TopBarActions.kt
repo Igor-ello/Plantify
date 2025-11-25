@@ -9,21 +9,26 @@ data class TopBarAction(
     val onClick: () -> Unit
 )
 
-// TODO
-class TopBarActionsManager {
+class TopBarActionsManager(
+    private val onActionsChanged: (List<TopBarAction>) -> Unit
+) {
+
     private val _actions = mutableStateListOf<TopBarAction>()
     val actions: List<TopBarAction> get() = _actions
 
-    fun setActions(newActions: List<TopBarAction>) {
+    fun set(vararg newActions: TopBarAction) {
         _actions.clear()
         _actions.addAll(newActions)
+        onActionsChanged(_actions)
     }
 
-    fun addAction(action: TopBarAction) {
+    fun add(action: TopBarAction) {
         _actions.add(action)
+        onActionsChanged(_actions)
     }
 
-    fun removeAction(actionId: String) {
+    fun remove(actionId: String) {
         _actions.removeAll { it.id == actionId }
+        onActionsChanged(_actions)
     }
 }

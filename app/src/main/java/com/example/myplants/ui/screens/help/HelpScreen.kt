@@ -10,7 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.myplants.R
-import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
+import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
 
 
 @Composable

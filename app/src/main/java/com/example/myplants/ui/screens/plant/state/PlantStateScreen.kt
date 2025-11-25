@@ -25,7 +25,7 @@ import com.example.myplants.R
 import com.example.myplants.ui.screens.plant.state.common.ErrorState
 import com.example.myplants.ui.screens.plant.state.common.LoadingState
 import com.example.myplants.ui.screens.plant.state.common.PlantListEmptyState
-import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
+import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
 
 @Composable
 fun PlantStateScreen(

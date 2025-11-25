@@ -20,7 +20,7 @@ import com.example.myplants.data.state.PlantStateRepository
 import com.example.myplants.data.state.PlantStateRepositoryInterface
 import com.example.myplants.data.plant_with_photos.PlantWithPhotosRepository
 import com.example.myplants.data.plant_with_photos.PlantWithPhotosRepositoryInterface
-import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
+import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

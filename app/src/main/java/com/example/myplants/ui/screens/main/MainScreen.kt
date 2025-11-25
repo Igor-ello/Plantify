@@ -27,7 +27,7 @@ import com.example.myplants.ui.componets.cards.genus.GenusCardState
 import com.example.myplants.ui.componets.topbar.TopBarAction
 import com.example.myplants.ui.screens.plant.state.common.ErrorState
 import com.example.myplants.ui.screens.plant.state.common.LoadingState
-import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
+import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -68,13 +68,11 @@ private fun SetTopBar(
 
     LaunchedEffect(Unit) {
         topBarState.setTitle(title)
-        topBarState.setActions(
-            listOf(
-                TopBarAction(
-                    id = "add",
-                    icon = { Icon(Icons.Default.Add, contentDescription = "Add") },
-                    onClick = onAddPlant
-                )
+        topBarState.actionsManager.set(
+            TopBarAction(
+                id = "add",
+                icon = { Icon(Icons.Default.Add, contentDescription = "Add") },
+                onClick = onAddPlant
             )
         )
     }

@@ -37,7 +37,7 @@ import com.example.myplants.ui.componets.base.AppButton
 import com.example.myplants.ui.componets.cards.common.CardDeleteButton
 import com.example.myplants.ui.componets.cards.genus.GenusCardFull
 import com.example.myplants.ui.componets.topbar.TopBarAction
-import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
+import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -61,9 +61,10 @@ fun GenusDetailScreen(
         else editedGenus?.main?.genus!!.ifBlank { "Genus" }
 
         topBarState.setTitle(title)
+        topBarState.showMenuButton(false)
 
-        val actions = if (isEditing) {
-            listOf(
+        if (isEditing) {
+            topBarState.actionsManager.set(
                 TopBarAction(
                     id = "cancel",
                     icon = { Icon(Icons.Default.Close, contentDescription = "Cancel") },
@@ -83,7 +84,7 @@ fun GenusDetailScreen(
                 )
             )
         } else {
-            listOf(
+            topBarState.actionsManager.set(
                 TopBarAction(
                     id = "edit",
                     icon = { Icon(Icons.Default.Edit, contentDescription = "Edit") },
@@ -91,12 +92,10 @@ fun GenusDetailScreen(
                 )
             )
         }
-
-        topBarState.setActions(actions)
     }
 
     DisposableEffect(Unit) {
-        onDispose { topBarState.showMenuButton(false) }
+        onDispose { topBarState.showMenuButton(true) }
     }
 
     // --- UI экрана ---

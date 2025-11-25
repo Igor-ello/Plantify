@@ -22,7 +22,7 @@ import com.example.myplants.core.data.local.entity.PlantWithPhotos
 import com.example.myplants.core.data.local.entity.sections.MainInfo
 import com.example.myplants.ui.componets.base.AppButton
 import com.example.myplants.ui.componets.cards.plants.PlantCardFull
-import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
+import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
 
 
 @Composable

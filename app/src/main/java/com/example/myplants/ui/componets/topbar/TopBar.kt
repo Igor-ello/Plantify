@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import com.example.myplants.core.ui.theme.OnPrimaryWhite
 import com.example.myplants.core.ui.theme.PrimaryGreen
 import com.example.myplants.ui.componets.base.TitleLarge
-import com.example.myplants.ui.screens.topbar.TopBarStateViewModel
+import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

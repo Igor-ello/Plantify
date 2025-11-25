@@ -1,7 +1,5 @@
 package com.example.myplants.ui.componets.topbar
 
-import androidx.compose.runtime.Composable
-
 data class TopBarUiState(
     val title: String = "MyPlants",
     val showMenu: Boolean = true,
@@ -9,7 +7,6 @@ data class TopBarUiState(
     val searchQuery: String = "",
     val actions: List<TopBarAction> = emptyList(),
 )
-
 
 sealed class TopBarEvent {
     data class SearchQueryChanged(val query: String) : TopBarEvent()
