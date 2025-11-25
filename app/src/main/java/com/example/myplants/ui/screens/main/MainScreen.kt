@@ -32,12 +32,12 @@ import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainScreen(
-    stateHolder: MainScreenStateHolder,
     onPlantClick: (PlantWithPhotos) -> Unit,
     onAddPlant: () -> Unit,
     onNavigateToGenusDetail: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val stateHolder: MainScreenStateHolder = hiltViewModel()
     SetTopBar(onAddPlant)
 
     val eventHandler = remember(stateHolder, onPlantClick, onNavigateToGenusDetail) {

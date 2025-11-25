@@ -42,10 +42,10 @@ import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun GenusDetailScreen(
-    viewModel: GenusDetailViewModel,
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
+    val viewModel: GenusDetailViewModel = hiltViewModel()
     val topBarState: TopBarStateViewModel = hiltViewModel()
     val editedGenus by viewModel.editedGenus.observeAsState()
     var isEditing by remember { mutableStateOf(false) }

@@ -27,11 +27,11 @@ import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
 
 @Composable
 fun AddPlantScreen(
-    viewModel: AddPlantViewModel,
     onSave: () -> Unit,
     onCancel: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val viewModel: AddPlantViewModel = hiltViewModel()
     SetupTopBar()
 
     val newPlant by viewModel.newPlant.observeAsState(Plant(main = MainInfo(genus = "", species = "")))

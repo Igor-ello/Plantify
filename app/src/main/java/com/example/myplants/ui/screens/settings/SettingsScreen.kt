@@ -44,7 +44,8 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 @Composable
-fun SettingsScreen(viewModel: SettingsViewModel) {
+fun SettingsScreen() {
+    val viewModel: SettingsViewModel = hiltViewModel()
     SetupTopBar()
 
     val backups by viewModel.backups.observeAsState(emptyList())

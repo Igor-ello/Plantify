@@ -29,11 +29,11 @@ import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
 
 @Composable
 fun PlantStateScreen(
-    viewModel: PlantStateViewModel,
     listType: PlantStateType,
     onPlantClick: (PlantWithPhotos) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val viewModel: PlantStateViewModel = hiltViewModel()
     val topBarState: TopBarStateViewModel = hiltViewModel()
     val currentListType by rememberUpdatedState(listType)
 

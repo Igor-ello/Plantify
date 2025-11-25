@@ -2,6 +2,7 @@ package com.example.myplants.ui.screens.genus
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myplants.data.genus.GenusRepositoryInterface
@@ -17,65 +18,48 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GenusDetailViewModel @Inject constructor(
-    private val repository: GenusRepositoryInterface
+    private val genusRepository: GenusRepositoryInterface,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _originalGenus = MutableLiveData<Genus?>()
-    val originalGenus: LiveData<Genus?> = _originalGenus
+    private val genusId: Long = savedStateHandle.get<Long>("genusId") ?: 0L
 
-    private val _editedGenus = MutableLiveData<Genus?>()
-    val editedGenus: LiveData<Genus?> = _editedGenus
+    val genusLiveData: LiveData<Genus> = genusRepository.getGenusByIdLive(genusId)
+
+    private val _editedGenus = MutableLiveData<Genus>()
+    val editedGenus: LiveData<Genus> get() = _editedGenus
 
     init {
-        loadGenus()
-    }
-
-    private fun loadGenus(genusId: Long? = null) {
-        viewModelScope.launch {
-            val genus = if (genusId != null) repository.getGenusById(genusId) else Genus.empty()
-            _originalGenus.value = genus
-            _editedGenus.value = genus?.copy()
+        // Сразу синхронизируемся с LiveData репозитория
+        genusLiveData.observeForever { genus ->
+            genus?.let {
+                _editedGenus.value = it.copy()
+            }
         }
     }
 
-    // Обновление текущего редактируемого рода
-    fun updateEditedGenus(updatedGenus: Genus) {
-        _editedGenus.value = updatedGenus
+    fun updateEditedGenus(genus: Genus) {
+        _editedGenus.value = genus
     }
 
-    // Сброс изменений
-    fun resetChanges() {
-        _editedGenus.value = _originalGenus.value?.copy()
-    }
-
-    // Сохранение изменений
     fun saveChanges() {
         val genus = _editedGenus.value ?: return
         viewModelScope.launch {
-            repository.updateGenus(genus)
-            _originalGenus.value = genus.copy()
-            _editedGenus.value = genus.copy()
+            genusRepository.updateGenus(genus)
         }
     }
 
-    // Удаление рода
+    fun resetChanges() {
+        genusLiveData.value?.let {
+            _editedGenus.value = it.copy()
+        }
+    }
+
     fun deleteGenus(onDeleted: () -> Unit) {
         val genus = _editedGenus.value ?: return
         viewModelScope.launch {
-            repository.deleteGenusById(genus.id)
+            genusRepository.deleteGenusById(genus.id)
             onDeleted()
         }
     }
-
-    private fun Genus.Companion.empty() = Genus(
-        id = 0L,
-        main = MainInfo(
-            genus = "",
-            species = ""
-        ),
-        care = CareInfo(),
-        lifecycle = LifecycleInfo(),
-        health = HealthInfo(),
-        state = StateInfo()
-    )
 }

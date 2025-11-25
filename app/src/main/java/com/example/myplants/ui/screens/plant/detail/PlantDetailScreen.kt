@@ -44,10 +44,10 @@ import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun PlantDetailScreen(
-    viewModel: PlantDetailViewModel,
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
+    val viewModel: PlantDetailViewModel = hiltViewModel()
     val topBarState: TopBarStateViewModel = hiltViewModel()
 
     val plantWithPhotos by viewModel.plantWithPhotos.observeAsState()
