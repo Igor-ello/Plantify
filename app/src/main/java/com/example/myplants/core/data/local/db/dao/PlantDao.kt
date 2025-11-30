@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.myplants.core.data.local.entity.Plant
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PlantDao {
@@ -26,7 +27,7 @@ interface PlantDao {
     fun getAllPlantsLive(): LiveData<List<Plant>>
 
     @Query("SELECT * FROM plant_table ORDER BY id DESC")
-    suspend fun getAllPlants(): List<Plant>
+    fun getAllPlants(): Flow<List<Plant>>
 
     @Query("DELETE FROM plant_table WHERE id = :plantId")
     suspend fun deletePlantById(plantId: Long)

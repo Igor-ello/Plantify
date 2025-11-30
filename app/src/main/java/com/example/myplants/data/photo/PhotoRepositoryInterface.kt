@@ -1,6 +1,7 @@
 package com.example.myplants.data.photo
 
 import com.example.myplants.core.data.local.entity.PlantPhoto
+import kotlinx.coroutines.flow.Flow
 
 interface PhotoRepositoryInterface {
 
@@ -18,7 +19,7 @@ interface PhotoRepositoryInterface {
 
     suspend fun deleteAllPhoto()
 
-    suspend fun getAllPhoto(): List<PlantPhoto>
+    fun getAllPhoto(): Flow<List<PlantPhoto>>
 
     suspend fun deletePhotosByPlantId(plantId: Long)
 }

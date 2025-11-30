@@ -20,7 +20,7 @@ class PlantRepository(
     override suspend fun deleteAllPlants() =
         plantDao.deleteAllPlants()
 
-    override suspend fun getAllPlants() =
+    override fun getAllPlants() =
         plantDao.getAllPlants()
 
     override suspend fun deletePlantById(plantId: Long) =

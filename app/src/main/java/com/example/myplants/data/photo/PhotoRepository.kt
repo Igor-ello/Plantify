@@ -28,7 +28,7 @@ class PhotoRepository(
     override suspend fun deleteAllPhoto() =
         photoDao.deleteAllPhoto()
 
-    override suspend fun getAllPhoto() =
+    override fun getAllPhoto() =
         photoDao.getAllPhoto()
 
     override suspend fun deletePhotosByPlantId(plantId: Long) =

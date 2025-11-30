@@ -1,6 +1,7 @@
 package com.example.myplants.data.backup
 
 import android.content.Context
+import androidx.compose.runtime.collectAsState
 import androidx.room.withTransaction
 import com.example.myplants.core.data.local.db.AppDatabase
 import com.example.myplants.data.genus.GenusRepositoryInterface
@@ -10,6 +11,7 @@ import com.example.myplants.core.data.local.entity.Genus
 import com.example.myplants.core.data.local.entity.Plant
 import com.example.myplants.core.data.local.entity.PlantPhoto
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import java.io.File
@@ -32,9 +34,9 @@ class BackupRepository(
     }
 
     override suspend fun createBackup(): File = withContext(Dispatchers.IO) {
-        val plants: List<Plant> = plantRepository.getAllPlants()
-        val photos: List<PlantPhoto> = photoRepository.getAllPhoto()
-        val genera: List<Genus> = genusRepository.getAllGenus() as List<Genus>
+        val plants: List<Plant> = plantRepository.getAllPlants().first()
+        val photos: List<PlantPhoto> = photoRepository.getAllPhoto().first()
+        val genera: List<Genus> = genusRepository.getAllGenus().first()
         val backup = BackupData(plants = plants, photos = photos, genera = genera)
         val json = Json { prettyPrint = true }.encodeToString(backup)
         val file = generateBackupFile()

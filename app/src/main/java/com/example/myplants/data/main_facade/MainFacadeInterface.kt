@@ -14,7 +14,7 @@ interface MainFacadeInterface {
 
     suspend fun insertPlant(plant: Plant): Long
 
-    suspend fun getAllPlants(): List<Plant>
+    fun getAllPlants(): Flow<List<Plant>>
 
     // State
 

@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.myplants.core.data.local.entity.PlantPhoto
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PlantPhotoDao {
@@ -23,7 +24,7 @@ interface PlantPhotoDao {
     fun getAllPhotoLive(): LiveData<List<PlantPhoto>>
 
     @Query("SELECT * FROM plant_photo_table ORDER BY id DESC")
-    suspend fun getAllPhoto(): List<PlantPhoto>
+    fun getAllPhoto(): Flow<List<PlantPhoto>>
 
     @Query("SELECT * FROM plant_photo_table WHERE plant_id = :plantId ORDER BY is_primary DESC, id ASC")
     suspend fun getPhotosForPlant(plantId: Long): List<PlantPhoto>

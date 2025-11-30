@@ -25,7 +25,7 @@ class MainFacade (
     override suspend fun insertPlant(plant: Plant) =
         plantRepository.insertPlant(plant)
 
-    override suspend fun getAllPlants() =
+    override fun getAllPlants() =
         plantRepository.getAllPlants()
 
     // State

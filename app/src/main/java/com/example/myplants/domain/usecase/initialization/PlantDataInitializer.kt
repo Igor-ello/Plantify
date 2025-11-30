@@ -9,11 +9,12 @@ import com.example.myplants.core.data.local.entity.sections.MainInfo
 import com.example.myplants.core.data.local.entity.sections.StateInfo
 import com.example.myplants.core.data.local.entity.sections.WateringInfo
 import com.example.myplants.data.main_facade.MainFacadeInterface
+import kotlinx.coroutines.flow.first
 
 object PlantDataInitializer {
 
     suspend fun initialize(facade: MainFacadeInterface) {
-        val currentPlants = facade.getAllPlants()
+        val currentPlants = facade.getAllPlants().first()
         if (currentPlants.isEmpty()) {
             addTestPlants(facade)
         }
