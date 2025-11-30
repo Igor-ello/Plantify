@@ -3,7 +3,7 @@ package com.example.myplants.ui.screens.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myplants.core.data.local.entity.Genus
-import com.example.myplants.core.data.local.entity.PlantWithPhotos
+import com.example.myplants.core.data.local.relation.PlantWithPhotos
 import com.example.myplants.data.main_facade.MainFacadeInterface
 import com.example.myplants.domain.usecase.initialization.PlantDataInitializer
 import dagger.hilt.android.lifecycle.HiltViewModel

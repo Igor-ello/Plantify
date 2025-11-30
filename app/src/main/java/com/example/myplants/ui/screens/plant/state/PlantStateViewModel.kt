@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myplants.data.state.PlantStateRepositoryInterface
 import com.example.myplants.core.data.local.entity.Plant
-import com.example.myplants.core.data.local.entity.PlantWithPhotos
+import com.example.myplants.core.data.local.relation.PlantWithPhotos
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

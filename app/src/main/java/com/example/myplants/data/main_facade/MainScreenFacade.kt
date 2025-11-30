@@ -2,8 +2,10 @@ package com.example.myplants.data.main_facade
 
 import com.example.myplants.core.data.local.entity.Genus
 import com.example.myplants.core.data.local.entity.Plant
-import com.example.myplants.core.data.local.entity.PlantWithPhotos
+import com.example.myplants.core.data.local.entity.PlantPhoto
+import com.example.myplants.core.data.local.relation.PlantWithPhotos
 import com.example.myplants.data.genus.GenusRepositoryInterface
+import com.example.myplants.data.photo.PhotoRepositoryInterface
 import com.example.myplants.data.plant.PlantRepositoryInterface
 import com.example.myplants.data.plant_with_photos.PlantWithPhotosRepositoryInterface
 import com.example.myplants.data.state.PlantStateRepositoryInterface
@@ -11,6 +13,7 @@ import kotlinx.coroutines.flow.Flow
 
 class MainFacade (
     private val plantRepository: PlantRepositoryInterface,
+    private val photoRepository: PhotoRepositoryInterface,
     private val plantWithPhotosRepository: PlantWithPhotosRepositoryInterface,
     private val plantStateRepository: PlantStateRepositoryInterface,
     private val genusRepository: GenusRepositoryInterface
@@ -26,6 +29,11 @@ class MainFacade (
 
     override suspend fun getAllPlants() =
         plantRepository.getAllPlants()
+
+    // Photo
+
+    override suspend fun insertPhoto(photo: PlantPhoto): Long =
+        photoRepository.insertPhoto(photo)
 
     // State
 

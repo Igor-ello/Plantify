@@ -21,7 +21,7 @@ import coil.compose.AsyncImage
 import com.example.myplants.core.data.local.entity.Plant
 import com.example.myplants.core.data.local.entity.PlantEntityInterface
 import com.example.myplants.core.data.local.entity.PlantPhoto
-import com.example.myplants.core.data.local.entity.PlantWithPhotos
+import com.example.myplants.core.data.local.relation.PlantWithPhotos
 import com.example.myplants.core.data.local.entity.sections.MainInfo
 import com.example.myplants.ui.componets.cards.common.CardDetailContent
 import com.example.myplants.ui.componets.cards.common.CardPhotoEditable

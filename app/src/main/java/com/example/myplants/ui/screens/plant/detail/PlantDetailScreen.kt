@@ -33,7 +33,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.myplants.R
 import com.example.myplants.core.data.local.entity.Plant
-import com.example.myplants.core.data.local.entity.PlantWithPhotos
+import com.example.myplants.core.data.local.relation.PlantWithPhotos
 import com.example.myplants.ui.componets.base.AppButton
 import com.example.myplants.ui.componets.cards.common.CardDeleteButton
 import com.example.myplants.ui.componets.cards.plants.PlantCardFull

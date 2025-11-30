@@ -2,7 +2,8 @@ package com.example.myplants.data.main_facade
 
 import com.example.myplants.core.data.local.entity.Genus
 import com.example.myplants.core.data.local.entity.Plant
-import com.example.myplants.core.data.local.entity.PlantWithPhotos
+import com.example.myplants.core.data.local.entity.PlantPhoto
+import com.example.myplants.core.data.local.relation.PlantWithPhotos
 import kotlinx.coroutines.flow.Flow
 
 interface MainFacadeInterface {
@@ -14,6 +15,10 @@ interface MainFacadeInterface {
     suspend fun insertPlant(plant: Plant): Long
 
     suspend fun getAllPlants(): List<Plant>
+
+    // Photo
+
+    suspend fun insertPhoto(photo: PlantPhoto): Long
 
     // State
 

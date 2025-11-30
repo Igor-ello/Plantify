@@ -24,7 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.myplants.core.data.local.entity.PlantWithPhotos
+import com.example.myplants.core.data.local.relation.PlantWithPhotos
 import com.example.myplants.core.ui.theme.GenusCardColor
 import com.example.myplants.ui.componets.base.TitleLarge
 import com.example.myplants.ui.componets.cards.plants.PlantCardEventHandler

@@ -12,7 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.myplants.core.data.local.entity.PlantWithPhotos
+import com.example.myplants.core.data.local.relation.PlantWithPhotos
 import com.example.myplants.ui.componets.cards.plants.PlantCardEventHandler
 import com.example.myplants.ui.componets.cards.plants.PlantCardMain
 import com.example.myplants.ui.componets.cards.plants.PlantCardState

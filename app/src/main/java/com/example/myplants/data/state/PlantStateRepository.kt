@@ -1,7 +1,7 @@
 package com.example.myplants.data.state
 
 import com.example.myplants.core.data.local.db.dao.PlantStateDao
-import com.example.myplants.core.data.local.entity.PlantWithPhotos
+import com.example.myplants.core.data.local.relation.PlantWithPhotos
 import kotlinx.coroutines.flow.Flow
 
 class PlantStateRepository(

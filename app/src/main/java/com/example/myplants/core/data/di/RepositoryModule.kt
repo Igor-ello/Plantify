@@ -90,11 +90,13 @@ object RepositoryModule {
     @Singleton
     fun provideMainFacade(
         plantRepository: PlantRepositoryInterface,
+        photoRepository: PhotoRepositoryInterface,
         plantWithPhotosRepository: PlantWithPhotosRepositoryInterface,
         plantStateRepository: PlantStateRepositoryInterface,
         genusRepository: GenusRepositoryInterface
     ): MainFacadeInterface = MainFacade(
         plantRepository = plantRepository as PlantRepository,
+        photoRepository = photoRepository as PhotoRepository,
         plantWithPhotosRepository = plantWithPhotosRepository,
         plantStateRepository = plantStateRepository,
         genusRepository = genusRepository as GenusRepository

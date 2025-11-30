@@ -36,7 +36,7 @@ import coil.request.ImageRequest
 import coil.size.Size
 import com.example.myplants.R
 import com.example.myplants.core.data.local.entity.Plant
-import com.example.myplants.core.data.local.entity.PlantWithPhotos
+import com.example.myplants.core.data.local.relation.PlantWithPhotos
 import com.example.myplants.core.data.local.entity.sections.MainInfo
 import com.example.myplants.ui.componets.cards.common.CardBasicContent
 import com.example.myplants.ui.componets.cards.common.CardIconFavourite

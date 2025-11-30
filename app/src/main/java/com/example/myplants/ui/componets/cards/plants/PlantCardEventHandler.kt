@@ -1,7 +1,7 @@
 package com.example.myplants.ui.componets.cards.plants
 
 import com.example.myplants.core.data.local.entity.PlantEntityInterface
-import com.example.myplants.core.data.local.entity.PlantWithPhotos
+import com.example.myplants.core.data.local.relation.PlantWithPhotos
 
 data class PlantCardEventHandler(
     val onClick: (PlantWithPhotos) -> Unit = {},

@@ -1,7 +1,8 @@
-package com.example.myplants.core.data.local.entity
+package com.example.myplants.core.data.local.relation
 
 import androidx.room.Embedded
 import androidx.room.Relation
+import com.example.myplants.core.data.local.entity.Genus
 
 data class GenusWithPlants(
     @Embedded val genus: Genus,

@@ -8,7 +8,7 @@ import com.example.myplants.data.plant.PlantRepositoryInterface
 import com.example.myplants.data.plant_with_photos.PlantWithPhotosRepositoryInterface
 import com.example.myplants.core.data.local.entity.Plant
 import com.example.myplants.core.data.local.entity.PlantPhoto
-import com.example.myplants.core.data.local.entity.PlantWithPhotos
+import com.example.myplants.core.data.local.relation.PlantWithPhotos
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
