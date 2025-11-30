@@ -63,7 +63,7 @@ fun GenusCardMain(
                             )
 
                             IconButton(
-                                onClick = { eventHandler.onNavigateToGenusDetail(state.genus.id) },
+                                onClick = { eventHandler.onGenusClick(state.genus.id) },
                                 modifier = Modifier.padding(start = 8.dp)
                             ) {
                                 Icon(imageVector = Icons.Default.Preview, contentDescription = "Show detail")
@@ -133,7 +133,7 @@ private fun PlantCardItem(
 
     val plantEventHandler = remember(plantWithPhotos) {
         PlantCardEventHandler(
-            onClick = { eventHandler.onPlantClick(plantWithPhotos) },
+            onClick = { eventHandler.onPlantClick(plantWithPhotos.plant.id) },
             onToggleFavorite = { eventHandler.onToggleFavorite(plantWithPhotos) },
             onToggleWishlist = { eventHandler.onToggleWishlist(plantWithPhotos) }
         )

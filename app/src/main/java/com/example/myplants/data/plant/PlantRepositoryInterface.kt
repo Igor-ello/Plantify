@@ -1,6 +1,5 @@
 package com.example.myplants.data.plant
 
-import androidx.lifecycle.LiveData
 import com.example.myplants.core.data.local.entity.Plant
 import kotlinx.coroutines.flow.Flow
 
@@ -12,11 +11,15 @@ interface PlantRepositoryInterface {
 
     suspend fun updatePlant(plant: Plant)
 
+    suspend fun getPlantById(plantId: Long): Plant?
+
+    fun getPlantByIdLive(plantId: Long): Flow<Plant?>
+
+    suspend fun getAllPlants(): List<Plant>
+
+    fun getAllPlantsLive(): Flow<List<Plant>>
+
     suspend fun deleteAllPlants()
 
-    fun getAllPlants(): Flow<List<Plant>>
-
     suspend fun deletePlantById(plantId: Long)
-
-    fun getAllPlantsLive(): LiveData<List<Plant>>
 }

@@ -20,7 +20,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.myplants.R
-import com.example.myplants.core.data.local.entity.PlantWithPhotos
 import com.example.myplants.ui.componets.cards.genus.GenusCardEventHandler
 import com.example.myplants.ui.componets.cards.genus.GenusCardMain
 import com.example.myplants.ui.componets.cards.genus.GenusCardState
@@ -28,25 +27,34 @@ import com.example.myplants.ui.componets.topbar.TopBarAction
 import com.example.myplants.ui.screens.plant.state.common.ErrorState
 import com.example.myplants.ui.screens.plant.state.common.LoadingState
 import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
+import com.example.myplants.ui.navigation.navigators.MainScreenNavigator
+
+@Composable
+fun MainScreen(
+    navigator: MainScreenNavigator
+) {
+    val stateHolder: MainScreenStateHolder = hiltViewModel()
+    MainView(
+        stateHolder = stateHolder,
+        navigator = navigator
+    )
+}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MainScreen(
-    onPlantClick: (PlantWithPhotos) -> Unit,
-    onAddPlant: () -> Unit,
-    onNavigateToGenusDetail: (Long) -> Unit,
-    modifier: Modifier = Modifier
+fun MainView(
+    stateHolder: MainScreenStateHolder,
+    navigator: MainScreenNavigator
 ) {
-    val stateHolder: MainScreenStateHolder = hiltViewModel()
-    SetTopBar(onAddPlant)
+    SetTopBar(navigator.toAddPlant)
 
-    val eventHandler = remember(stateHolder, onPlantClick, onNavigateToGenusDetail) {
+    val eventHandler = remember(stateHolder) {
         MainScreenEventHandler(
-            onPlantClick = onPlantClick,
-            onAddPlant = onAddPlant,
+            onPlantClick = navigator.toPlantDetail,
+            onAddPlant = navigator.toAddPlant,
+            onGenusClick = navigator.toGenusDetail,
             onToggleFavorite = { stateHolder.toggleFavorite(it) },
             onToggleWishlist = { stateHolder.toggleWishlist(it) },
-            onNavigateToGenusDetail = onNavigateToGenusDetail,
             onToggleGenusExpanded = { stateHolder.toggleGenusExpansion(it) }
         )
     }
@@ -54,8 +62,7 @@ fun MainScreen(
     val uiState by stateHolder.uiState.collectAsState()
     MainContent(
         state = uiState,
-        eventHandler = eventHandler,
-        modifier = modifier
+        eventHandler = eventHandler
     )
 }
 
@@ -81,32 +88,29 @@ private fun SetTopBar(
 @Composable
 private fun MainContent(
     state: MainScreenState,
-    eventHandler: MainScreenEventHandler,
-    modifier: Modifier = Modifier
+    eventHandler: MainScreenEventHandler
 ) {
     when {
-        state.isLoading -> LoadingState(modifier = modifier)
+        state.isLoading -> LoadingState()
         state.error != null -> ErrorState(
             message = state.error,
-            onRetry = { /* stateHolder.retry() */ },
-            modifier = modifier
+            onRetry = { /* stateHolder.retry() */ }
         )
         else -> {
             val listState = rememberLazyListState()
 
-            // Оптимизация: используем производное состояние для groupedPlants
             val groupedPlants by remember(state.plants) {
                 derivedStateOf { state.groupedPlants }
             }
 
             LazyColumn(
                 state = listState,
-                modifier = modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(horizontal = 16.dp),
                 contentPadding = PaddingValues(bottom = 64.dp)
             ) {
                 items(
                     items = groupedPlants.entries.toList(),
-                    key = { it.key }, // Используем genusName как ключ
+                    key = { it.key },
                     contentType = { "genus_card" }
                 ) { (genusName, plants) ->
                     val genus = state.genusMap[genusName]
@@ -124,7 +128,7 @@ private fun MainContent(
                                 onPlantClick = eventHandler.onPlantClick,
                                 onToggleFavorite = eventHandler.onToggleFavorite,
                                 onToggleWishlist = eventHandler.onToggleWishlist,
-                                onNavigateToGenusDetail = eventHandler.onNavigateToGenusDetail,
+                                onGenusClick = eventHandler.onGenusClick,
                                 onToggleExpanded = { eventHandler.onToggleGenusExpanded(genus.id) }
                             )
                         }

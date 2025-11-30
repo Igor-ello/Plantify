@@ -1,18 +1,9 @@
 package com.example.myplants.data.genus
 
-import androidx.lifecycle.LiveData
 import com.example.myplants.core.data.local.entity.Genus
 import kotlinx.coroutines.flow.Flow
 
 interface GenusRepositoryInterface {
-
-    fun getGenusByIdLive(id: Long): LiveData<Genus>
-
-    suspend fun getGenusById(id: Long): Genus
-
-    fun getGenusByNameLive(genusName: String): LiveData<Genus>
-
-    suspend fun getGenusByName(genusName: String): Genus
 
     suspend fun insertGenus(genus: Genus): Long
 
@@ -20,9 +11,19 @@ interface GenusRepositoryInterface {
 
     suspend fun updateGenus(genus: Genus)
 
+    suspend fun getGenusById(id: Long): Genus?
+
+    fun getGenusByIdLive(id: Long): Flow<Genus?>
+
+    suspend fun getGenusByName(genusName: String): Genus?
+
+    fun getGenusByNameLive(genusName: String): Flow<Genus?>
+
+    suspend fun getAllGenus(): List<Genus>
+
+    fun getAllGenusLive(): Flow<List<Genus>>
+
     suspend fun deleteGenusById(id: Long)
 
     suspend fun deleteAllGenus()
-
-    fun getAllGenus(): Flow<List<Genus>>
 }

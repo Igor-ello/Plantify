@@ -14,7 +14,7 @@ import kotlinx.serialization.Serializable
 @Entity(tableName = "genus_table")
 data class Genus (
     @PrimaryKey(autoGenerate = true)
-    override var id: Long = 0,
+    override var id: Long = 0L,
 
     @Embedded(prefix = "main_")
     override var main: MainInfo,

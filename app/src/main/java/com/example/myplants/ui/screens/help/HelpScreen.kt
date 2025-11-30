@@ -12,15 +12,12 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.myplants.R
 import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
 
-
 @Composable
-fun HelpScreen(
-    modifier: Modifier = Modifier
-) {
+fun HelpScreen() {
     SetupTopBar()
 
-    Column(modifier = modifier.padding(16.dp)) {
-        Text("Help Screen")
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(stringResource(R.string.screen_help_feedback))
     }
 }
 

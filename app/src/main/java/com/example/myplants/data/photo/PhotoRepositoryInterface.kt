@@ -5,21 +5,23 @@ import kotlinx.coroutines.flow.Flow
 
 interface PhotoRepositoryInterface {
 
-    suspend fun insertPhoto(photo: PlantPhoto)
+    suspend fun insertPhoto(photo: PlantPhoto): Long
 
     suspend fun insertPhotos(photos: List<PlantPhoto>)
 
     suspend fun updatePhoto(photo: PlantPhoto)
 
-    suspend fun deletePhotoById(id: Long)
-
     suspend fun setMainPhoto(plantId: Long, photoId: Long)
+
+    suspend fun getAllPhoto(): List<PlantPhoto>
+
+    fun getAllPhotoLive(): Flow<List<PlantPhoto>>
 
     suspend fun getPhotosForPlant(plantId: Long): List<PlantPhoto>
 
-    suspend fun deleteAllPhoto()
+    suspend fun deletePhotoById(id: Long)
 
-    fun getAllPhoto(): Flow<List<PlantPhoto>>
+    suspend fun deleteAllPhoto()
 
     suspend fun deletePhotosByPlantId(plantId: Long)
 }

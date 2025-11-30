@@ -1,6 +1,5 @@
 package com.example.myplants.core.data.local.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -20,27 +19,27 @@ interface GenusDao {
     @Update
     suspend fun updateGenus(genus: Genus)
 
-    @Query("SELECT * FROM genus_table ORDER BY id DESC")
-    fun getAllGenusLive(): LiveData<List<Genus>>
-
-    @Query("SELECT * FROM genus_table ORDER BY id DESC")
-    fun getAllGenus(): Flow<List<Genus>>
+    @Query("SELECT * FROM genus_table WHERE id = :id")
+    suspend fun getGenusById(id: Long): Genus?
 
     @Query("SELECT * FROM genus_table WHERE id = :id")
-    fun getGenusByIdLive(id: Long): LiveData<Genus>
-
-    @Query("SELECT * FROM genus_table WHERE id = :id")
-    suspend fun getGenusById(id: Long): Genus
+    fun getGenusByIdLive(id: Long): Flow<Genus?>
 
     @Query("SELECT * FROM genus_table WHERE main_genus = :genusName")
-    fun getGenusByNameLive(genusName: String): LiveData<Genus>
+    suspend fun getGenusByName(genusName: String): Genus?
 
     @Query("SELECT * FROM genus_table WHERE main_genus = :genusName")
-    suspend fun getGenusByName(genusName: String): Genus
+    fun getGenusByNameLive(genusName: String): Flow<Genus?>
 
-    @Query("DELETE FROM genus_table")
-    fun deleteAllGenus()
+    @Query("SELECT * FROM genus_table ORDER BY id DESC")
+    fun getAllGenus(): List<Genus>
+
+    @Query("SELECT * FROM genus_table ORDER BY id DESC")
+    fun getAllGenusLive(): Flow<List<Genus>>
 
     @Query("DELETE FROM genus_table WHERE id = :id ")
     suspend fun deleteGenusById(id: Long)
+
+    @Query("DELETE FROM genus_table")
+    suspend fun deleteAllGenus()
 }

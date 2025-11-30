@@ -2,8 +2,10 @@ package com.example.myplants.ui.screens.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myplants.core.data.local.entity.Genus
 import com.example.myplants.core.data.local.entity.PlantWithPhotos
 import com.example.myplants.data.main_facade.MainFacadeInterface
+import com.example.myplants.domain.usecase.initialization.PlantDataInitializer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
@@ -19,40 +21,40 @@ class MainScreenStateHolder @Inject constructor(
     val uiState: StateFlow<MainScreenState> = _uiState.asStateFlow()
 
     init {
+        initializeTestDb()
         loadData()
+    }
+
+    private fun initializeTestDb () {
+        viewModelScope.launch {
+            PlantDataInitializer.initialize(facade)
+        }
     }
 
     @OptIn(FlowPreview::class)
     private fun loadData() {
         viewModelScope.launch {
-            // Оптимизация: используем distinctUntilChanged и debounce для уменьшения обновлений
             combine(
-                facade.getAllPlantsWithPhotos()
-                    .distinctUntilChanged()
-                    .debounce(50),
+                facade.getAllPlantsWithPhotos(),
                 facade.getAllGenus()
                     .map { genuses -> genuses.associateBy { it.main.genus } }
-                    .distinctUntilChanged()
-                    .debounce(50)
             ) { plants, genusMap ->
-                // Оптимизация: обновляем только если данные действительно изменились
                 val currentState = _uiState.value
-                if (currentState.plants != plants || currentState.genusMap != genusMap) {
-                    _uiState.update { it.copy(
-                        plants = plants,
-                        genusMap = genusMap,
-                        isLoading = false
-                    ) }
+                if (
+                    currentState.plants != plants ||
+                    currentState.genusMap != genusMap
+                ) {
+                    _uiState.update {
+                        it.copy(
+                            plants = plants,
+                            genusMap = genusMap,
+                            isLoading = false
+                        )
+                    }
                 }
             }.collect()
         }
     }
-
-    // Оптимизация: кэшируем вычисление groupedPlants
-    private val cachedGroupedPlants = _uiState
-        .map { it.groupedPlants }
-        .distinctUntilChanged()
-        .stateIn(viewModelScope, SharingStarted.Lazily, emptyMap())
 
     fun toggleGenusExpansion(genusId: Long) {
         _uiState.update { it.toggleGenusExpansion(genusId) }
@@ -74,5 +76,27 @@ class MainScreenStateHolder @Inject constructor(
                 !plantWithPhotos.plant.state.isWishlist
             )
         }
+    }
+}
+
+data class MainScreenState(
+    val plants: List<PlantWithPhotos> = emptyList(),
+    val genusMap: Map<String, Genus> = emptyMap(),
+    val isLoading: Boolean = true,
+    val error: String? = null,
+    val expandedGenusIds: Set<Long> = emptySet()
+) {
+    val groupedPlants: Map<String, List<PlantWithPhotos>>
+        get() = plants.groupBy { it.plant.main.genus }
+
+    fun isGenusExpanded(genusId: Long): Boolean = expandedGenusIds.contains(genusId)
+
+    fun toggleGenusExpansion(genusId: Long): MainScreenState {
+        val newExpandedIds = if (expandedGenusIds.contains(genusId)) {
+            expandedGenusIds - genusId
+        } else {
+            expandedGenusIds + genusId
+        }
+        return copy(expandedGenusIds = newExpandedIds)
     }
 }

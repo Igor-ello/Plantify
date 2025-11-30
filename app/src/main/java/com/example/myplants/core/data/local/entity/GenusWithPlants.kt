@@ -9,5 +9,5 @@ data class GenusWithPlants(
         parentColumn = "id",
         entityColumn = "genus_id"
     )
-    val plants: List<Plant>
+    val plantsWithPhotos: List<PlantWithPhotos>
 )

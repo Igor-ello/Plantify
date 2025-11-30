@@ -1,5 +1,6 @@
 package com.example.myplants.domain.usecase.initialization
 
+import com.example.myplants.core.data.local.entity.Genus
 import com.example.myplants.core.data.local.entity.Plant
 import com.example.myplants.core.data.local.entity.sections.CareInfo
 import com.example.myplants.core.data.local.entity.sections.FertilizerInfo
@@ -14,9 +15,10 @@ import kotlinx.coroutines.flow.first
 object PlantDataInitializer {
 
     suspend fun initialize(facade: MainFacadeInterface) {
-        val currentPlants = facade.getAllPlants().first()
+        val currentPlants = facade.getAllPlants()
         if (currentPlants.isEmpty()) {
             addTestPlants(facade)
+            addTestGenera(facade)
         }
     }
 
@@ -109,5 +111,25 @@ object PlantDataInitializer {
 
         facade.insertPlant(aloeVera)
         facade.insertPlant(ficus)
+    }
+
+    private suspend fun addTestGenera(facade: MainFacadeInterface) {
+        val plantsList = facade.getAllPlants()
+        val genusNames = plantsList.map { it.main.genus }.distinct()
+
+        genusNames.forEach { genusName ->
+            val newGenus = Genus(
+                main = MainInfo(
+                    genus = genusName,
+                    species = "",
+                    fullName = genusName
+                ),
+                care = CareInfo(),
+                lifecycle = LifecycleInfo(),
+                health = HealthInfo(),
+                state = StateInfo()
+            )
+            facade.insertGenus(newGenus)
+        }
     }
 }

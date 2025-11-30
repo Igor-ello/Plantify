@@ -1,18 +1,16 @@
 package com.example.myplants.ui.screens.genus
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myplants.data.genus.GenusRepositoryInterface
 import com.example.myplants.core.data.local.entity.Genus
-import com.example.myplants.core.data.local.entity.sections.CareInfo
-import com.example.myplants.core.data.local.entity.sections.HealthInfo
-import com.example.myplants.core.data.local.entity.sections.LifecycleInfo
-import com.example.myplants.core.data.local.entity.sections.MainInfo
-import com.example.myplants.core.data.local.entity.sections.StateInfo
+import com.example.myplants.data.genus.GenusRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,16 +22,17 @@ class GenusDetailViewModel @Inject constructor(
 
     private val genusId: Long = savedStateHandle.get<Long>("genusId") ?: 0L
 
-    val genusLiveData: LiveData<Genus> = genusRepository.getGenusByIdLive(genusId)
+    private val genus: Flow<Genus?> = genusRepository.getGenusByIdLive(genusId)
 
-    private val _editedGenus = MutableLiveData<Genus>()
-    val editedGenus: LiveData<Genus> get() = _editedGenus
+    private val _editedGenus = MutableStateFlow<Genus?>(null)
+    val editedGenus: StateFlow<Genus?> = _editedGenus.asStateFlow()
 
     init {
-        // Сразу синхронизируемся с LiveData репозитория
-        genusLiveData.observeForever { genus ->
-            genus?.let {
-                _editedGenus.value = it.copy()
+        viewModelScope.launch {
+            genus.collect { genus ->
+                genus?.let {
+                    _editedGenus.value = it.copy()
+                }
             }
         }
     }
@@ -50,8 +49,12 @@ class GenusDetailViewModel @Inject constructor(
     }
 
     fun resetChanges() {
-        genusLiveData.value?.let {
-            _editedGenus.value = it.copy()
+        viewModelScope.launch {
+            genus.collect { genus ->
+                genus?.let {
+                    _editedGenus.value = it.copy()
+                }
+            }
         }
     }
 

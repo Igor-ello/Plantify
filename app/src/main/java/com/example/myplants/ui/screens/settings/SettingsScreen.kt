@@ -22,8 +22,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -46,17 +46,24 @@ import java.io.File
 @Composable
 fun SettingsScreen() {
     val viewModel: SettingsViewModel = hiltViewModel()
+    SettingsView(viewModel)
+}
+
+@Composable
+fun SettingsView(
+    viewModel: SettingsViewModel
+) {
     SetupTopBar()
 
-    val backups by viewModel.backups.observeAsState(emptyList())
+    val backups by viewModel.backups.collectAsState(emptyList())
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
     var showCreateConfirm by remember { mutableStateOf(false) }
-    var selectedFile by remember { mutableStateOf<File?>(null) }
     var showRestoreConfirm by remember { mutableStateOf(false) }
-    var restoreReplaceMode by remember { mutableStateOf(true) }
     var showJsonPreview by remember { mutableStateOf(false) }
+    var restoreReplaceMode by remember { mutableStateOf(true) }
+    var selectedFile by remember { mutableStateOf<File?>(null) }
 
     // Лаунчер выбора файла из внутреннего хранилища
     val importLauncher = rememberLauncherForActivityResult(

@@ -1,13 +1,12 @@
 package com.example.myplants.data.main_facade
 
-import androidx.lifecycle.LiveData
-import com.example.myplants.data.genus.GenusRepositoryInterface
-import com.example.myplants.data.plant.PlantRepositoryInterface
-import com.example.myplants.data.state.PlantStateRepositoryInterface
-import com.example.myplants.data.plant_with_photos.PlantWithPhotosRepositoryInterface
 import com.example.myplants.core.data.local.entity.Genus
 import com.example.myplants.core.data.local.entity.Plant
 import com.example.myplants.core.data.local.entity.PlantWithPhotos
+import com.example.myplants.data.genus.GenusRepositoryInterface
+import com.example.myplants.data.plant.PlantRepositoryInterface
+import com.example.myplants.data.plant_with_photos.PlantWithPhotosRepositoryInterface
+import com.example.myplants.data.state.PlantStateRepositoryInterface
 import kotlinx.coroutines.flow.Flow
 
 class MainFacade (
@@ -25,7 +24,7 @@ class MainFacade (
     override suspend fun insertPlant(plant: Plant) =
         plantRepository.insertPlant(plant)
 
-    override fun getAllPlants() =
+    override suspend fun getAllPlants() =
         plantRepository.getAllPlants()
 
     // State
@@ -47,26 +46,26 @@ class MainFacade (
     override fun getAllPlantsWithPhotos(): Flow<List<PlantWithPhotos>> =
         plantWithPhotosRepository.getAllPlantsWithPhotos()
 
-    override fun getPlantWithPhotosById(plantId: Long): LiveData<PlantWithPhotos?> =
+    override fun getPlantWithPhotosById(plantId: Long): Flow<PlantWithPhotos?> =
         plantWithPhotosRepository.getPlantWithPhotosById(plantId)
 
     // Genus
 
-    override fun getAllGenus(): Flow<List<Genus>> =
-        genusRepository.getAllGenus()
-
-    override suspend fun getGenusById(genusId: Long): Genus =
-        genusRepository.getGenusById(genusId)
-
-    override suspend fun insertGenus(genus: Genus) =
+    override suspend fun insertGenus(genus: Genus): Long =
         genusRepository.insertGenus(genus)
 
-    override fun getGenusByIdLive(genusId: Long) =
+    override suspend fun getGenusById(genusId: Long): Genus? =
+        genusRepository.getGenusById(genusId)
+
+    override fun getGenusByIdLive(genusId: Long): Flow<Genus?> =
         genusRepository.getGenusByIdLive(genusId)
 
-    override fun getGenusByNameLive(genusName: String) =
+    override suspend fun getGenusByName(genusName: String): Genus? =
+        genusRepository.getGenusByName(genusName)
+
+    override fun getGenusByNameLive(genusName: String): Flow<Genus?> =
         genusRepository.getGenusByNameLive(genusName)
 
-    override suspend fun getGenusByName(genusName: String): Genus =
-        genusRepository.getGenusByName(genusName)
+    override fun getAllGenus(): Flow<List<Genus>> =
+        genusRepository.getAllGenusLive()
 }

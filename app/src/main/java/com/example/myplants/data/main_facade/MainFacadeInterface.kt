@@ -1,6 +1,5 @@
 package com.example.myplants.data.main_facade
 
-import androidx.lifecycle.LiveData
 import com.example.myplants.core.data.local.entity.Genus
 import com.example.myplants.core.data.local.entity.Plant
 import com.example.myplants.core.data.local.entity.PlantWithPhotos
@@ -14,7 +13,7 @@ interface MainFacadeInterface {
 
     suspend fun insertPlant(plant: Plant): Long
 
-    fun getAllPlants(): Flow<List<Plant>>
+    suspend fun getAllPlants(): List<Plant>
 
     // State
 
@@ -30,19 +29,19 @@ interface MainFacadeInterface {
 
     fun getAllPlantsWithPhotos(): Flow<List<PlantWithPhotos>>
 
-    fun getPlantWithPhotosById(plantId: Long): LiveData<PlantWithPhotos?>
+    fun getPlantWithPhotosById(plantId: Long): Flow<PlantWithPhotos?>
 
     // Genus
 
-    fun getAllGenus(): Flow<List<Genus>>
-
-    suspend fun getGenusById(genusId: Long): Genus
-
     suspend fun insertGenus(genus: Genus): Long
 
-    fun getGenusByIdLive(genusId: Long): LiveData<Genus>
+    suspend fun getGenusById(genusId: Long): Genus?
 
-    suspend fun getGenusByName(genusName: String): Genus
+    fun getGenusByIdLive(genusId: Long): Flow<Genus?>
 
-    fun getGenusByNameLive(genusName: String): LiveData<Genus>
+    suspend fun getGenusByName(genusName: String): Genus?
+
+    fun getGenusByNameLive(genusName: String): Flow<Genus?>
+
+    fun getAllGenus(): Flow<List<Genus>>
 }

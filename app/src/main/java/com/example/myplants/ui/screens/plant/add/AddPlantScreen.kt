@@ -11,15 +11,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.myplants.R
 import com.example.myplants.core.data.local.entity.Plant
 import com.example.myplants.core.data.local.entity.PlantWithPhotos
-import com.example.myplants.core.data.local.entity.sections.MainInfo
 import com.example.myplants.ui.componets.base.AppButton
 import com.example.myplants.ui.componets.cards.plants.PlantCardFull
 import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
@@ -34,8 +33,8 @@ fun AddPlantScreen(
     val viewModel: AddPlantViewModel = hiltViewModel()
     SetupTopBar()
 
-    val newPlant by viewModel.newPlant.observeAsState(Plant(main = MainInfo(genus = "", species = "")))
-    val newPhotos by viewModel.newPlantPhotos.observeAsState(emptyList())
+    val newPlant by viewModel.newPlant.collectAsStateWithLifecycle()
+    val newPhotos by viewModel.newPlantPhotos.collectAsStateWithLifecycle()
     val newPlantWithPhotos = PlantWithPhotos(plant = newPlant, photos = newPhotos)
 
     Box(modifier = modifier.fillMaxSize()) {

@@ -21,14 +21,14 @@ import kotlinx.serialization.Serializable
             entity = Genus::class,
             parentColumns = ["id"],
             childColumns = ["genus_id"],
-            onDelete = ForeignKey.SET_NULL
+            onDelete = ForeignKey.CASCADE
         )
     ],
     indices = [Index("genus_id")]
 )
 data class Plant(
     @PrimaryKey(autoGenerate = true)
-    override var id: Long = 0,
+    override var id: Long = 0L,
 
     @ColumnInfo(name = "genus_id")
     var genusId: Long? = null,

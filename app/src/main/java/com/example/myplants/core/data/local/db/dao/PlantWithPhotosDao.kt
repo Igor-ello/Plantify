@@ -1,6 +1,5 @@
 package com.example.myplants.core.data.local.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
@@ -16,5 +15,5 @@ interface PlantWithPhotosDao {
 
     @Transaction
     @Query("SELECT * FROM plant_table WHERE id = :plantId")
-    fun getPlantWithPhotosById(plantId: Long): LiveData<PlantWithPhotos?>
+    fun getPlantWithPhotosById(plantId: Long): Flow<PlantWithPhotos?>
 }

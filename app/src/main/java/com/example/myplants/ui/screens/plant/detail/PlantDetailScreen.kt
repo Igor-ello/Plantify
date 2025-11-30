@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -30,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.myplants.R
 import com.example.myplants.core.data.local.entity.Plant
@@ -50,9 +50,9 @@ fun PlantDetailScreen(
     val viewModel: PlantDetailViewModel = hiltViewModel()
     val topBarState: TopBarStateViewModel = hiltViewModel()
 
-    val plantWithPhotos by viewModel.plantWithPhotos.observeAsState()
-    val editedPlant by viewModel.editedPlant.observeAsState()
-    val editedPhotos by viewModel.editedPhotos.observeAsState(emptyList())
+    val plantWithPhotos by viewModel.plantWithPhotos.collectAsStateWithLifecycle(initialValue = null)
+    val editedPlant by viewModel.editedPlant.collectAsStateWithLifecycle()
+    val editedPhotos by viewModel.editedPhotos.collectAsStateWithLifecycle()
 
     if (plantWithPhotos == null || editedPlant == null) {
         Text("Plant not found", modifier = modifier.padding(16.dp))

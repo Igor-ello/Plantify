@@ -1,6 +1,5 @@
 package com.example.myplants.core.data.local.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -21,13 +20,16 @@ interface PlantDao {
     suspend fun updatePlant(plant: Plant)
 
     @Query("SELECT * FROM plant_table WHERE id = :plantId")
-    fun getPlantById(plantId: Long): LiveData<Plant>
+    suspend fun getPlantById(plantId: Long): Plant?
+
+    @Query("SELECT * FROM plant_table WHERE id = :plantId")
+    fun getPlantByIdLive(plantId: Long): Flow<Plant?>
 
     @Query("SELECT * FROM plant_table ORDER BY id DESC")
-    fun getAllPlantsLive(): LiveData<List<Plant>>
+    suspend fun getAllPlants(): List<Plant>
 
     @Query("SELECT * FROM plant_table ORDER BY id DESC")
-    fun getAllPlants(): Flow<List<Plant>>
+    fun getAllPlantsLive(): Flow<List<Plant>>
 
     @Query("DELETE FROM plant_table WHERE id = :plantId")
     suspend fun deletePlantById(plantId: Long)

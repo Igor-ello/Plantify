@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.myplants.core.domain.common.Routes
+import com.example.myplants.ui.navigation.navigators.MainScreenNavigator
 import com.example.myplants.ui.screens.genus.GenusDetailScreen
 import com.example.myplants.ui.screens.help.HelpScreen
 import com.example.myplants.ui.screens.main.MainScreen
@@ -29,13 +30,11 @@ fun AppNavHost(
     ) {
         composable(Routes.AllPlants.route) {
             MainScreen(
-                onPlantClick = { plantWithPhotos ->
-                    navController.navigate(Routes.PlantDetail.createRoute(plantWithPhotos.plant.id))
-                },
-                onAddPlant = { navController.navigate(Routes.AddPlant.route) },
-                onNavigateToGenusDetail = { genusId ->
-                    navController.navigate(Routes.GenusDetail.createRoute(genusId))
-                }
+                navigator = MainScreenNavigator(
+                    toPlantDetail = { id -> navController.navigate(Routes.PlantDetail.createRoute(id)) },
+                    toGenusDetail = { id -> navController.navigate(Routes.GenusDetail.createRoute(id)) },
+                    toAddPlant = { navController.navigate(Routes.AddPlant.route) }
+                )
             )
         }
 

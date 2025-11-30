@@ -1,7 +1,6 @@
 package com.example.myplants.data.backup
 
 import android.content.Context
-import androidx.compose.runtime.collectAsState
 import androidx.room.withTransaction
 import com.example.myplants.core.data.local.db.AppDatabase
 import com.example.myplants.data.genus.GenusRepositoryInterface
@@ -34,9 +33,9 @@ class BackupRepository(
     }
 
     override suspend fun createBackup(): File = withContext(Dispatchers.IO) {
-        val plants: List<Plant> = plantRepository.getAllPlants().first()
-        val photos: List<PlantPhoto> = photoRepository.getAllPhoto().first()
-        val genera: List<Genus> = genusRepository.getAllGenus().first()
+        val plants: List<Plant> = plantRepository.getAllPlants()
+        val photos: List<PlantPhoto> = photoRepository.getAllPhoto()
+        val genera: List<Genus> = genusRepository.getAllGenus()
         val backup = BackupData(plants = plants, photos = photos, genera = genera)
         val json = Json { prettyPrint = true }.encodeToString(backup)
         val file = generateBackupFile()

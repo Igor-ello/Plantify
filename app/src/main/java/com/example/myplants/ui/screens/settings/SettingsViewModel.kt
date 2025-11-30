@@ -1,11 +1,11 @@
 package com.example.myplants.ui.screens.settings
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myplants.data.backup.BackupRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
@@ -15,11 +15,11 @@ class SettingsViewModel @Inject constructor(
     private val backupRepository: BackupRepositoryInterface
 ) : ViewModel() {
 
-    private val _backups = MutableLiveData<List<File>>(emptyList())
-    val backups: LiveData<List<File>> get() = _backups
+    private val _backups = MutableStateFlow<List<File>>(emptyList())
+    val backups: StateFlow<List<File>> get() = _backups
 
-    private val _message = MutableLiveData<String?>(null)
-    val message: LiveData<String?> get() = _message
+    private val _message = MutableStateFlow<String?>(null)
+    val message: StateFlow<String?> get() = _message
 
     init {
         refreshBackups()

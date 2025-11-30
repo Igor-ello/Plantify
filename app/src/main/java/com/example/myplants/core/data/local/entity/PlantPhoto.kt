@@ -15,7 +15,7 @@ import kotlinx.serialization.Serializable
             entity = Plant::class,
             parentColumns = ["id"],
             childColumns = ["plant_id"],
-            onDelete = ForeignKey.SET_NULL
+            onDelete = ForeignKey.CASCADE
         )
     ],
     indices = [Index("plant_id")]
