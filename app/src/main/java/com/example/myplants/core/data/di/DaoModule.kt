@@ -2,6 +2,7 @@ package com.example.myplants.core.data.di
 
 import com.example.myplants.core.data.local.db.AppDatabase
 import com.example.myplants.core.data.local.db.dao.GenusDao
+import com.example.myplants.core.data.local.db.dao.GenusWithPlantsDao
 import com.example.myplants.core.data.local.db.dao.PlantDao
 import com.example.myplants.core.data.local.db.dao.PlantPhotoDao
 import com.example.myplants.core.data.local.db.dao.PlantStateDao
@@ -45,4 +46,10 @@ object DaoModule {
     fun providePlantWithPhotosDao(
         database: AppDatabase
     ): PlantWithPhotosDao = database.plantWithPhotosDao
+
+    @Provides
+    @Singleton
+    fun provideGenusWithPlantsDao(
+        database: AppDatabase
+    ): GenusWithPlantsDao = database.genusWithPlantsDao
 }

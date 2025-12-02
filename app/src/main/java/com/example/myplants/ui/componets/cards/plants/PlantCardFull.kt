@@ -112,10 +112,12 @@ fun PlantCardFull(
 fun PlantCardFullPreview() {
     val samplePlant1 = Plant(
         id = 1L,
+        genusId = 1L,
         main = MainInfo(genus = "Монстера", species = "Monstera deliciosa")
     )
     val samplePlant2 = Plant(
         id = 2L,
+        genusId = 2L,
         main = MainInfo(genus = "Фикус", species = "Ficus lyrata")
     )
 

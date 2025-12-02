@@ -103,7 +103,6 @@ class PlantDetailViewModel @Inject constructor(
     fun deletePlant(onDeleted: () -> Unit) {
         val plant = _editedPlant.value ?: return
         viewModelScope.launch {
-            photoRepository.deletePhotosByPlantId(plant.id)
             plantRepository.deletePlantById(plant.id)
             onDeleted()
         }

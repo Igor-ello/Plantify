@@ -54,7 +54,7 @@ fun AddPlantScreen(
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 AppButton(
                     onClick = {
-                        viewModel.clearNewPlant()
+//                        viewModel.clearNewPlant()
                         onCancel()
                     },
                     text = stringResource(R.string.button_cancel)

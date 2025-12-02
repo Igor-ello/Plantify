@@ -2,6 +2,7 @@ package com.example.myplants.core.data.di
 
 import android.content.Context
 import com.example.myplants.core.data.local.db.dao.GenusDao
+import com.example.myplants.core.data.local.db.dao.GenusWithPlantsDao
 import com.example.myplants.core.data.local.db.dao.PlantDao
 import com.example.myplants.core.data.local.db.dao.PlantPhotoDao
 import com.example.myplants.core.data.local.db.dao.PlantStateDao
@@ -12,6 +13,8 @@ import com.example.myplants.data.backup.BackupRepository
 import com.example.myplants.data.backup.BackupRepositoryInterface
 import com.example.myplants.data.genus.GenusRepository
 import com.example.myplants.data.genus.GenusRepositoryInterface
+import com.example.myplants.data.genus_with_plants.GenusWithPlantsRepository
+import com.example.myplants.data.genus_with_plants.GenusWithPlantsRepositoryInterface
 import com.example.myplants.data.photo.PhotoRepository
 import com.example.myplants.data.photo.PhotoRepositoryInterface
 import com.example.myplants.data.plant.PlantRepository
@@ -71,6 +74,13 @@ object RepositoryModule {
         plantWithPhotosDao: PlantWithPhotosDao
     ): PlantWithPhotosRepositoryInterface =
         PlantWithPhotosRepository(plantWithPhotosDao)
+
+    @Provides
+    @Singleton
+    fun provideGenusWithPlantsRepository(
+        genusWithPlantsDao: GenusWithPlantsDao
+    ): GenusWithPlantsRepositoryInterface =
+        GenusWithPlantsRepository(genusWithPlantsDao)
 
     @Provides
     @Singleton

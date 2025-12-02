@@ -48,5 +48,7 @@ interface MainFacadeInterface {
 
     fun getGenusByNameLive(genusName: String): Flow<Genus?>
 
-    fun getAllGenus(): Flow<List<Genus>>
+    suspend fun getAllGenus(): List<Genus>
+
+    fun getAllGenusLive(): Flow<List<Genus>>
 }

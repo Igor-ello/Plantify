@@ -10,20 +10,19 @@ import com.example.myplants.core.data.local.entity.sections.MainInfo
 import com.example.myplants.core.data.local.entity.sections.StateInfo
 import com.example.myplants.core.data.local.entity.sections.WateringInfo
 import com.example.myplants.data.main_facade.MainFacadeInterface
-import kotlinx.coroutines.flow.first
 
 object PlantDataInitializer {
 
     suspend fun initialize(facade: MainFacadeInterface) {
-        val currentPlants = facade.getAllPlants()
-        if (currentPlants.isEmpty()) {
+        val currentGenus = facade.getAllGenus()
+        if (currentGenus.isEmpty()) {
             addTestPlants(facade)
-            addTestGenera(facade)
         }
     }
 
     private suspend fun addTestPlants(facade: MainFacadeInterface) {
         val aloeVera = Plant(
+            genusId = createGenus(facade, "Aloe"),
             main = MainInfo(
                 genus = "Aloe",
                 species = "Aloe Vera",
@@ -67,10 +66,11 @@ object PlantDataInitializer {
         )
 
         val ficus = Plant(
+            genusId = createGenus(facade, "Ficus"),
             main = MainInfo(
-                genus = "Фикус",
-                species = "Фикус Бенджамина",
-                fullName = "Фикус Бенджамина Variegata"
+                genus = "Ficus",
+                species = "Ficus Benjamin",
+                fullName = "Ficus Benjamin Variegate"
             ),
             care = CareInfo(
                 lighting = "Рассеянный яркий свет",
@@ -113,23 +113,18 @@ object PlantDataInitializer {
         facade.insertPlant(ficus)
     }
 
-    private suspend fun addTestGenera(facade: MainFacadeInterface) {
-        val plantsList = facade.getAllPlants()
-        val genusNames = plantsList.map { it.main.genus }.distinct()
-
-        genusNames.forEach { genusName ->
-            val newGenus = Genus(
-                main = MainInfo(
-                    genus = genusName,
-                    species = "",
-                    fullName = genusName
-                ),
-                care = CareInfo(),
-                lifecycle = LifecycleInfo(),
-                health = HealthInfo(),
-                state = StateInfo()
-            )
-            facade.insertGenus(newGenus)
-        }
+    private suspend fun createGenus(facade: MainFacadeInterface, genusName: String): Long {
+        val newGenus = Genus(
+            main = MainInfo(
+                genus = genusName,
+                species = "",
+                fullName = genusName
+            ),
+            care = CareInfo(),
+            lifecycle = LifecycleInfo(),
+            health = HealthInfo(),
+            state = StateInfo()
+        )
+        return facade.insertGenus(newGenus)
     }
 }

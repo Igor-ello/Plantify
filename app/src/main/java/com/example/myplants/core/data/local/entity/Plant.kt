@@ -31,7 +31,7 @@ data class Plant(
     override var id: Long = 0L,
 
     @ColumnInfo(name = "genus_id")
-    var genusId: Long? = null,
+    var genusId: Long,
 
     @Embedded(prefix = "main_")
     override var main: MainInfo,

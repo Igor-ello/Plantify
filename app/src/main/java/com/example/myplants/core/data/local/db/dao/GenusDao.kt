@@ -32,7 +32,7 @@ interface GenusDao {
     fun getGenusByNameLive(genusName: String): Flow<Genus?>
 
     @Query("SELECT * FROM genus_table ORDER BY id DESC")
-    fun getAllGenus(): List<Genus>
+    suspend fun getAllGenus(): List<Genus>
 
     @Query("SELECT * FROM genus_table ORDER BY id DESC")
     fun getAllGenusLive(): Flow<List<Genus>>

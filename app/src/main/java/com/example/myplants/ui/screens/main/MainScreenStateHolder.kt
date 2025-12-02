@@ -36,7 +36,7 @@ class MainScreenStateHolder @Inject constructor(
         viewModelScope.launch {
             combine(
                 facade.getAllPlantsWithPhotos(),
-                facade.getAllGenus()
+                facade.getAllGenusLive()
                     .map { genuses -> genuses.associateBy { it.main.genus } }
             ) { plants, genusMap ->
                 val currentState = _uiState.value

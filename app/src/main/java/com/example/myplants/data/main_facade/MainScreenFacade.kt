@@ -74,6 +74,9 @@ class MainFacade (
     override fun getGenusByNameLive(genusName: String): Flow<Genus?> =
         genusRepository.getGenusByNameLive(genusName)
 
-    override fun getAllGenus(): Flow<List<Genus>> =
+    override suspend fun getAllGenus(): List<Genus> =
+        genusRepository.getAllGenus()
+
+    override fun getAllGenusLive(): Flow<List<Genus>> =
         genusRepository.getAllGenusLive()
 }

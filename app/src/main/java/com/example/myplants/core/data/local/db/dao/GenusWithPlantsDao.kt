@@ -10,11 +10,11 @@ import kotlinx.coroutines.flow.Flow
 interface GenusWithPlantsDao {
 
     @Transaction
-    @Query("SELECT * FROM genus_table")
-    fun getAllPlantsByGenera(): Flow<List<GenusWithPlants>>
+    @Query("SELECT * FROM genus_table ORDER BY id DESC")
+    fun getAllGenusWithPlants(): Flow<List<GenusWithPlants>>
 
     @Transaction
-    @Query("SELECT * FROM genus_table WHERE id = :id")
-    fun getAllPlantsByGenusId(id: Long): Flow<List<GenusWithPlants>>
+    @Query("SELECT * FROM genus_table WHERE id = :genusId")
+    fun getGenusWithPlantsById(genusId: Long): Flow<List<GenusWithPlants>>
 
 }

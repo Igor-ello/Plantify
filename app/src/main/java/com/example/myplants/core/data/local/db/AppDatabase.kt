@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.myplants.core.data.local.db.dao.GenusDao
+import com.example.myplants.core.data.local.db.dao.GenusWithPlantsDao
 import com.example.myplants.core.data.local.db.dao.PlantDao
 import com.example.myplants.core.data.local.db.dao.PlantPhotoDao
 import com.example.myplants.core.data.local.db.dao.PlantStateDao
@@ -24,6 +26,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract val plantStateDao: PlantStateDao
     abstract val plantWithPhotosDao: PlantWithPhotosDao
     abstract val genusDao: GenusDao
+    abstract val genusWithPlantsDao: GenusWithPlantsDao
 
     companion object {
         @Volatile
