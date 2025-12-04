@@ -63,4 +63,7 @@
     <string name="text_cancel">Отменить</string>
     <string name="text_recovery_mode">Выберите режим восстановления для %1$s:</string>
     <string name="text_loading">Загрузка...</string>
+    <string name="state_empty_favorites_title">Нет растений в избранном</string>
+    <string name="state_empty_wishlist_title">Нет растений в пожеланиях</string>
+    <string name="state_empty_description">Для добавления, нажмите на соответствующую кнопку</string>
 </resources>

@@ -15,9 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.myplants.R
 import com.example.myplants.core.ui.theme.MyPlantsTheme
 import com.example.myplants.ui.screens.plant.state.PlantStateType
 
@@ -38,8 +40,8 @@ fun FavoritesEmptyState(
 ) {
     GenericEmptyState(
         icon = Icons.Default.Favorite,
-        title = "empty_favorites_title",
-        description = "empty_favorites_description",
+        title = stringResource(R.string.state_empty_favorites_title),
+        description = stringResource(R.string.state_empty_description),
         modifier = modifier
     )
 }
@@ -50,8 +52,8 @@ fun WishlistEmptyState(
 ) {
     GenericEmptyState(
         icon = Icons.Default.ShoppingCart,
-        title = "empty_wishlist_title",
-        description = "empty_wishlist_description",
+        title = stringResource(R.string.state_empty_wishlist_title),
+        description = stringResource(R.string.state_empty_description),
         modifier = modifier
     )
 }

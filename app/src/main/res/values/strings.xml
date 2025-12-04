@@ -8,7 +8,7 @@
     <!--  Screens  -->
     <string name="screen_all_plants">All Plants</string>
     <string name="screen_favorites">Favorites</string>
-    <string name="screen_wishlist">Wish list</string>
+    <string name="screen_wishlist">Wishlist</string>
     <string name="screen_add_plant">AddPlant</string>
     <string name="screen_plant_detail">PlantDetail</string>
     <string name="screen_settings">Settings</string>
@@ -71,4 +71,7 @@
     <string name="text_cancel">Cancel</string>
     <string name="text_recovery_mode">Select the recovery mode for %1$s:</string>
     <string name="text_loading">Loading...</string>
+    <string name="state_empty_favorites_title">No plants in favorites</string>
+    <string name="state_empty_wishlist_title">No plants in wishlist</string>
+    <string name="state_empty_description">To add it, click on the corresponding button</string>
 </resources>
