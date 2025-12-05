@@ -7,19 +7,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ClearAll
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -30,6 +24,8 @@ import com.example.myplants.core.ui.theme.OnPrimaryWhite
 import com.example.myplants.core.ui.theme.PrimaryGreen
 import com.example.myplants.ui.componets.base.TitleLarge
 import com.example.myplants.ui.componets.base.TitleMedium
+import com.example.myplants.ui.componets.icons.AppIcon
+import com.example.myplants.ui.componets.icons.AppIcons
 import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,23 +41,23 @@ fun NavigationDrawerContent(
     val drawerItems = listOf(
         DrawerItemData(
             R.string.screen_all_plants, Routes.AllPlants.route,
-            icon = { Icon(Icons.Default.ClearAll, contentDescription = "Plants") }
+            icon = { AppIcon(icon = AppIcons.AllPlantsNav) }
         ),
         DrawerItemData(
             R.string.screen_favorites, Routes.Favorites.route,
-            icon = { Icon(painter = painterResource(R.drawable.favourite_unactive), contentDescription = "Favourites") }
+            icon = { AppIcon(icon = AppIcons.FavouriteNav) }
         ),
         DrawerItemData(
             R.string.screen_wishlist, Routes.Wishlist.route,
-            icon = { Icon(painter = painterResource(R.drawable.wishlist_unactive), contentDescription = "Wishlist") }
+            icon = { AppIcon(icon = AppIcons.WishlistNav) }
         ),
         DrawerItemData(
             R.string.screen_settings, Routes.Settings.route,
-            icon = { Icon(Icons.Default.Settings, contentDescription = "Settings") }
+            icon = { AppIcon(icon = AppIcons.SettingsNav) }
         ),
         DrawerItemData(
             R.string.screen_help_feedback, Routes.Help.route,
-            icon = { Icon(Icons.Default.Info, contentDescription = "Help") }
+            icon = { AppIcon(icon = AppIcons.InfoNav) }
         )
     )
 

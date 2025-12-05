@@ -17,9 +17,9 @@ import kotlinx.coroutines.launch
 
 
 data class DrawerItemData(
-    @StringRes val labelRes: Int,
+    @param:StringRes val labelRes: Int,
     val route: String,
-    val icon: (@Composable (() -> Unit))? = null
+    val icon: (@Composable () -> Unit)? = null
 )
 
 @Composable
@@ -30,11 +30,10 @@ fun DrawerItem(
     drawerState: DrawerState,
     scope: CoroutineScope
 ) {
-    val selected = currentRoute.equals(item.route)
     NavigationDrawerItem(
         label = { BodyLarge(text = stringResource(item.labelRes), color = OnPrimaryWhite) },
         icon = item.icon,
-        selected = selected,
+        selected = currentRoute.equals(item.route),
         onClick = {
             scope.launch { drawerState.close() }
             navController.navigateSingleTop(item.route, Routes.AllPlants.route)

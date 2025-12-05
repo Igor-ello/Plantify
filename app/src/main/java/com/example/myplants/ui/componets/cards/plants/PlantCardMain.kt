@@ -135,7 +135,7 @@ private fun PlantCardImage(mainPhotoUri: String?) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp) // Уменьшаем высоту для производительности
+            .height(175.dp)
             .clip(RoundedCornerShape(8.dp))
     ) {
         if (mainPhotoUri != null) {
