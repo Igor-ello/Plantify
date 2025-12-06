@@ -120,7 +120,7 @@ fun PlantListContent(
                     PlantCardEventHandler(
                         onClick = onPlantClick,
                         onToggleFavorite = onToggleFavorite,
-                        onToggleWishlist = onToggleWishlist
+                        onToggleWishlist = onToggleWishlist,
                     )
                 }
 

@@ -33,9 +33,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.myplants.R
 import com.example.myplants.core.data.local.entity.Plant
+import com.example.myplants.core.data.local.entity.sections.MainInfo
 import com.example.myplants.core.data.local.relation.PlantWithPhotos
 import com.example.myplants.ui.componets.base.AppButton
 import com.example.myplants.ui.componets.cards.common.CardDeleteButton
+import com.example.myplants.ui.componets.cards.plants.PlantCardEventHandler
 import com.example.myplants.ui.componets.cards.plants.PlantCardFull
 import com.example.myplants.ui.componets.topbar.TopBarAction
 import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
@@ -50,11 +52,10 @@ fun PlantDetailScreen(
     val viewModel: PlantDetailViewModel = hiltViewModel()
     val topBarState: TopBarStateViewModel = hiltViewModel()
 
-    val plantWithPhotos by viewModel.plantWithPhotos.collectAsStateWithLifecycle(initialValue = null)
     val editedPlant by viewModel.editedPlant.collectAsStateWithLifecycle()
     val editedPhotos by viewModel.editedPhotos.collectAsStateWithLifecycle()
 
-    if (plantWithPhotos == null || editedPlant == null) {
+    if (editedPlant == null) {
         Text("Plant not found", modifier = modifier.padding(16.dp))
         return
     }
@@ -111,11 +112,29 @@ fun PlantDetailScreen(
             .padding(16.dp)
     ) {
         Column {
+            val events = PlantCardEventHandler(
+                onValueChange = { updatedPlant ->
+                    viewModel.updateEditedPlantFields(updatedPlant as Plant)
+                },
+                onPhotosChanged = { updatedPhotos ->
+                    viewModel.updateEditedPlantPhotos(updatedPhotos)
+                },
+                onAddPhoto = { bitmap ->
+                    viewModel.addImageFromBitmap(bitmap)
+                },
+                onReplacePhoto = { index, bitmap ->
+                    viewModel.replaceImageAt(index, bitmap)
+                },
+                onDeletePhoto = { index ->
+                    viewModel.removeImageAt(index)
+                }
+            )
+            val plant = editedPlant ?: Plant(id = 0L, genusId = 0L, main = MainInfo(species = "", genus = ""))
+            val photos = editedPhotos.filterNotNull()
             PlantCardFull(
-                plantWithPhotos = PlantWithPhotos(plant = editedPlant!!, photos = editedPhotos),
+                plantWithPhotos = PlantWithPhotos(plant = plant, photos = photos),
                 editable = isEditing,
-                onValueChange = { updatedPlant -> viewModel.updateEditedPlant(updatedPlant as Plant) },
-                onPhotosChanged = { updatedPhotos -> viewModel.updateEditedPhotos(updatedPhotos) }
+                eventHandler = events
             )
 
             if (isEditing) {
@@ -128,7 +147,7 @@ fun PlantDetailScreen(
                         onClick = {
                             viewModel.resetChanges()
                             isEditing = false
-                            topBarState.setTitle(plantWithPhotos!!.plant.main.species.ifBlank { "Plant" })
+                            topBarState.setTitle(editedPlant!!.main.species.ifBlank { "Plant" })
                         },
                         text = stringResource(R.string.button_cancel)
                     )

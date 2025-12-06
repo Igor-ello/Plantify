@@ -221,8 +221,13 @@ fun SettingsView(
             title = { Text(stringResource(R.string.text_show_json)) },
             text = {
                 val jsonText = remember(selectedFile) {
-                    if (selectedFile!!.exists()) selectedFile!!.readText()
-                    else context.getString(R.string.text_file_is_empty)
+                    if (selectedFile!!.exists()) {
+                        val rawText = selectedFile!!.readText()
+                        rawText.replace(
+                            Regex(""""imageData"\s*:\s*\[.*?]""", RegexOption.DOT_MATCHES_ALL),
+                            """"imageData": "<hidden>""""
+                        )
+                    } else context.getString(R.string.text_file_is_empty)
                 }
                 Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                     Text(jsonText, style = MaterialTheme.typography.bodySmall)

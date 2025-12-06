@@ -1,5 +1,6 @@
 package com.example.myplants.ui.componets.cards.plants
 
+import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -25,7 +26,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -73,7 +76,10 @@ fun PlantCardMain(
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         // Photo section - фиксированная высота
-                        PlantCardImage(state.mainPhotoUri)
+                        PlantCardImage(
+//                            state.mainPhotoUri,
+                            imageData = state.plantWithPhotos.photos.firstOrNull()?.imageData
+                        )
 
                         // Actions row
                         PlantCardActions(
@@ -82,7 +88,9 @@ fun PlantCardMain(
                         )
 
                         // Basic content
-                        CardBasicContent(state.plant, state.editable, eventHandler.onValueChange)
+                        CardBasicContent(state.plant, state.editable,
+                            eventHandler.onValueChange
+                        )
                     }
                 }
             }
@@ -131,25 +139,39 @@ private fun PlantCardActions(
 }
 
 @Composable
-private fun PlantCardImage(mainPhotoUri: String?) {
+private fun PlantCardImage(imageData: ByteArray?) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(175.dp)
             .clip(RoundedCornerShape(8.dp))
     ) {
-        if (mainPhotoUri != null) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(mainPhotoUri)
-                    .size(Size(300, 150))
-                    .build(),
+        if (imageData != null) {
+            val bitmap = remember(imageData) {
+                BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
+            }
+            val image = bitmap.asImageBitmap()
+
+            // 1 Размытый фон
+            Image(
+                bitmap = image,
                 contentDescription = null,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop,
-                placeholder = painterResource(id = R.drawable.placeholder),
-                error = painterResource(id = R.drawable.placeholder)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .blur(25.dp),
+                contentScale = ContentScale.Crop
             )
+
+            // Основное изображение (без растягивания)
+            Image(
+                bitmap = image,
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(0.dp),
+                contentScale = ContentScale.Fit // Сохраняем пропорции
+            )
+
         } else {
             Image(
                 painter = painterResource(id = R.drawable.placeholder),
@@ -182,7 +204,7 @@ private fun PlantCardMainPreview() {
         val eventHandler = PlantCardEventHandler(
             onClick = { /* preview */ },
             onToggleFavorite = { /* preview */ },
-            onToggleWishlist = { /* preview */ }
+            onToggleWishlist = { /* preview */ },
         )
 
         PlantCardMain(

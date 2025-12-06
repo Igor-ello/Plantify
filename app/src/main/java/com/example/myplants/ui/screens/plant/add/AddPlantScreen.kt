@@ -20,14 +20,14 @@ import com.example.myplants.R
 import com.example.myplants.core.data.local.entity.Plant
 import com.example.myplants.core.data.local.relation.PlantWithPhotos
 import com.example.myplants.ui.componets.base.AppButton
+import com.example.myplants.ui.componets.cards.plants.PlantCardEventHandler
 import com.example.myplants.ui.componets.cards.plants.PlantCardFull
 import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
 
 
 @Composable
 fun AddPlantScreen(
-    onSave: () -> Unit,
-    onCancel: () -> Unit,
+    onClose: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val viewModel: AddPlantViewModel = hiltViewModel()
@@ -39,29 +39,43 @@ fun AddPlantScreen(
 
     Box(modifier = modifier.fillMaxSize()) {
         Column(
+            // TODO page Modifier
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            val events = PlantCardEventHandler(
+                onValueChange = { updatedPlant ->
+                    viewModel.updateNewPlantFields(updatedPlant as Plant)
+                },
+                onPhotosChanged = { updatedPhotos ->
+                    viewModel.updateNewPlantPhotos(updatedPhotos)
+                },
+                onAddPhoto = { bitmap ->
+                    viewModel.addImageFromBitmap(bitmap)
+                },
+                onReplacePhoto = { index, bitmap ->
+                    viewModel.replaceImageAt(index, bitmap)
+                },
+                onDeletePhoto = { index ->
+                    viewModel.removeImageAt(index)
+                }
+            )
             PlantCardFull(
                 plantWithPhotos = newPlantWithPhotos,
                 editable = true,
-                onValueChange = { updatedPlant -> viewModel.updateNewPlant(updatedPlant as Plant) },
-                onPhotosChanged = { updatedPhotos -> viewModel.updateNewPlantPhotos(updatedPhotos) }
+                eventHandler = events
             )
 
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 AppButton(
-                    onClick = {
-//                        viewModel.clearNewPlant()
-                        onCancel()
-                    },
+                    onClick = { onClose() },
                     text = stringResource(R.string.button_cancel)
                 )
 
                 AppButton(
-                    onClick = { viewModel.saveNewPlant(onSave) },
+                    onClick = { viewModel.saveNewPlant(onClose) },
                     enabled = newPlant.main.genus.isNotBlank() && newPlant.main.species.isNotBlank(),
                     text = stringResource(R.string.button_save)
                 )

@@ -49,8 +49,7 @@ fun AppNavHost(
 
         composable(Routes.AddPlant.route) {
             AddPlantScreen(
-                onSave = { navController.popBackStack() },
-                onCancel = { navController.popBackStack() }
+                onClose = { navController.popBackStack() }
             )
         }
 

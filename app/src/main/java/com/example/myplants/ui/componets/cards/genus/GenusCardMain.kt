@@ -135,7 +135,7 @@ private fun PlantCardItem(
         PlantCardEventHandler(
             onClick = { eventHandler.onPlantClick(plantWithPhotos.plant.id) },
             onToggleFavorite = { eventHandler.onToggleFavorite(plantWithPhotos) },
-            onToggleWishlist = { eventHandler.onToggleWishlist(plantWithPhotos) }
+            onToggleWishlist = { eventHandler.onToggleWishlist(plantWithPhotos) },
         )
     }
 
