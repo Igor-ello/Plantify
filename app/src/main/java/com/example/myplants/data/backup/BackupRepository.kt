@@ -55,12 +55,12 @@ class BackupRepository(
         val json = file.readText()
         val backup: BackupData = Json.decodeFromString(json)
         AppDatabase.getInstance(context).withTransaction {
-            plantRepository.deleteAllPlants()
             photoRepository.deleteAllPhoto()
+            plantRepository.deleteAllPlants()
             genusRepository.deleteAllGenus()
+            if (backup.genera.isNotEmpty()) genusRepository.insertGenera(backup.genera)
             if (backup.plants.isNotEmpty()) plantRepository.insertPlants(backup.plants)
             if (backup.photos.isNotEmpty()) photoRepository.insertPhotos(backup.photos)
-            if (backup.genera.isNotEmpty()) genusRepository.insertGenera(backup.genera)
         }
     }
 
@@ -68,8 +68,8 @@ class BackupRepository(
         if (!file.exists()) return@withContext
         val json = file.readText()
         val backup: BackupData = Json.decodeFromString(json)
+        if (backup.photos.isNotEmpty()) genusRepository.insertGenera(backup.genera)
         if (backup.plants.isNotEmpty()) plantRepository.insertPlants(backup.plants)
         if (backup.photos.isNotEmpty()) photoRepository.insertPhotos(backup.photos)
-        if (backup.photos.isNotEmpty()) genusRepository.insertGenera(backup.genera)
     }
 }
