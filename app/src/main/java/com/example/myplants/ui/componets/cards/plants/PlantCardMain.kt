@@ -1,51 +1,38 @@
 package com.example.myplants.ui.componets.cards.plants
 
-import android.graphics.BitmapFactory
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import coil.size.Size
-import com.example.myplants.R
-import com.example.myplants.core.data.local.entity.Plant
 import com.example.myplants.core.data.local.relation.PlantWithPhotos
-import com.example.myplants.core.data.local.entity.sections.MainInfo
+import com.example.myplants.core.ui.theme.CardColors
+import com.example.myplants.core.ui.theme.MyPlantsTheme
+import com.example.myplants.domain.usecase.initialization.DataInitializer
 import com.example.myplants.ui.componets.cards.common.CardBasicContent
 import com.example.myplants.ui.componets.cards.common.CardIconFavourite
 import com.example.myplants.ui.componets.cards.common.CardIconWishlist
-import com.example.myplants.core.ui.theme.CardColors
-import com.example.myplants.core.ui.theme.MyPlantsTheme
+import com.example.myplants.ui.componets.cards.common.PlantCardImage
+
+object PlantCardDefaults {
+    val cardElevation = 4.dp
+    val cardShape = RoundedCornerShape(8.dp)
+    val imageHeight = 175.dp
+    val contentPadding = 16.dp
+    val actionsSpacing = 8.dp
+}
 
 @Composable
 fun PlantCardMain(
@@ -53,51 +40,42 @@ fun PlantCardMain(
     eventHandler: PlantCardEventHandler,
     modifier: Modifier = Modifier
 ) {
-    val cardContent by remember(state, eventHandler) {
-        derivedStateOf {
-            @Composable {
-                val backgroundColor by remember(state.plantWithPhotos.plant.id) {
-                    derivedStateOf { CardColors.colors.random() }
-                }
-
-                Card(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = null // Отключаем анимацию ripple для производительности
-                        ) { eventHandler.onClick(state.plantWithPhotos) },
-                    shape = CardDefaults.shape,
-                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                    colors = CardDefaults.cardColors(containerColor = backgroundColor)
-                ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        // Photo section - фиксированная высота
-                        PlantCardImage(
-//                            state.mainPhotoUri,
-                            imageData = state.plantWithPhotos.photos.firstOrNull()?.imageData
-                        )
-
-                        // Actions row
-                        PlantCardActions(
-                            plantWithPhotos = state.plantWithPhotos,
-                            eventHandler = eventHandler
-                        )
-
-                        // Basic content
-                        CardBasicContent(state.plant, state.editable,
-                            eventHandler.onValueChange
-                        )
-                    }
-                }
-            }
-        }
+    val backgroundColor = remember() {
+        CardColors.colors.get((state.plant.id % CardColors.colors.size).toInt())
     }
 
-    cardContent()
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = LocalIndication.current
+            ) { eventHandler.onClick(state.plantWithPhotos) },
+        shape = PlantCardDefaults.cardShape,
+        elevation = CardDefaults.cardElevation(PlantCardDefaults.cardElevation),
+        colors = CardDefaults.cardColors(containerColor = backgroundColor)
+    ) {
+        Column(
+            modifier = Modifier.padding(PlantCardDefaults.contentPadding),
+            verticalArrangement = Arrangement.spacedBy(PlantCardDefaults.actionsSpacing)
+        ) {
+            // Photo section
+            PlantCardImage(
+                imageData = state.mainPhotoBytes
+            )
+
+            // Actions row
+            PlantCardActions(
+                plantWithPhotos = state.plantWithPhotos,
+                eventHandler = eventHandler
+            )
+
+            // Basic content
+            CardBasicContent(state.plant, state.editable,
+                eventHandler.onValueChange
+            )
+        }
+    }
 }
 
 @Composable
@@ -124,62 +102,6 @@ private fun PlantCardActions(
                 plantWithPhotos = plantWithPhotos
             )
         }
-
-        IconButton(
-            onClick = { /* пока пусто */ },
-            modifier = Modifier.size(24.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Default.CheckCircle,
-                contentDescription = "Timer",
-                modifier = Modifier.size(20.dp)
-            )
-        }
-    }
-}
-
-@Composable
-private fun PlantCardImage(imageData: ByteArray?) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(175.dp)
-            .clip(RoundedCornerShape(8.dp))
-    ) {
-        if (imageData != null) {
-            val bitmap = remember(imageData) {
-                BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
-            }
-            val image = bitmap.asImageBitmap()
-
-            // 1 Размытый фон
-            Image(
-                bitmap = image,
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .blur(25.dp),
-                contentScale = ContentScale.Crop
-            )
-
-            // Основное изображение (без растягивания)
-            Image(
-                bitmap = image,
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(0.dp),
-                contentScale = ContentScale.Fit // Сохраняем пропорции
-            )
-
-        } else {
-            Image(
-                painter = painterResource(id = R.drawable.placeholder),
-                contentDescription = "placeholder",
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
-        }
     }
 }
 
@@ -188,10 +110,9 @@ private fun PlantCardImage(imageData: ByteArray?) {
 private fun PlantCardMainPreview() {
     MyPlantsTheme {
         val plantWithPhotos = PlantWithPhotos(
-            plant = Plant(
-                id = 1L,
-                genusId = 1L,
-                main = MainInfo(species = "Фикус Бенджамина", genus = "Фикус")
+            plant = DataInitializer.getBlankPlant(
+                species = "Фикус Бенджамина",
+                genus = "Фикус"
             ),
             photos = emptyList()
         )

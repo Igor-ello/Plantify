@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.myplants.core.data.local.entity.Genus
 import com.example.myplants.core.data.local.relation.PlantWithPhotos
 import com.example.myplants.data.main_facade.MainFacadeInterface
-import com.example.myplants.domain.usecase.initialization.PlantDataInitializer
+import com.example.myplants.domain.usecase.initialization.DataInitializer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
@@ -27,7 +27,7 @@ class MainScreenStateHolder @Inject constructor(
 
     private fun initializeTestDb () {
         viewModelScope.launch {
-            PlantDataInitializer.initialize(facade)
+            DataInitializer.initialize(facade)
         }
     }
 

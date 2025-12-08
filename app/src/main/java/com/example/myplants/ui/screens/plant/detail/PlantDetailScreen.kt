@@ -35,6 +35,7 @@ import com.example.myplants.R
 import com.example.myplants.core.data.local.entity.Plant
 import com.example.myplants.core.data.local.entity.sections.MainInfo
 import com.example.myplants.core.data.local.relation.PlantWithPhotos
+import com.example.myplants.domain.usecase.initialization.DataInitializer
 import com.example.myplants.ui.componets.base.AppButton
 import com.example.myplants.ui.componets.cards.common.CardDeleteButton
 import com.example.myplants.ui.componets.cards.plants.PlantCardEventHandler
@@ -129,7 +130,7 @@ fun PlantDetailScreen(
                     viewModel.removeImageAt(index)
                 }
             )
-            val plant = editedPlant ?: Plant(id = 0L, genusId = 0L, main = MainInfo(species = "", genus = ""))
+            val plant = editedPlant ?: DataInitializer.getBlankPlant()
             val photos = editedPhotos.filterNotNull()
             PlantCardFull(
                 plantWithPhotos = PlantWithPhotos(plant = plant, photos = photos),

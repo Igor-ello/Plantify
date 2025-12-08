@@ -13,6 +13,6 @@ object IconSize {
     val Navigation = 24.dp
     val Button = 20.dp
     val ListItem = 24.dp
-    val Card = 32.dp
+    val Card = 24.dp
     val Feature = 48.dp
 }
