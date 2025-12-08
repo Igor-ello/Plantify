@@ -11,7 +11,19 @@ import com.example.myplants.core.data.local.entity.sections.StateInfo
 import com.example.myplants.core.data.local.entity.sections.WateringInfo
 import com.example.myplants.data.main_facade.MainFacadeInterface
 
-object PlantDataInitializer {
+object DataInitializer {
+
+    fun getBlankPlant(
+        idToInit: Long = 0L,
+        species: String = "",
+        genus: String = ""
+    ): Plant {
+        return Plant(
+            id = idToInit,
+            genusId = idToInit,
+            main = MainInfo(species = species, genus = genus)
+        )
+    }
 
     suspend fun initialize(facade: MainFacadeInterface) {
         val currentGenus = facade.getAllGenus()

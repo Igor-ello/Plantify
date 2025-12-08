@@ -12,6 +12,7 @@ import com.example.myplants.core.data.local.entity.sections.LifecycleInfo
 import com.example.myplants.core.data.local.entity.sections.MainInfo
 import com.example.myplants.core.data.local.entity.sections.StateInfo
 import com.example.myplants.data.main_facade.MainFacadeInterface
+import com.example.myplants.domain.usecase.initialization.DataInitializer
 import com.example.myplants.ui.screens.plant.bitmapToByteArray
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +26,7 @@ class AddPlantViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _newPlant = MutableStateFlow(
-        Plant(main = MainInfo(genus = "", species = ""), genusId = 0L)
+        DataInitializer.getBlankPlant()
     )
     val newPlant: StateFlow<Plant> get() = _newPlant
 
