@@ -24,12 +24,11 @@ import com.example.myplants.domain.usecase.initialization.DataInitializer
 import com.example.myplants.ui.componets.cards.common.CardBasicContent
 import com.example.myplants.ui.componets.cards.common.CardIconFavourite
 import com.example.myplants.ui.componets.cards.common.CardIconWishlist
-import com.example.myplants.ui.componets.cards.common.PlantCardImage
+import com.example.myplants.ui.componets.cards.common.CardPhoto
 
-object PlantCardDefaults {
+private object PlantCardDefaults {
     val cardElevation = 4.dp
     val cardShape = RoundedCornerShape(8.dp)
-    val imageHeight = 175.dp
     val contentPadding = 16.dp
     val actionsSpacing = 8.dp
 }
@@ -60,7 +59,7 @@ fun PlantCardMain(
             verticalArrangement = Arrangement.spacedBy(PlantCardDefaults.actionsSpacing)
         ) {
             // Photo section
-            PlantCardImage(
+            CardPhoto(
                 imageData = state.mainPhotoBytes
             )
 

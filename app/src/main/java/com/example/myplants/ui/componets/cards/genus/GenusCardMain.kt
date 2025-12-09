@@ -37,53 +37,44 @@ fun GenusCardMain(
     eventHandler: GenusCardEventHandler,
     modifier: Modifier = Modifier
 ) {
-    // Оптимизация: используем производное состояние для предотвращения лишних рекомпозиций
-    val cardContent by remember(state) {
-        derivedStateOf {
-            @Composable {
-                Card(
-                    modifier = modifier.fillMaxWidth(),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                    shape = CardDefaults.shape,
-                    colors = CardDefaults.cardColors(containerColor = GenusCardColor)
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        shape = CardDefaults.shape,
+        colors = CardDefaults.cardColors(containerColor = GenusCardColor)
+    ) {
+        Column {
+            // Header
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { eventHandler.onToggleExpanded() }
+                    .padding(12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TitleLarge(
+                    text = state.genus.main.genus,
+                    modifier = Modifier.weight(1f)
+                )
+
+                IconButton(
+                    onClick = { eventHandler.onGenusClick(state.genus.id) },
+                    modifier = Modifier.padding(start = 8.dp)
                 ) {
-                    Column {
-                        // Header
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { eventHandler.onToggleExpanded() }
-                                .padding(12.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            TitleLarge(
-                                text = state.genus.main.genus,
-                                modifier = Modifier.weight(1f)
-                            )
-
-                            IconButton(
-                                onClick = { eventHandler.onGenusClick(state.genus.id) },
-                                modifier = Modifier.padding(start = 8.dp)
-                            ) {
-                                Icon(imageVector = Icons.Default.Preview, contentDescription = "Show detail")
-                            }
-                        }
-
-                        // Plants list - Оптимизация: используем LazyRow вместо горизонтального скролла
-                        if (state.isExpanded && state.plants.isNotEmpty()) {
-                            PlantsHorizontalList(
-                                plants = state.plants,
-                                eventHandler = eventHandler
-                            )
-                        }
-                    }
+                    Icon(imageVector = Icons.Default.Preview, contentDescription = "Show detail")
                 }
+            }
+
+            // Plants list - Оптимизация: используем LazyRow вместо горизонтального скролла
+            if (state.isExpanded && state.plants.isNotEmpty()) {
+                PlantsHorizontalList(
+                    plants = state.plants,
+                    eventHandler = eventHandler
+                )
             }
         }
     }
-
-    cardContent()
 }
 
 @Composable

@@ -22,6 +22,7 @@ import com.example.myplants.core.data.local.relation.PlantWithPhotos
 import com.example.myplants.ui.componets.base.AppButton
 import com.example.myplants.ui.componets.cards.plants.PlantCardEventHandler
 import com.example.myplants.ui.componets.cards.plants.PlantCardFull
+import com.example.myplants.ui.componets.cards.plants.PlantCardState
 import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
 
 
@@ -62,9 +63,12 @@ fun AddPlantScreen(
                     viewModel.removeImageAt(index)
                 }
             )
-            PlantCardFull(
+            val state = PlantCardState(
                 plantWithPhotos = newPlantWithPhotos,
-                editable = true,
+                editable = true
+            )
+            PlantCardFull(
+                state = state,
                 eventHandler = events
             )
 

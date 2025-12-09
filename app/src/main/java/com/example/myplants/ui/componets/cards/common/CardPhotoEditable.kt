@@ -1,6 +1,5 @@
 package com.example.myplants.ui.componets.cards.common
 
-import android.content.ContentResolver
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -11,19 +10,25 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -31,6 +36,9 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.myplants.core.data.local.entity.PlantPhoto
 import com.example.myplants.ui.screens.plant.loadBitmap
+import com.example.myplants.ui.screens.plant.rememberImageBitmap
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 
 @Composable
@@ -62,29 +70,45 @@ fun CardPhotoEditable(
         }
     }
 
+    // Асинхронная загрузка imageData
+    val imageBitmap = photo?.imageData?.let { data ->
+        rememberImageBitmap(data)
+    }
+
     Box(
         modifier = modifier
             .clickable { launcher.launch("image/*") }
-            .background(Color.LightGray),
+            .fillMaxSize()
+            .aspectRatio(1f)
+            .clip(RoundedCornerShape(8.dp)),
         contentAlignment = Alignment.Center
     ) {
         when {
             photo != null -> {
-                // Фото существующее → показываем либо uri, либо imageData
                 if (photo.uri != null) {
+                    // Используем AsyncImage для uri
                     AsyncImage(
                         model = photo.uri,
                         contentDescription = "Plant image",
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop
                     )
-                } else if (photo.imageData != null) {
-                    val bitmap = BitmapFactory.decodeByteArray(photo.imageData, 0, photo.imageData.size)
+                } else if (imageBitmap != null) {
+                    // Размытый фон
                     Image(
-                        bitmap = bitmap.asImageBitmap(),
-                        contentDescription = "Plant image",
-                        modifier = Modifier.fillMaxSize(),
+                        bitmap = imageBitmap,
+                        contentDescription = "Blurred background",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .blur(25.dp),
                         contentScale = ContentScale.Crop
+                    )
+                    // Основное фото
+                    Image(
+                        bitmap = imageBitmap,
+                        contentDescription = "Picture of a plant",
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Fit
                     )
                 } else {
                     Text("No image", color = Color.DarkGray)

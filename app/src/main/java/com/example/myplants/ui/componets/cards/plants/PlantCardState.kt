@@ -7,5 +7,6 @@ data class PlantCardState(
     val editable: Boolean = false
 ) {
     val plant get() = plantWithPhotos.plant
+    val photos get() = plantWithPhotos.photos
     val mainPhotoBytes get() = plantWithPhotos.photos.firstOrNull()?.imageData
 }

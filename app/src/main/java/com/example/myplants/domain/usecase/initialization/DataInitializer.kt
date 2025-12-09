@@ -2,6 +2,7 @@ package com.example.myplants.domain.usecase.initialization
 
 import com.example.myplants.core.data.local.entity.Genus
 import com.example.myplants.core.data.local.entity.Plant
+import com.example.myplants.core.data.local.entity.PlantPhoto
 import com.example.myplants.core.data.local.entity.sections.CareInfo
 import com.example.myplants.core.data.local.entity.sections.FertilizerInfo
 import com.example.myplants.core.data.local.entity.sections.HealthInfo
@@ -9,6 +10,7 @@ import com.example.myplants.core.data.local.entity.sections.LifecycleInfo
 import com.example.myplants.core.data.local.entity.sections.MainInfo
 import com.example.myplants.core.data.local.entity.sections.StateInfo
 import com.example.myplants.core.data.local.entity.sections.WateringInfo
+import com.example.myplants.core.data.local.relation.PlantWithPhotos
 import com.example.myplants.data.main_facade.MainFacadeInterface
 
 object DataInitializer {
@@ -33,8 +35,37 @@ object DataInitializer {
     }
 
     private suspend fun addTestPlants(facade: MainFacadeInterface) {
-        val aloeVera = Plant(
-            genusId = createGenus(facade, "Aloe"),
+        facade.insertPlant(getSamplePlant1(createGenus(facade, "Aloe")))
+        facade.insertPlant(getSamplePlant2(createGenus(facade, "Ficus")))
+    }
+
+    private suspend fun createGenus(facade: MainFacadeInterface, genusName: String): Long {
+        val newGenus = Genus(
+            main = MainInfo(
+                genus = genusName,
+                species = "",
+                fullName = genusName
+            ),
+            care = CareInfo(),
+            lifecycle = LifecycleInfo(),
+            health = HealthInfo(),
+            state = StateInfo()
+        )
+        return facade.insertGenus(newGenus)
+    }
+
+    fun getSamplePlantWithPhotos(idToInit: Long = 1L): PlantWithPhotos {
+        val photo = listOf(PlantPhoto(id = idToInit, plantId = idToInit, isPrimary = true))
+        return when (idToInit) {
+            1L -> PlantWithPhotos(getSamplePlant1(), photo)
+            2L -> PlantWithPhotos(getSamplePlant2(), photo)
+            else -> throw IllegalArgumentException("Invalid id: $idToInit")
+        }
+    }
+
+    fun getSamplePlant1(genusId: Long = 1L): Plant {
+        return Plant(
+            genusId = genusId,
             main = MainInfo(
                 genus = "Aloe",
                 species = "Aloe Vera",
@@ -76,9 +107,11 @@ object DataInitializer {
                 isHideEmpty = false
             )
         )
+    }
 
-        val ficus = Plant(
-            genusId = createGenus(facade, "Ficus"),
+    fun getSamplePlant2(genusId: Long = 2L): Plant {
+        return Plant(
+            genusId = genusId,
             main = MainInfo(
                 genus = "Ficus",
                 species = "Ficus Benjamin",
@@ -120,23 +153,5 @@ object DataInitializer {
                 isHideEmpty = false
             )
         )
-
-        facade.insertPlant(aloeVera)
-        facade.insertPlant(ficus)
-    }
-
-    private suspend fun createGenus(facade: MainFacadeInterface, genusName: String): Long {
-        val newGenus = Genus(
-            main = MainInfo(
-                genus = genusName,
-                species = "",
-                fullName = genusName
-            ),
-            care = CareInfo(),
-            lifecycle = LifecycleInfo(),
-            health = HealthInfo(),
-            state = StateInfo()
-        )
-        return facade.insertGenus(newGenus)
     }
 }

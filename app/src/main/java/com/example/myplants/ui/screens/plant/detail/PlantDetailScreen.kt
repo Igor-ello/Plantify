@@ -40,6 +40,7 @@ import com.example.myplants.ui.componets.base.AppButton
 import com.example.myplants.ui.componets.cards.common.CardDeleteButton
 import com.example.myplants.ui.componets.cards.plants.PlantCardEventHandler
 import com.example.myplants.ui.componets.cards.plants.PlantCardFull
+import com.example.myplants.ui.componets.cards.plants.PlantCardState
 import com.example.myplants.ui.componets.topbar.TopBarAction
 import com.example.myplants.ui.componets.topbar.TopBarStateViewModel
 
@@ -132,9 +133,12 @@ fun PlantDetailScreen(
             )
             val plant = editedPlant ?: DataInitializer.getBlankPlant()
             val photos = editedPhotos.filterNotNull()
-            PlantCardFull(
+            val state = PlantCardState(
                 plantWithPhotos = PlantWithPhotos(plant = plant, photos = photos),
-                editable = isEditing,
+                editable = isEditing
+            )
+            PlantCardFull(
+                state = state,
                 eventHandler = events
             )
 
