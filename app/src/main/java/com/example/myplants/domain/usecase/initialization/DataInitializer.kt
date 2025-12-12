@@ -27,6 +27,16 @@ object DataInitializer {
         )
     }
 
+    fun getBlankGenus(
+        idToInit: Long = 0L,
+        genus: String = ""
+    ): Genus {
+        return Genus(
+            id = idToInit,
+            main = MainInfo(species = "", genus=genus)
+        )
+    }
+
     suspend fun initialize(facade: MainFacadeInterface) {
         val currentGenus = facade.getAllGenus()
         if (currentGenus.isEmpty()) {

@@ -26,13 +26,6 @@ import com.example.myplants.ui.componets.cards.common.CardIconFavourite
 import com.example.myplants.ui.componets.cards.common.CardIconWishlist
 import com.example.myplants.ui.componets.cards.common.CardPhoto
 
-private object PlantCardDefaults {
-    val cardElevation = 4.dp
-    val cardShape = RoundedCornerShape(8.dp)
-    val contentPadding = 16.dp
-    val actionsSpacing = 8.dp
-}
-
 @Composable
 fun PlantCardMain(
     state: PlantCardState,
@@ -50,13 +43,13 @@ fun PlantCardMain(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = LocalIndication.current
             ) { eventHandler.onClick(state.plantWithPhotos) },
-        shape = PlantCardDefaults.cardShape,
-        elevation = CardDefaults.cardElevation(PlantCardDefaults.cardElevation),
+        shape = RoundedCornerShape(8.dp),
+        elevation = CardDefaults.cardElevation(4.dp),
         colors = CardDefaults.cardColors(containerColor = backgroundColor)
     ) {
         Column(
-            modifier = Modifier.padding(PlantCardDefaults.contentPadding),
-            verticalArrangement = Arrangement.spacedBy(PlantCardDefaults.actionsSpacing)
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             // Photo section
             CardPhoto(
