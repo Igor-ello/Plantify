@@ -20,8 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.greencore.plantify.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -68,9 +70,9 @@ fun CardDeleteButton(
             LinearProgressIndicator(
             progress = { pressProgress },
             modifier = Modifier
-                                .fillMaxWidth()
-                                .height(4.dp)
-                                .align(Alignment.TopCenter),
+                .fillMaxWidth()
+                .height(4.dp)
+                .align(Alignment.TopCenter),
             color = Color.Red,
             trackColor = ProgressIndicatorDefaults.linearTrackColor,
             strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
@@ -78,7 +80,9 @@ fun CardDeleteButton(
         }
 
         Text(
-            text = if (showDeleteConfirm) "Hold 5s to delete" else "Delete Plant",
+            text =
+                if (showDeleteConfirm) stringResource(R.string.text_hold_5s_to_delete)
+                else stringResource(R.string.text_delete),
             color = Color.Red,
             fontWeight = FontWeight.Bold
         )

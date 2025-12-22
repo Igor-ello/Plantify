@@ -74,4 +74,6 @@
     <string name="state_empty_favorites_title">No plants in favorites</string>
     <string name="state_empty_wishlist_title">No plants in wishlist</string>
     <string name="state_empty_description">To add it, click on the corresponding button</string>
+    <string name="text_hold_5s_to_delete">Hold 5s to delete</string>
+    <string name="text_delete">Delete</string>
 </resources>

@@ -66,4 +66,6 @@
     <string name="state_empty_favorites_title">Нет растений в избранном</string>
     <string name="state_empty_wishlist_title">Нет растений в пожеланиях</string>
     <string name="state_empty_description">Для добавления, нажмите на соответствующую кнопку</string>
+    <string name="text_hold_5s_to_delete">Удерживайте 5 с, чтобы удалить</string>
+    <string name="text_delete">Удалить</string>
 </resources>
