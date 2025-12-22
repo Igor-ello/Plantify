@@ -39,6 +39,10 @@ class PlantDetailViewModel @Inject constructor(
     private val _editedPhotos = MutableStateFlow<List<PlantPhoto>>(emptyList())
     val editedPhotos: StateFlow<List<PlantPhoto?>> = _editedPhotos.asStateFlow()
 
+    // Список для отслеживания удаленных фото
+    private val _deletedPhotos = MutableStateFlow<MutableList<PlantPhoto>>(mutableListOf())
+    private val deletedPhotos: List<PlantPhoto> get() = _deletedPhotos.value
+
     private var originalPlant: Plant? = null
     private var originalPhotos: List<PlantPhoto> = emptyList()
 
@@ -54,6 +58,7 @@ class PlantDetailViewModel @Inject constructor(
 
                     _editedPlant.value = data.plant
                     _editedPhotos.value = data.photos
+                    _deletedPhotos.value.clear()
                 }
             }
         }
@@ -94,10 +99,12 @@ class PlantDetailViewModel @Inject constructor(
         val list = _editedPhotos.value.toMutableList()
         if (index !in list.indices) return
 
-        val wasPrimary = list[index].isPrimary
+        val photoToRemove = list[index]
+
+        _deletedPhotos.value.add(photoToRemove)
         list.removeAt(index)
 
-        if (wasPrimary && list.isNotEmpty()) {
+        if (photoToRemove.isPrimary && list.isNotEmpty()) {
             list[0] = list[0].copy(isPrimary = true)
         }
 
@@ -109,8 +116,16 @@ class PlantDetailViewModel @Inject constructor(
         val photos = _editedPhotos.value
 
         viewModelScope.launch {
+            // 1. Обновляем растение
             plantRepository.updatePlant(plant)
 
+            // 2. Удаляем фото, которые были удалены пользователем
+            deletedPhotos.forEach { photo ->
+                photoRepository.deletePhotoById(photo.id)
+            }
+            _deletedPhotos.value.clear()
+
+            // 3. Сохраняем новые и обновленные фото
             photos.forEach { p ->
                 if (p.id == 0L) {
                     photoRepository.insertPhoto(p.copy(plantId = plant.id))
@@ -122,8 +137,10 @@ class PlantDetailViewModel @Inject constructor(
     }
 
     fun resetChanges() {
+        // Восстанавливаем оригинальные данные
         _editedPlant.value = originalPlant?.copy()
         _editedPhotos.value = originalPhotos.map { it.copy() }
+        _deletedPhotos.value.clear()
     }
 
     fun deletePlant(onDeleted: () -> Unit) {
