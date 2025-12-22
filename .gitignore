@@ -8,4 +8,4 @@
 .externalNativeBuild
 .cxx
 local.properties
-/app/schemas/com.example.myplants.db.AppDatabase/*
+/app/schemas/com.example.plantify.db.AppDatabase/*

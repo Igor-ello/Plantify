@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MyPlants</string>
+    <string name="app_name">Plantify</string>
     <string name="plant_sunlight_moderate">Умеренное</string>
     <string name="plant_sunlight_light">Светлолюбивое</string>
     <string name="button_save">Сохранить</string>

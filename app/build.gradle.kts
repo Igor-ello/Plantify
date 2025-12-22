@@ -10,11 +10,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.myplants"
+    namespace = "com.greencore.plantify"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.myplants"
+        applicationId = "com.greencore.plantify"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

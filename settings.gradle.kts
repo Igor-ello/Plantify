@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MyPlants"
+rootProject.name = "Plantify"
 include(":app")
  

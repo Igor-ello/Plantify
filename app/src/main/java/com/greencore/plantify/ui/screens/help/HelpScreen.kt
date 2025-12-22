@@ -1,0 +1,32 @@
+package com.greencore.plantify.ui.screens.help
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.greencore.plantify.R
+import com.greencore.plantify.ui.componets.topbar.TopBarStateViewModel
+
+@Composable
+fun HelpScreen() {
+    SetupTopBar()
+
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(stringResource(R.string.screen_help_feedback))
+    }
+}
+
+@Composable
+private fun SetupTopBar() {
+    val topBarState: TopBarStateViewModel = hiltViewModel()
+    val title = stringResource(R.string.screen_help_feedback)
+
+    LaunchedEffect(Unit) {
+        topBarState.setTitle(title)
+    }
+}

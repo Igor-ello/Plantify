@@ -1,6 +1,6 @@
 <resources>
     <!--  App main  -->
-    <string name="app_name">MyPlants</string>
+    <string name="app_name">Plantify</string>
     <string name="app_section">App section</string>
     <string name="plants_section">Plants</string>
     <string name="other_section">Other</string>
