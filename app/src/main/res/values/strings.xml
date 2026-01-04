@@ -76,4 +76,7 @@
     <string name="state_empty_description">To add it, click on the corresponding button</string>
     <string name="text_hold_5s_to_delete">Hold 5s to delete</string>
     <string name="text_delete">Delete</string>
+    <string name="button_search">Search</string>
+    <string name="toast_browser_not_found">Browser not found</string>
+    <string name="toast_browser_opening_error">Error when opening the browser</string>
 </resources>

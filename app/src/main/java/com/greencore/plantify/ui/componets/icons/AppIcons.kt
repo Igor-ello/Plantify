@@ -6,8 +6,10 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.QuestionAnswer
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
+import com.greencore.plantify.core.ui.theme.BluePrimary
 import com.greencore.plantify.core.ui.theme.GreenPrimary
 import com.greencore.plantify.core.ui.theme.RedPrimary
 
@@ -56,6 +58,13 @@ object AppIcons {
             Icons.Default.AddShoppingCart, "Add to wishlist button", IconSize.Card
         ),
         tintColor = GreenPrimary
+    )
+
+    val SearchInBrowser = AppIconType.TintedIcon(
+        baseIcon = AppIconType.MaterialIcon(
+            Icons.Default.Search, contentDescription = "Search in the browser", IconSize.Card
+        ),
+        tintColor = BluePrimary
     )
 
     // AnimatedIcon (меняются при нажатии)

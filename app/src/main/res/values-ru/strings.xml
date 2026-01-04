@@ -68,4 +68,7 @@
     <string name="state_empty_description">Для добавления, нажмите на соответствующую кнопку</string>
     <string name="text_hold_5s_to_delete">Удерживайте 5 с, чтобы удалить</string>
     <string name="text_delete">Удалить</string>
+    <string name="button_search">Поиск</string>
+    <string name="toast_browser_not_found">Браузер не найден</string>
+    <string name="toast_browser_opening_error">Ошибка при открытии браузера</string>
 </resources>

@@ -24,6 +24,7 @@ import com.greencore.plantify.domain.usecase.initialization.DataInitializer
 import com.greencore.plantify.ui.componets.cards.common.CardBasicContent
 import com.greencore.plantify.ui.componets.cards.common.CardIconFavourite
 import com.greencore.plantify.ui.componets.cards.common.CardIconWishlist
+import com.greencore.plantify.ui.componets.cards.common.CardSearchQuery
 import com.greencore.plantify.ui.componets.cards.common.CardPhoto
 
 @Composable
@@ -76,6 +77,7 @@ private fun PlantCardActions(
     eventHandler: PlantCardEventHandler,
     modifier: Modifier = Modifier
 ) {
+    plantWithPhotos.plant.main.genus + plantWithPhotos.plant.main.species
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -91,6 +93,9 @@ private fun PlantCardActions(
             )
             CardIconWishlist(
                 onToggleWishlist = { eventHandler.onToggleWishlist(plantWithPhotos) },
+                plantWithPhotos = plantWithPhotos
+            )
+            CardSearchQuery(
                 plantWithPhotos = plantWithPhotos
             )
         }

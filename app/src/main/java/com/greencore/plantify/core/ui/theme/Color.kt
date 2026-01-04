@@ -29,6 +29,7 @@ val OnErrorWhite = Color(0xFFFFFFFF)    // Текст на красном фон
 /* ---------------- Цвета кнопок ---------------- */
 val GreenPrimary = Color(0xFF0D986A)    // Основная кнопка (подтверждение)
 val RedPrimary = Color(0xFFC74051)      // Кнопка отмены / удаления
+val BluePrimary = Color(0xFF002140)     // Дополнительный цвет
 
 /* ---------------- Цвета карточек ---------------- */
 val CardColor1 = Color(0xFFFEC8C1)
