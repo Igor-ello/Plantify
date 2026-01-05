@@ -65,7 +65,6 @@ fun GenusCardMain(
                 }
             }
 
-            // Plants list - Оптимизация: используем LazyRow вместо горизонтального скролла
             if (state.isExpanded && state.plants.isNotEmpty()) {
                 PlantsHorizontalList(
                     plants = state.plants,

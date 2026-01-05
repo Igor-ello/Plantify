@@ -130,7 +130,7 @@ fun CardPhotoEditable(
                 }
             }
             else -> {
-                // Нет фото → кнопка добавления
+                // Нет фото -> кнопка добавления
                 Icon(
                     Icons.Default.Add,
                     contentDescription = "Add photo",

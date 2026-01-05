@@ -51,7 +51,6 @@ fun PlantStateScreen(
 
     val uiState by viewModel.uiState.collectAsState()
 
-    // ОПТИМИЗАЦИЯ: выносим обработчики в remember для стабильности
     val onToggleFavorite = remember(viewModel) {
         { plantWithPhotos: PlantWithPhotos ->
             viewModel.toggleFavorite(plantWithPhotos.plant)
@@ -72,7 +71,6 @@ fun PlantStateScreen(
             modifier = modifier
         )
         is PlantListUiState.Success -> {
-            // ПРОСТАЯ И ПРАВИЛЬНАЯ ВЕРСИЯ:
             PlantListContent(
                 plants = state.plants,
                 listType = currentListType,

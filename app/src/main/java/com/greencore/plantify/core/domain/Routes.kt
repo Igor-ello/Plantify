@@ -1,4 +1,4 @@
-package com.greencore.plantify.core.domain.common
+package com.greencore.plantify.core.domain
 
 sealed class Routes(val route: String) {
     object AllPlants : Routes("all_plants")

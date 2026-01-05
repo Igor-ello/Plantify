@@ -7,7 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.greencore.plantify.core.domain.common.Routes
+import com.greencore.plantify.core.domain.Routes
 import com.greencore.plantify.ui.navigation.navigators.MainScreenNavigator
 import com.greencore.plantify.ui.screens.genus.GenusDetailScreen
 import com.greencore.plantify.ui.screens.help.HelpScreen

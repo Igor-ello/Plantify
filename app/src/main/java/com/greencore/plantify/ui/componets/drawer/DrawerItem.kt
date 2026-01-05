@@ -7,7 +7,7 @@ import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
-import com.greencore.plantify.core.domain.common.Routes
+import com.greencore.plantify.core.domain.Routes
 import com.greencore.plantify.core.ui.theme.OnPrimaryWhite
 import com.greencore.plantify.core.ui.theme.PrimaryGreen
 import com.greencore.plantify.ui.componets.base.BodyLarge
