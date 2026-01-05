@@ -16,7 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.greencore.plantify.domain.usecase.initialization.DataInitializer.getSamplePlantWithPhotos
+import com.greencore.plantify.domain.DataInitializer.getSamplePlantWithPhotos
 import com.greencore.plantify.ui.componets.cards.common.CardDetailContent
 import com.greencore.plantify.ui.componets.cards.common.CardPhotoEditable
 

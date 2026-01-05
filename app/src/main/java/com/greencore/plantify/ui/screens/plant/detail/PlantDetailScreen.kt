@@ -34,7 +34,7 @@ import androidx.navigation.NavHostController
 import com.greencore.plantify.R
 import com.greencore.plantify.core.data.local.entity.Plant
 import com.greencore.plantify.core.data.local.relation.PlantWithPhotos
-import com.greencore.plantify.domain.usecase.initialization.DataInitializer
+import com.greencore.plantify.domain.DataInitializer
 import com.greencore.plantify.ui.componets.base.AppButton
 import com.greencore.plantify.ui.componets.cards.common.CardDeleteButton
 import com.greencore.plantify.ui.componets.cards.plants.PlantCardEventHandler

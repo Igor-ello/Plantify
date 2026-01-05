@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.greencore.plantify.core.data.local.relation.PlantWithPhotos
 import com.greencore.plantify.core.ui.theme.CardColors
 import com.greencore.plantify.core.ui.theme.AppTheme
-import com.greencore.plantify.domain.usecase.initialization.DataInitializer
+import com.greencore.plantify.domain.DataInitializer
 import com.greencore.plantify.ui.componets.cards.common.CardBasicContent
 import com.greencore.plantify.ui.componets.cards.common.CardIconFavourite
 import com.greencore.plantify.ui.componets.cards.common.CardIconWishlist

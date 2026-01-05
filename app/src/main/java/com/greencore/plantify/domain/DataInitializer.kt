@@ -1,4 +1,4 @@
-package com.greencore.plantify.domain.usecase.initialization
+package com.greencore.plantify.domain
 
 import com.greencore.plantify.core.data.local.entity.Genus
 import com.greencore.plantify.core.data.local.entity.Plant
@@ -33,7 +33,7 @@ object DataInitializer {
     ): Genus {
         return Genus(
             id = idToInit,
-            main = MainInfo(species = "", genus=genus)
+            main = MainInfo(species = "", genus = genus)
         )
     }
 

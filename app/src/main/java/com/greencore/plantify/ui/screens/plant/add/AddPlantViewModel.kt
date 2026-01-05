@@ -12,7 +12,7 @@ import com.greencore.plantify.core.data.local.entity.sections.LifecycleInfo
 import com.greencore.plantify.core.data.local.entity.sections.MainInfo
 import com.greencore.plantify.core.data.local.entity.sections.StateInfo
 import com.greencore.plantify.data.main_facade.MainFacadeInterface
-import com.greencore.plantify.domain.usecase.initialization.DataInitializer
+import com.greencore.plantify.domain.DataInitializer
 import com.greencore.plantify.ui.screens.plant.bitmapToByteArray
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.greencore.plantify.core.data.local.entity.Genus
 import com.greencore.plantify.core.data.local.entity.PlantEntityInterface
 import com.greencore.plantify.core.ui.theme.AppTheme
-import com.greencore.plantify.domain.usecase.initialization.DataInitializer
+import com.greencore.plantify.domain.DataInitializer
 import com.greencore.plantify.ui.componets.cards.common.CardDetailContent
 
 @Composable

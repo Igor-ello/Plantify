@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.greencore.plantify.core.data.local.entity.Genus
 import com.greencore.plantify.core.data.local.relation.PlantWithPhotos
 import com.greencore.plantify.data.main_facade.MainFacadeInterface
-import com.greencore.plantify.domain.usecase.initialization.DataInitializer
+import com.greencore.plantify.domain.DataInitializer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
