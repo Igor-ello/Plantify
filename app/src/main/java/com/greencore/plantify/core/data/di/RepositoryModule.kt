@@ -7,23 +7,22 @@ import com.greencore.plantify.core.data.local.db.dao.PlantDao
 import com.greencore.plantify.core.data.local.db.dao.PlantPhotoDao
 import com.greencore.plantify.core.data.local.db.dao.PlantStateDao
 import com.greencore.plantify.core.data.local.db.dao.PlantWithPhotosDao
-import com.greencore.plantify.data.main_facade.MainFacade
-import com.greencore.plantify.data.main_facade.MainFacadeInterface
 import com.greencore.plantify.data.backup.BackupRepository
 import com.greencore.plantify.data.backup.BackupRepositoryInterface
 import com.greencore.plantify.data.genus.GenusRepository
 import com.greencore.plantify.data.genus.GenusRepositoryInterface
 import com.greencore.plantify.data.genus_with_plants.GenusWithPlantsRepository
 import com.greencore.plantify.data.genus_with_plants.GenusWithPlantsRepositoryInterface
+import com.greencore.plantify.data.main_facade.MainFacade
+import com.greencore.plantify.data.main_facade.MainFacadeInterface
 import com.greencore.plantify.data.photo.PhotoRepository
 import com.greencore.plantify.data.photo.PhotoRepositoryInterface
 import com.greencore.plantify.data.plant.PlantRepository
 import com.greencore.plantify.data.plant.PlantRepositoryInterface
-import com.greencore.plantify.data.state.PlantStateRepository
-import com.greencore.plantify.data.state.PlantStateRepositoryInterface
 import com.greencore.plantify.data.plant_with_photos.PlantWithPhotosRepository
 import com.greencore.plantify.data.plant_with_photos.PlantWithPhotosRepositoryInterface
-import com.greencore.plantify.ui.componets.topbar.TopBarStateViewModel
+import com.greencore.plantify.data.state.PlantStateRepository
+import com.greencore.plantify.data.state.PlantStateRepositoryInterface
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,11 +33,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
-
-    @Provides
-    @Singleton
-    fun provideTopBarStateViewModel():
-            TopBarStateViewModel = TopBarStateViewModel()
 
     @Provides
     @Singleton
