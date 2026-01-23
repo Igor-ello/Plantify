@@ -13,7 +13,6 @@ import androidx.compose.material.icons.filled.ShoppingCart
 import com.greencore.plantify.core.ui.theme.BluePrimary
 import com.greencore.plantify.core.ui.theme.GreenPrimary
 import com.greencore.plantify.core.ui.theme.RedPrimary
-import com.greencore.plantify.core.ui.theme.YellowPrimary
 
 object AppIcons {
     // MaterialIcon (без перекраски)
