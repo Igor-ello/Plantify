@@ -13,6 +13,7 @@ import com.greencore.plantify.core.data.local.entity.sections.MainInfo
 import com.greencore.plantify.core.data.local.entity.sections.StateInfo
 import com.greencore.plantify.data.main_facade.MainFacadeInterface
 import com.greencore.plantify.domain.DataInitializer
+import com.greencore.plantify.ui.screens.plant.add.FieldCleaner
 import com.greencore.plantify.ui.screens.plant.bitmapToByteArray
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -83,7 +84,7 @@ class AddPlantViewModel @Inject constructor(
     }
 
     fun saveNewPlant(onClose: () -> Unit) {
-        val plant = newPlant.value
+        val plant = FieldCleaner.cleanPlant(newPlant.value)
         val photos = newPlantPhotos.value
 
         viewModelScope.launch {

@@ -28,7 +28,8 @@ fun NamedTextField(
         AppTextField(
             value = value,
             onValueChange = onValueChange,
-            enabled = editable
+            enabled = editable,
+            singleLine = false
         )
     }
 }
