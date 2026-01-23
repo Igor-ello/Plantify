@@ -48,10 +48,12 @@
     <string name="button_cancel">Cancel</string>
     <string name="button_back">Back</string>
     <string name="button_close">Close</string>
-    <string name="action_create_backup">Create backup</string>
-    <string name="action_import_file">Import file</string>
+    <string name="button_copy">Copied: %1$s</string>
+    <string name="button_search">Search</string>
 
     <!--  Text  -->
+    <string name="action_create_backup">Create backup</string>
+    <string name="action_import_file">Import file</string>
     <string name="text_export">Export</string>
     <string name="text_export_json">Export JSON</string>
     <string name="text_show_json">Show JSON</string>
@@ -76,7 +78,6 @@
     <string name="state_empty_description">To add it, click on the corresponding button</string>
     <string name="text_hold_5s_to_delete">Hold 5s to delete</string>
     <string name="text_delete">Delete</string>
-    <string name="button_search">Search</string>
     <string name="toast_browser_not_found">Browser not found</string>
     <string name="toast_browser_opening_error">Error when opening the browser</string>
 </resources>

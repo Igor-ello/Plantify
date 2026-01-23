@@ -22,6 +22,7 @@ import com.greencore.plantify.core.ui.theme.CardColors
 import com.greencore.plantify.core.ui.theme.AppTheme
 import com.greencore.plantify.domain.DataInitializer
 import com.greencore.plantify.ui.componets.cards.common.CardBasicContent
+import com.greencore.plantify.ui.componets.cards.common.CardCopyFields
 import com.greencore.plantify.ui.componets.cards.common.CardIconFavourite
 import com.greencore.plantify.ui.componets.cards.common.CardIconWishlist
 import com.greencore.plantify.ui.componets.cards.common.CardSearchQuery
@@ -96,6 +97,9 @@ private fun PlantCardActions(
                 plantWithPhotos = plantWithPhotos
             )
             CardSearchQuery(
+                plantWithPhotos = plantWithPhotos
+            )
+            CardCopyFields(
                 plantWithPhotos = plantWithPhotos
             )
         }

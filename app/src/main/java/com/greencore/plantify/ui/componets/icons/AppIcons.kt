@@ -2,6 +2,7 @@ package com.greencore.plantify.ui.componets.icons
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddShoppingCart
+import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
@@ -12,6 +13,7 @@ import androidx.compose.material.icons.filled.ShoppingCart
 import com.greencore.plantify.core.ui.theme.BluePrimary
 import com.greencore.plantify.core.ui.theme.GreenPrimary
 import com.greencore.plantify.core.ui.theme.RedPrimary
+import com.greencore.plantify.core.ui.theme.YellowPrimary
 
 object AppIcons {
     // MaterialIcon (без перекраски)
@@ -63,6 +65,13 @@ object AppIcons {
     val SearchInBrowser = AppIconType.TintedIcon(
         baseIcon = AppIconType.MaterialIcon(
             Icons.Default.Search, contentDescription = "Search in the browser", IconSize.Card
+        ),
+        tintColor = BluePrimary
+    )
+
+    val CopyPlant = AppIconType.TintedIcon(
+        baseIcon = AppIconType.MaterialIcon(
+            Icons.Default.ContentCopy, contentDescription = "Copy plant genus and species", IconSize.Card
         ),
         tintColor = BluePrimary
     )

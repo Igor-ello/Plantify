@@ -71,4 +71,5 @@
     <string name="button_search">Поиск</string>
     <string name="toast_browser_not_found">Браузер не найден</string>
     <string name="toast_browser_opening_error">Ошибка при открытии браузера</string>
+    <string name="button_copy">Скопировано: %1$s</string>
 </resources>
